@@ -9,7 +9,7 @@ LICENSE = ""
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.zenoss']
 PACKAGES = ['ZenPacks', 'ZenPacks.zenoss', 'ZenPacks.zenoss.CloudStack']
 INSTALL_REQUIRES = []
-COMPAT_ZENOSS_VERS = ">=3"
+COMPAT_ZENOSS_VERS = ">=3.2"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
 ################################
