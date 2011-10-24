@@ -33,7 +33,7 @@ class Zone(BaseComponent):
     zone_token = None
 
     _properties = BaseComponent._properties + (
-        {'id': 'cloud_stack_id', 'type': 'int', 'mode': ''},
+        {'id': 'cloudstack_id', 'type': 'int', 'mode': ''},
         {'id': 'allocation_state', 'type': 'string', 'mode': ''},
         {'id': 'guest_cidr_address', 'type': 'string', 'mode': ''},
         {'id': 'dhcp_provider', 'type': 'string', 'mode': ''},
