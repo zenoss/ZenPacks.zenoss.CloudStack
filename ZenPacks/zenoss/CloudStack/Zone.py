@@ -19,8 +19,6 @@ from ZenPacks.zenoss.CloudStack.utils import BaseComponent
 class Zone(BaseComponent):
     meta_type = portal_type = "Zone"
 
-    cloudstack_id = None
-    allocation_state = None
     guest_cidr_address = None
     dhcp_provider = None
     dns1 = None
@@ -33,8 +31,6 @@ class Zone(BaseComponent):
     zone_token = None
 
     _properties = BaseComponent._properties + (
-        {'id': 'cloudstack_id', 'type': 'int', 'mode': ''},
-        {'id': 'allocation_state', 'type': 'string', 'mode': ''},
         {'id': 'guest_cidr_address', 'type': 'string', 'mode': ''},
         {'id': 'dhcp_provider', 'type': 'string', 'mode': ''},
         {'id': 'dns1', 'type': 'string', 'mode': ''},
@@ -51,6 +47,11 @@ class Zone(BaseComponent):
         ('cloud', ToOne(ToManyCont,
             'ZenPacks.zenoss.CloudStack.Cloud.Cloud',
             'zones')
+            ),
+
+        ('pods', ToManyCont(ToOne,
+            'ZenPacks.zenoss.CloudStack.Pod.Pod',
+            'zone')
             ),
         )
 

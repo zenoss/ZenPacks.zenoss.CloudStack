@@ -33,8 +33,14 @@ class BaseComponent(DeviceComponent, ManagedEntity):
     DeviceComponent subclasses in this ZenPack.
     """
 
+    # All CloudStack components have these properties.
+    allocation_state = None
+
+    _properties = ManagedEntity._properties + (
+        {'id': 'allocation_state', 'type': 'string', 'mode': ''},
+        )
+
     # Disambiguate multi-inheritence.
-    _properties = ManagedEntity._properties
     _relations = ManagedEntity._relations
 
     # This makes the "Templates" component display available.
