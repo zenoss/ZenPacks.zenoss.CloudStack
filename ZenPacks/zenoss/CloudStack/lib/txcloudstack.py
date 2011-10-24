@@ -17,7 +17,6 @@ import hmac
 import json
 import urllib
 
-from twisted.internet.defer import DeferredList
 from twisted.web.client import getPage
 
 
@@ -40,7 +39,6 @@ class Client(object):
         self.base_url = base_url.rstrip('/')
         self.api_key = api_key
         self.secret_key = secret_key
-        self._page_size = None
 
     def _sign(self, url):
         """Generate a signed URL for the provided url and secret key.
@@ -89,6 +87,7 @@ if __name__ == '__main__':
     import os
 
     from twisted.internet import reactor
+    from twisted.internet.defer import DeferredList
 
     client = Client(
         os.environ.get('CLOUDSTACK_URL', 'http://localhost/'),
