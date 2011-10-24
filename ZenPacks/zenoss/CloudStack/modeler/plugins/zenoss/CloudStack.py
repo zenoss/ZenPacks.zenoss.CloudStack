@@ -82,24 +82,40 @@ class CloudStack(PythonPlugin):
         return all_data
 
     def process(self, device, results, unused):
-        zone_maps = []
+        maps = []
+        maps.append(self.getZonesRelMap(
+            results.get('listzonesresponse', None)))
 
-        zones_response = results.get('listzonesresponse', None)
+        maps.extend(self.getPodsRelMaps(
+            results.get('listpodsresponse', None)))
+
+        maps.extend(self.getClustersRelMaps(
+            results.get('listclustersresponse', None)))
+
+        maps.extend(self.getHostsRelMaps(
+            results.get('listhostsresponse', None)))
+
+        if None in maps:
+            return None
+
+        return maps
+
+    def getZonesRelMap(self, zones_response):
         if zones_response is None:
             LOG.error('No listZones response from API')
             return None
 
         zones_count = zones_response.get('count', None)
         if zones_count is not None:
-            LOG.info('Found %s zones.', zones_count)
+            LOG.info('Found %s zones', zones_count)
 
+        zone_maps = []
         for zone in zones_response.get('zone', []):
-            zone_id = self.prepId('zone%s' % zone['id'])
+            zone_id = self.prepId(zone['id'])
 
             zone_maps.append(ObjectMap(data=dict(
                 id=zone_id,
                 title=zone.get('name', zone_id),
-                cloudstack_id=zone['id'],
                 allocation_state=zone.get('allocationstate', ''),
                 guest_cidr_address=zone.get('guestcidraddress', ''),
                 dhcp_provider=zone.get('dhcpprovider', ''),
@@ -113,9 +129,81 @@ class CloudStack(PythonPlugin):
                 zone_token=zone.get('zonetoken', ''),
                 )))
 
-        zones_map = RelationshipMap(
+        return RelationshipMap(
             relname='zones',
             modname='ZenPacks.zenoss.CloudStack.Zone',
             objmaps=zone_maps)
 
-        return zones_map
+    def getPodsRelMaps(self, pods_response):
+        if pods_response is None:
+            LOG.error('No listPods response from API')
+            yield None
+            raise StopIteration
+
+        pods_count = pods_response.get('count', None)
+        if pods_count is not None:
+            LOG.info('Found %s pods', pods_count)
+
+        pod_maps = {}
+        for pod in pods_response.get('pod', []):
+            zone_id = self.prepId(pod['zoneid'])
+            pod_id = self.prepId(pod['id'])
+
+            compname = 'zones/%s' % zone_id
+            pod_maps.setdefault(compname, [])
+
+            pod_maps[compname].append(ObjectMap(data=dict(
+                id=pod_id,
+                title=pod.get('name', pod_id),
+                allocation_state=pod.get('allocationstate', ''),
+                start_ip=pod.get('startip', ''),
+                end_ip=pod.get('endip', ''),
+                netmask=pod.get('netmask', ''),
+                gateway=pod.get('gateway', ''),
+                )))
+
+        for compname, obj_maps in pod_maps.items():
+            yield RelationshipMap(
+                relname='pods',
+                compname=compname,
+                modname='ZenPacks.zenoss.CloudStack.Pod',
+                objmaps=obj_maps)
+
+    def getClustersRelMaps(self, clusters_response):
+        if clusters_response is None:
+            LOG.error('No listClusters response from API')
+            yield None
+            raise StopIteration
+
+        clusters_count = clusters_response.get('count', None)
+        if clusters_count is not None:
+            LOG.info('Found %s clusters', clusters_count)
+
+        cluster_maps = {}
+        for cluster in clusters_response.get('cluster', []):
+            zone_id = self.prepId(cluster['zoneid'])
+            pod_id = self.prepId(cluster['podid'])
+            cluster_id = self.prepId(cluster['id'])
+
+            compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
+            cluster_maps.setdefault(compname, [])
+
+            cluster_maps[compname].append(ObjectMap(data=dict(
+                id=cluster_id,
+                title=cluster.get('name', cluster_id),
+                compname='zones/%s/pods/%s' % (zone_id, pod_id),
+                allocation_state=cluster.get('allocationstate', ''),
+                cluster_type=cluster.get('type', ''),
+                hypervisor_type=cluster.get('hypervisor_type', ''),
+                managed_state=cluster.get('managedstate', ''),
+                )))
+
+        for compname, obj_maps in cluster_maps.items():
+            yield RelationshipMap(
+                relname='clusters',
+                compname=compname,
+                modname='ZenPacks.zenoss.CloudStack.Cluster',
+                objmaps=obj_maps)
+
+    def getHostsRelMaps(self, hosts_response):
+        return []
