@@ -20,16 +20,24 @@ import urllib
 from twisted.web.client import getPage
 
 
-# http://cloudstack.org/forum/6-general-discussion/7102-performance-monitoring-option-for-cloudcom.html
-CAPACITY_TYPE = {
-    0: 'memory',  # bytes
-    1: 'cpu',  # MHz
-    2: 'primary_storage_used',  # bytes
-    3: 'primary_storage_allocated',  # bytes
-    4: 'public_ips',
-    5: 'private_ips',
-    6: 'secondary_storage',  # bytes
-    }
+__all__ = ['Client', 'getCapacityTypeString']
+
+
+def getCapacityTypeString(type_id):
+    """Return a string representation for the given capacity type_id.
+
+    This list comes from the following URL:
+    http://cloudstack.org/forum/6-general-discussion/7102-performance-monitoring-option-for-cloudcom.html
+    """
+    return {
+        0: 'memory',  # bytes
+        1: 'cpu',  # MHz
+        2: 'primary_storage_used',  # bytes
+        3: 'primary_storage_allocated',  # bytes
+        4: 'public_ips',
+        5: 'private_ips',
+        6: 'secondary_storage',  # bytes
+        }.get(type_id, 'unknown')
 
 
 class Client(object):
@@ -85,6 +93,7 @@ class Client(object):
 
 if __name__ == '__main__':
     import os
+    import sys
 
     from twisted.internet import reactor
     from twisted.internet.defer import DeferredList
@@ -107,7 +116,7 @@ if __name__ == '__main__':
                             pass
 
                         print "%s - z:%s p:%s - total:%s" % (
-                            CAPACITY_TYPE[c['type']],
+                            getCapacityTypeString[c['type']],
                             c['zonename'], c['podname'],
                             c['capacitytotal'])
                 else:
@@ -117,12 +126,20 @@ if __name__ == '__main__':
             else:
                 print result.getErrorMessage()
 
-    DeferredList((
-        client.listZones(),
-        client.listPods(),
-        client.listClusters(),
-        client.listHosts(),
-        client.listCapacity(),
-        ), consumeErrors=True).addCallback(callback)
+    deferreds = []
+    if len(sys.argv) < 2:
+        deferreds.extend((
+            client.listZones(),
+            client.listPods(),
+            client.listClusters(),
+            client.listHosts(),
+            client.listCapacity(),
+            ))
+    else:
+        for command in sys.argv[1:]:
+            call = getattr(client, command, None)
+            if call is not None:
+                deferreds.append(call())
 
+    DeferredList(deferreds, consumeErrors=True).addCallback(callback)
     reactor.run()
