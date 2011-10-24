@@ -1,3 +1,58 @@
 <?xml version="1.0"?>
 <objects>
+<!-- ('', 'zport', 'dmd', 'Devices', 'CloudStack') -->
+<object id='/zport/dmd/Devices/CloudStack' module='Products.ZenModel.DeviceClass' class='DeviceClass'>
+<property id='zendoc' type='string'>
+Clouds
+</property>
+<property type="string" id="description" mode="w" >
+Clouds
+</property>
+<property visible="True" type="boolean" id="zPingMonitorIgnore" >
+True
+</property>
+<property visible="True" type="boolean" id="zSnmpMonitorIgnore" >
+True
+</property>
+<property visible="True" type="boolean" id="zWmiMonitorIgnore" >
+True
+</property>
+<property visible="True" type="lines" id="zCollectorPlugins" >
+['zenoss.CloudStack']
+</property>
+<property visible="True" type="lines" id="zDeviceTemplates" >
+['Cloud']
+</property>
+<property visible="True" type="string" id="zPythonClass" >
+ZenPacks.zenoss.CloudStack.Cloud
+</property>
+<tomanycont id='rrdTemplates'>
+<object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+</object>
+<object id='Cluster' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+</object>
+<object id='Pod' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+</object>
+<object id='Zone' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+</object>
+</tomanycont>
+</object>
+<!-- ('', 'zport', 'dmd', 'Events', 'Perf', 'CloudStack') -->
+<object id='/zport/dmd/Events/Perf/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>
+</object>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'CloudStack') -->
+<object id='/zport/dmd/Events/Status/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>
+</object>
 </objects>
