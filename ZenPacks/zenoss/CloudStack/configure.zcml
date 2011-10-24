@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <!-- Import directRouter Directive -->
+    <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
+
+    <!-- Define the Router and Facade -->
+    <browser:directRouter
+        name="cloudstack_router"
+        for="*"
+        class=".routers.CloudStackRouter"
+        namespace="Zenoss.remote"
+        permission="zenoss.View"
+        />
+
+    <adapter
+        name="cloudstack"
+        provides=".interfaces.ICloudStackFacade"
+        for="*"
+        factory=".facades.CloudStackFacade"
+        />
+
+    <!-- Define Device Loader -->
+    <utility
+        name="cloudstack"
+        provides="Products.ZenModel.interfaces.IDeviceLoader"
+        component=".deviceloaders.CloudStackLoader"
+        />
+
+    <!-- Include Browser Code -->
+    <include package=".browser"/>       
+
+</configure>
