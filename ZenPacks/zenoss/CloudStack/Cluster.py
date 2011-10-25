@@ -13,7 +13,7 @@
 
 from Products.ZenRelations.RelSchema import ToManyCont, ToOne
 
-from ZenPacks.zenoss.CloudStack.utils import BaseComponent
+from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class Cluster(BaseComponent):

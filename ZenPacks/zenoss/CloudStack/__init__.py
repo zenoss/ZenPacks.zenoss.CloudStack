@@ -17,6 +17,9 @@ LOG = logging.getLogger('zen.CloudStack')
 import os
 
 from Products.ZenEvents.EventManagerBase import EventManagerBase
+from Products.ZenModel.DeviceComponent import DeviceComponent
+from Products.ZenModel.ManagedEntity import ManagedEntity
+from Products.ZenModel.ZenossSecurity import ZEN_CHANGE_DEVICE
 from Products.ZenModel.ZenPack import ZenPack as ZenPackBase
 from Products.ZenUtils.Utils import zenPath
 
@@ -42,13 +45,44 @@ class ZenPack(ZenPackBase):
         LOG.info('Linking poll_cloudstack.py plugin into $ZENHOME/libexec/')
         plugin_path = zenPath('libexec', 'poll_cloudstack.py')
         os.system('ln -sf "%s" "%s"' % (
-            self.path('libexec', 'poll_cloudstack.py'), plugin_path))
+            self.path('poll_cloudstack.py'), plugin_path))
 
         os.system('chmod 0755 %s' % plugin_path)
 
     def removePluginSymlink(self):
         LOG.info('Removing poll_cloudstack.py link from $ZENHOME/libexec/')
         os.system('rm -f "%s"' % zenPath('libexec', 'poll_cloudstack.py'))
+
+
+class BaseComponent(DeviceComponent, ManagedEntity):
+    """
+    Abstract base class to avoid repeating boilerplate code in all of the
+    DeviceComponent subclasses in this ZenPack.
+    """
+
+    # All CloudStack components have these properties.
+    allocation_state = None
+
+    _properties = ManagedEntity._properties + (
+        {'id': 'allocation_state', 'type': 'string', 'mode': ''},
+        )
+
+    # Disambiguate multi-inheritence.
+    _relations = ManagedEntity._relations
+
+    # This makes the "Templates" component display available.
+    factory_type_information = ({
+        'actions': ({
+            'id': 'perfConf',
+            'name': 'Template',
+            'action': 'objTemplates',
+            'permissions': (ZEN_CHANGE_DEVICE,),
+            },),
+        },)
+
+    # Query for events by id instead of name.
+    event_key = "ComponentId"
+
 
 # We need to filter CloudStack components by id instead of name.
 EventManagerBase.ComponentIdWhere = (

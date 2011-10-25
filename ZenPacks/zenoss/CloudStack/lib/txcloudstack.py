@@ -109,20 +109,8 @@ if __name__ == '__main__':
         for success, result in results:
             if success:
                 data = json.loads(result)
-                if 'listcapacityresponse' in data:
-                    for c in data['listcapacityresponse']['capacity']:
-                        if 'podname' not in c:
-                            c['podname'] = 'x'
-                            pass
-
-                        print "%s - z:%s p:%s - total:%s" % (
-                            getCapacityTypeString[c['type']],
-                            c['zonename'], c['podname'],
-                            c['capacitytotal'])
-                else:
-                    from pprint import pprint
-                    pprint(data)
-                    pass
+                from pprint import pprint
+                pprint(data)
             else:
                 print result.getErrorMessage()
 
