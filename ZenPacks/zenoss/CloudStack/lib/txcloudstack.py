@@ -20,10 +20,10 @@ import urllib
 from twisted.web.client import getPage
 
 
-__all__ = ['Client', 'getCapacityTypeString']
+__all__ = ['Client', 'capacity_type_string']
 
 
-def getCapacityTypeString(type_id):
+def capacity_type_string(type_id):
     """Return a string representation for the given capacity type_id.
 
     This list comes from the following URL:
