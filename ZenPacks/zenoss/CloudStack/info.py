@@ -13,6 +13,7 @@
 
 from zope.interface import implements
 
+from Products.Zuul.decorators import info
 from Products.Zuul.infos import ProxyProperty
 from Products.Zuul.infos.device import DeviceInfo
 from Products.Zuul.infos.component import ComponentInfo
@@ -25,6 +26,36 @@ class CloudInfo(DeviceInfo):
     """Cloud API (Info) adapter factory."""
 
     implements(ICloudInfo)
+
+    @property
+    def zone_count(self):
+        return self._object.zones.countObjects()
+
+    @property
+    def pod_count(self):
+        return reduce(
+            lambda x, y: x + y.pods.countObjects(),
+            self._object.zones(),
+            0)
+
+    @property
+    def cluster_count(self):
+        count = 0
+        for zone in self._object.zones():
+            for pod in zone.pods():
+                count += pod.clusters.countObjects()
+
+        return count
+
+    @property
+    def host_count(self):
+        count = 0
+        for zone in self._object.zones():
+            for pod in zone.pods():
+                for cluster in pod.clusters():
+                    count += cluster.hosts.countObjects()
+
+        return count
 
 
 class BaseComponentInfo(ComponentInfo):
@@ -65,6 +96,26 @@ class ZoneInfo(BaseComponentInfo):
         return ', '.join((
             self._object.internal_dns1, self._object.internal_dns1))
 
+    @property
+    def pod_count(self):
+        return self._object.pods.countObjects()
+
+    @property
+    def cluster_count(self):
+        return reduce(
+            lambda x, y: x + y.clusters.countObjects(),
+            self._object.pods(),
+            0)
+
+    @property
+    def host_count(self):
+        count = 0
+        for pod in self._object.pods():
+            for cluster in pod.clusters():
+                count += cluster.hosts.countObjects()
+
+        return count
+
 
 class PodInfo(BaseComponentInfo):
     """Pod API (Info) adapter factory."""
@@ -78,6 +129,22 @@ class PodInfo(BaseComponentInfo):
     def ip_range(self):
         return "%s - %s" % (self._object.start_ip, self._object.end_ip)
 
+    @property
+    @info
+    def zone(self):
+        return self._object.zone()
+
+    @property
+    def cluster_count(self):
+        return self._object.clusters.countObjects()
+
+    @property
+    def host_count(self):
+        return reduce(
+            lambda x, y: x + y.hosts.countObjects(),
+            self._object.clusters(),
+            0)
+
 
 class ClusterInfo(BaseComponentInfo):
     """Cluster API (Info) adapter factory."""
@@ -87,6 +154,20 @@ class ClusterInfo(BaseComponentInfo):
     cluster_type = ProxyProperty('cluster_type')
     hypervisor_type = ProxyProperty('hypervisor_type')
     managed_state = ProxyProperty('managed_state')
+
+    @property
+    @info
+    def zone(self):
+        return self._object.pod().zone()
+
+    @property
+    @info
+    def pod(self):
+        return self._object.pod()
+
+    @property
+    def host_count(self):
+        return self._object.hosts.countObjects()
 
 
 class HostInfo(BaseComponentInfo):
@@ -105,3 +186,18 @@ class HostInfo(BaseComponentInfo):
     host_events = ProxyProperty('host_events')
     local_storage_active = ProxyProperty('local_storage_active')
     management_server_id = ProxyProperty('management_server_id')
+
+    @property
+    @info
+    def zone(self):
+        return self._object.cluster().pod().zone()
+
+    @property
+    @info
+    def pod(self):
+        return self._object.cluster().pod()
+
+    @property
+    @info
+    def cluster(self):
+        return self._object.pod()

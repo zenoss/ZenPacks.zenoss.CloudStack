@@ -44,6 +44,11 @@ class ICloudStackFacade(IFacade):
 class ICloudInfo(IDeviceInfo):
     """Interface for Cloud API (Info) adapter."""
 
+    zone_count = schema.Int(title=_t(u"Zone Count"))
+    pod_count = schema.Int(title=_t(u"Pod Count"))
+    cluster_count = schema.Int(title=_t(u"Cluster Count"))
+    host_count = schema.Int(title=_t(u"Host Count"))
+
 
 class IBaseComponentInfo(IComponentInfo):
     """Abstract base component API (Info) adapter."""
@@ -62,6 +67,9 @@ class IZoneInfo(IBaseComponentInfo):
     security_groups_enabled = schema.Bool(title=_t(u"Security Groups Enabled"))
     vlan = SingleLineText(title=_t(u"VLAN Range"))
     zone_token = SingleLineText(title=_t(u"Zone Token"))
+    pod_count = schema.Int(title=_t(u"Pod Count"))
+    cluster_count = schema.Int(title=_t(u"Cluster Count"))
+    host_count = schema.Int(title=_t(u"Host Count"))
 
 
 class IPodInfo(IBaseComponentInfo):
@@ -70,6 +78,9 @@ class IPodInfo(IBaseComponentInfo):
     ip_range = SingleLineText(title=_t(u"IP Range"))
     netmask = SingleLineText(title=_t(u"Netmask"))
     gateway = SingleLineText(title=_t(u"Gateway"))
+    zone = schema.Entity(title=_t(u"Zone"))
+    cluster_count = schema.Int(title=_t(u"Cluster Count"))
+    host_count = schema.Int(title=_t(u"Host Count"))
 
 
 class IClusterInfo(IBaseComponentInfo):
@@ -78,6 +89,9 @@ class IClusterInfo(IBaseComponentInfo):
     cluster_type = SingleLineText(title=_t(u"Cluster Type"))
     hypervisor_type = SingleLineText(title=_t(u"Hypervisor Type"))
     managed_state = SingleLineText(title=_t(u"Managed State"))
+    zone = schema.Entity(title=_t(u"Zone"))
+    pod = schema.Entity(title=_t(u"Pod"))
+    host_count = schema.Int(title=_t(u"Host Count"))
 
 
 class IHostInfo(IBaseComponentInfo):
@@ -94,3 +108,6 @@ class IHostInfo(IBaseComponentInfo):
     host_events = SingleLineText(title=_t(u"Event Types"))
     local_storage_active = schema.Bool(title=_t(u"Local Storage Active"))
     management_server_id = schema.Int(title=_t(u"Management Server Identifier"))
+    zone = schema.Entity(title=_t(u"Zone"))
+    pod = schema.Entity(title=_t(u"Pod"))
+    cluster = schema.Entity(title=_t(u"Cluster"))

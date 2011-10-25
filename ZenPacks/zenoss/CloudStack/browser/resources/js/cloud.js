@@ -69,6 +69,9 @@ ZC.ZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'name'},
                 {name: 'severity'},
                 {name: 'entity'},
+                {name: 'pod_count'},
+                {name: 'cluster_count'},
+                {name: 'host_count'},
                 {name: 'monitor'},
                 {name: 'monitored'}
             ],
@@ -85,6 +88,24 @@ ZC.ZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Name'),
                 renderer: Zenoss.render.entityLinkFromGrid,
                 panel: this
+            },{
+                id: 'pod_count',
+                dataIndex: 'pod_count',
+                header: _t('# Pods'),
+                sortable: true,
+                width: 80
+            },{
+                id: 'cluster_count',
+                dataIndex: 'cluster_count',
+                header: _t('# Clusters'),
+                sortable: true,
+                width: 80
+            },{
+                id: 'host_count',
+                dataIndex: 'host_count',
+                header: _t('# Hosts'),
+                sortable: true,
+                width: 80
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
@@ -109,6 +130,9 @@ ZC.PodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'uid'},
                 {name: 'name'},
                 {name: 'severity'},
+                {name: 'zone'},
+                {name: 'cluster_count'},
+                {name: 'host_count'},
                 {name: 'entity'},
                 {name: 'monitor'},
                 {name: 'monitored'}
@@ -126,6 +150,24 @@ ZC.PodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Name'),
                 renderer: Zenoss.render.entityLinkFromGrid,
                 panel: this
+            },{
+                id: 'zone',
+                dataIndex: 'zone',
+                header: _t('Zone'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'cluster_count',
+                dataIndex: 'cluster_count',
+                header: _t('# Clusters'),
+                sortable: true,
+                width: 80
+            },{
+                id: 'host_count',
+                dataIndex: 'host_count',
+                header: _t('# Hosts'),
+                sortable: true,
+                width: 80
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
@@ -151,6 +193,9 @@ ZC.ClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'name'},
                 {name: 'severity'},
                 {name: 'entity'},
+                {name: 'zone'},
+                {name: 'pod'},
+                {name: 'host_count'},
                 {name: 'monitor'},
                 {name: 'monitored'}
             ],
@@ -167,6 +212,24 @@ ZC.ClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Name'),
                 renderer: Zenoss.render.entityLinkFromGrid,
                 panel: this
+            },{
+                id: 'zone',
+                dataIndex: 'zone',
+                header: _t('Zone'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'pod',
+                dataIndex: 'pod',
+                header: _t('Pod'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'host_count',
+                dataIndex: 'host_count',
+                header: _t('# Hosts'),
+                sortable: true,
+                width: 80
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
@@ -191,6 +254,9 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'uid'},
                 {name: 'name'},
                 {name: 'severity'},
+                {name: 'zone'},
+                {name: 'pod'},
+                {name: 'cluster'},
                 {name: 'entity'},
                 {name: 'monitor'},
                 {name: 'monitored'}
@@ -208,6 +274,24 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Name'),
                 renderer: Zenoss.render.entityLinkFromGrid,
                 panel: this
+            },{
+                id: 'zone',
+                dataIndex: 'zone',
+                header: _t('Zone'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'pod',
+                dataIndex: 'pod',
+                header: _t('Pod'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'cluster',
+                dataIndex: 'cluster',
+                header: _t('Cluster'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
