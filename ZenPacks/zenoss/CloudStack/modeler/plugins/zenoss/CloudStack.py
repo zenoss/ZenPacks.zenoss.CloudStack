@@ -170,8 +170,8 @@ class CloudStack(PythonPlugin):
                 id=cluster_id,
                 title=cluster.get('name', cluster_id),
                 allocation_state=cluster.get('allocationstate', ''),
-                cluster_type=cluster.get('type', ''),
-                hypervisor_type=cluster.get('hypervisor_type', ''),
+                cluster_type=cluster.get('clustertype', ''),
+                hypervisor_type=cluster.get('hypervisortype', ''),
                 managed_state=cluster.get('managedstate', ''),
                 )))
 
