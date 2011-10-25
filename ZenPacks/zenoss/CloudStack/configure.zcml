@@ -29,6 +29,37 @@
         component=".deviceloaders.CloudStackLoader"
         />
 
+    <!-- API (Info) Adapters -->
+    <adapter
+        provides=".interfaces.ICloudInfo"
+        for=".Cloud.Cloud"
+        factory=".info.CloudInfo"
+        />
+
+    <adapter
+        provides=".interfaces.IZoneInfo"
+        for=".Zone.Zone"
+        factory=".info.ZoneInfo"
+        />
+
+    <adapter
+        provides=".interfaces.IPodInfo"
+        for=".Pod.Pod"
+        factory=".info.PodInfo"
+        />
+
+    <adapter
+        provides=".interfaces.IClusterInfo"
+        for=".Cluster.Cluster"
+        factory=".info.ClusterInfo"
+        />
+
+    <adapter
+        provides=".interfaces.IHostInfo"
+        for=".Host.Host"
+        factory=".info.HostInfo"
+        />
+
     <!-- Include Browser Code -->
     <include package=".browser"/>       
 
