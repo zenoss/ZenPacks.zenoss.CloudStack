@@ -15,4 +15,14 @@
         permission="zope2.Public"
         />
 
+    <viewlet
+        name="js-rabbitmqdevice"
+        paths="/++resource++cloudstack/js/cloud.js"
+        weight="10"
+        for="ZenPacks.zenoss.CloudStack.Cloud.Cloud"
+        manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
+        class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+        permission="zope2.Public"
+        />
+
 </configure>
