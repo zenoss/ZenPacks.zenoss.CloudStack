@@ -83,32 +83,28 @@ class CloudStack(PythonPlugin):
 
     def process(self, device, results, unused):
         maps = []
-        maps.append(self.getZonesRelMap(
-            results.get('listzonesresponse', None)))
 
-        maps.extend(self.getPodsRelMaps(
-            results.get('listpodsresponse', None)))
+        for t in ('zones', 'pods', 'clusters', 'hosts'):
+            response = results.get('list%sresponse' % t, None)
+            if response is None:
+                LOG.error('No list%s response from API', t.capitalize())
+                return None
 
-        maps.extend(self.getClustersRelMaps(
-            results.get('listclustersresponse', None)))
+            rel_maps = tuple(getattr(self, 'get_%s_rel_maps' % t)(response))
 
-        maps.extend(self.getHostsRelMaps(
-            results.get('listhostsresponse', None)))
+            count = reduce(lambda x, y: x + len(y.maps), rel_maps, 0)
+            LOG.info('Found %s %s', count, t)
 
-        if None in maps:
-            return None
+            maps.extend(rel_maps)
+
+            # No need to process deeper levels if we have no results at this
+            # level.
+            if count < 1:
+                return maps
 
         return maps
 
-    def getZonesRelMap(self, zones_response):
-        if zones_response is None:
-            LOG.error('No listZones response from API')
-            return None
-
-        zones_count = zones_response.get('count', None)
-        if zones_count is not None:
-            LOG.info('Found %s zones', zones_count)
-
+    def get_zones_rel_maps(self, zones_response):
         zone_maps = []
         for zone in zones_response.get('zone', []):
             zone_id = self.prepId(zone['id'])
@@ -129,21 +125,12 @@ class CloudStack(PythonPlugin):
                 zone_token=zone.get('zonetoken', ''),
                 )))
 
-        return RelationshipMap(
+        yield RelationshipMap(
             relname='zones',
             modname='ZenPacks.zenoss.CloudStack.Zone',
             objmaps=zone_maps)
 
-    def getPodsRelMaps(self, pods_response):
-        if pods_response is None:
-            LOG.error('No listPods response from API')
-            yield None
-            raise StopIteration
-
-        pods_count = pods_response.get('count', None)
-        if pods_count is not None:
-            LOG.info('Found %s pods', pods_count)
-
+    def get_pods_rel_maps(self, pods_response):
         pod_maps = {}
         for pod in pods_response.get('pod', []):
             zone_id = self.prepId(pod['zoneid'])
@@ -164,21 +151,12 @@ class CloudStack(PythonPlugin):
 
         for compname, obj_maps in pod_maps.items():
             yield RelationshipMap(
-                relname='pods',
                 compname=compname,
+                relname='pods',
                 modname='ZenPacks.zenoss.CloudStack.Pod',
                 objmaps=obj_maps)
 
-    def getClustersRelMaps(self, clusters_response):
-        if clusters_response is None:
-            LOG.error('No listClusters response from API')
-            yield None
-            raise StopIteration
-
-        clusters_count = clusters_response.get('count', None)
-        if clusters_count is not None:
-            LOG.info('Found %s clusters', clusters_count)
-
+    def get_clusters_rel_maps(self, clusters_response):
         cluster_maps = {}
         for cluster in clusters_response.get('cluster', []):
             zone_id = self.prepId(cluster['zoneid'])
@@ -191,7 +169,6 @@ class CloudStack(PythonPlugin):
             cluster_maps[compname].append(ObjectMap(data=dict(
                 id=cluster_id,
                 title=cluster.get('name', cluster_id),
-                compname='zones/%s/pods/%s' % (zone_id, pod_id),
                 allocation_state=cluster.get('allocationstate', ''),
                 cluster_type=cluster.get('type', ''),
                 hypervisor_type=cluster.get('hypervisor_type', ''),
@@ -200,10 +177,51 @@ class CloudStack(PythonPlugin):
 
         for compname, obj_maps in cluster_maps.items():
             yield RelationshipMap(
-                relname='clusters',
                 compname=compname,
+                relname='clusters',
                 modname='ZenPacks.zenoss.CloudStack.Cluster',
                 objmaps=obj_maps)
 
-    def getHostsRelMaps(self, hosts_response):
-        return []
+    def get_hosts_rel_maps(self, hosts_response):
+        host_maps = {}
+        for host in hosts_response.get('host', []):
+            host_type = host.get('type', None)
+
+            # Only interested in normal hosts which are identified by the
+            # Routing type.
+            if host_type != 'Routing':
+                continue
+
+            zone_id = self.prepId(host['zoneid'])
+            pod_id = self.prepId(host['podid'])
+            cluster_id = self.prepId(host['clusterid'])
+            host_id = self.prepId(host['id'])
+
+            compname = 'zones/%s/pods/%s/clusters/%s' % (
+                zone_id, pod_id, cluster_id)
+
+            host_maps.setdefault(compname, [])
+
+            host_maps[compname].append(ObjectMap(data=dict(
+                id=host_id,
+                title=host.get('name', host_id),
+                allocation_state=host.get('allocationstate', ''),
+                host_type=host_type,
+                host_state=host.get('state', ''),
+                host_events=host.get('events', ''),
+                host_version=host.get('version', ''),
+                hypervisor=host.get('hypervisor', ''),
+                capabilities=host.get('capabilities', ''),
+                created=host.get('created', ''),
+                host_tags=host.get('hosttags', ''),
+                ip_address=host.get('ipaddress', ''),
+                local_storage_active=host.get('islocalstorageactive', None),
+                management_server_id=host.get('managementserverid', None),
+                )))
+
+        for compname, obj_maps in host_maps.items():
+            yield RelationshipMap(
+                compname=compname,
+                relname='hosts',
+                modname='ZenPacks.zenoss.CloudStack.Host',
+                objmaps=obj_maps)

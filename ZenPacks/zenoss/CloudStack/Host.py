@@ -26,7 +26,7 @@ class Host(BaseComponent):
     hypervisor = None
     capabilities = None
     created = None
-    hosttags = None
+    host_tags = None
     ip_address = None
     local_storage_active = None
     management_server_id = None
@@ -39,7 +39,7 @@ class Host(BaseComponent):
         {'id': 'hypervisor', 'type': 'string', 'mode': ''},
         {'id': 'capabilities', 'type': 'string', 'mode': ''},
         {'id': 'created', 'type': 'string', 'mode': ''},
-        {'id': 'hosttags', 'type': 'string', 'mode': ''},
+        {'id': 'host_tags', 'type': 'string', 'mode': ''},
         {'id': 'ip_address', 'type': 'string', 'mode': ''},
         {'id': 'local_storage_active', 'type': 'boolean', 'mode': ''},
         {'id': 'management_server_id', 'type': 'int', 'mode': ''},
