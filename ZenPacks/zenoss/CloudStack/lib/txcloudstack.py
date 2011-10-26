@@ -127,7 +127,10 @@ if __name__ == '__main__':
         for command in sys.argv[1:]:
             call = getattr(client, command, None)
             if call is not None:
-                deferreds.append(call())
+                if command == 'listHosts':
+                    deferreds.append(call(type='Routing'))
+                else:
+                    deferreds.append(call())
 
     DeferredList(deferreds, consumeErrors=True).addCallback(callback)
     reactor.run()
