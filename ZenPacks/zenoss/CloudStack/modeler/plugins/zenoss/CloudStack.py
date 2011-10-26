@@ -56,7 +56,7 @@ class CloudStack(PythonPlugin):
             client.listZones(),
             client.listPods(),
             client.listClusters(),
-            client.listHosts(),
+            client.listHosts(type="Routing"),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
 

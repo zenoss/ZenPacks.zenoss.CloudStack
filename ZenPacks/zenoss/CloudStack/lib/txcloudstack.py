@@ -75,20 +75,20 @@ class Client(object):
 
         return getPage(url)
 
-    def listZones(self):
-        return self._request('listZones')
+    def listZones(self, **kwargs):
+        return self._request('listZones', **kwargs)
 
-    def listPods(self):
-        return self._request('listPods')
+    def listPods(self, **kwargs):
+        return self._request('listPods', **kwargs)
 
-    def listClusters(self):
-        return self._request('listClusters')
+    def listClusters(self, **kwargs):
+        return self._request('listClusters', **kwargs)
 
-    def listHosts(self):
-        return self._request('listHosts')
+    def listHosts(self, **kwargs):
+        return self._request('listHosts', **kwargs)
 
-    def listCapacity(self):
-        return self._request('listCapacity')
+    def listCapacity(self, **kwargs):
+        return self._request('listCapacity', **kwargs)
 
 
 if __name__ == '__main__':
