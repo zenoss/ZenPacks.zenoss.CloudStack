@@ -61,9 +61,11 @@ class BaseComponent(DeviceComponent, ManagedEntity):
     """
 
     # All CloudStack components have these properties.
+    cloudstack_id = None
     allocation_state = None
 
     _properties = ManagedEntity._properties + (
+        {'id': 'cloudstack_id', 'type': 'int', 'mode': ''},
         {'id': 'allocation_state', 'type': 'string', 'mode': ''},
         )
 

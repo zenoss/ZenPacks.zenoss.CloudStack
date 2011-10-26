@@ -107,11 +107,12 @@ class CloudStack(PythonPlugin):
     def get_zones_rel_maps(self, zones_response):
         zone_maps = []
         for zone in zones_response.get('zone', []):
-            zone_id = self.prepId(zone['id'])
+            zone_id = self.prepId('zone%s' % zone['id'])
 
             zone_maps.append(ObjectMap(data=dict(
                 id=zone_id,
                 title=zone.get('name', zone_id),
+                cloudstack_id=zone['id'],
                 allocation_state=zone.get('allocationstate', ''),
                 guest_cidr_address=zone.get('guestcidraddress', ''),
                 dhcp_provider=zone.get('dhcpprovider', ''),
@@ -133,8 +134,8 @@ class CloudStack(PythonPlugin):
     def get_pods_rel_maps(self, pods_response):
         pod_maps = {}
         for pod in pods_response.get('pod', []):
-            zone_id = self.prepId(pod['zoneid'])
-            pod_id = self.prepId(pod['id'])
+            zone_id = self.prepId('zone%s' % pod['zoneid'])
+            pod_id = self.prepId('pod%s' % pod['id'])
 
             compname = 'zones/%s' % zone_id
             pod_maps.setdefault(compname, [])
@@ -142,6 +143,7 @@ class CloudStack(PythonPlugin):
             pod_maps[compname].append(ObjectMap(data=dict(
                 id=pod_id,
                 title=pod.get('name', pod_id),
+                cloudstack_id=pod['id'],
                 allocation_state=pod.get('allocationstate', ''),
                 start_ip=pod.get('startip', ''),
                 end_ip=pod.get('endip', ''),
@@ -159,9 +161,9 @@ class CloudStack(PythonPlugin):
     def get_clusters_rel_maps(self, clusters_response):
         cluster_maps = {}
         for cluster in clusters_response.get('cluster', []):
-            zone_id = self.prepId(cluster['zoneid'])
-            pod_id = self.prepId(cluster['podid'])
-            cluster_id = self.prepId(cluster['id'])
+            zone_id = self.prepId('zone%s' % cluster['zoneid'])
+            pod_id = self.prepId('pod%s' % cluster['podid'])
+            cluster_id = self.prepId('cluster%s' % cluster['id'])
 
             compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
             cluster_maps.setdefault(compname, [])
@@ -169,6 +171,7 @@ class CloudStack(PythonPlugin):
             cluster_maps[compname].append(ObjectMap(data=dict(
                 id=cluster_id,
                 title=cluster.get('name', cluster_id),
+                cloudstack_id=cluster['id'],
                 allocation_state=cluster.get('allocationstate', ''),
                 cluster_type=cluster.get('clustertype', ''),
                 hypervisor_type=cluster.get('hypervisortype', ''),
@@ -192,10 +195,10 @@ class CloudStack(PythonPlugin):
             if host_type != 'Routing':
                 continue
 
-            zone_id = self.prepId(host['zoneid'])
-            pod_id = self.prepId(host['podid'])
-            cluster_id = self.prepId(host['clusterid'])
-            host_id = self.prepId(host['id'])
+            zone_id = self.prepId('zone%s' % host['zoneid'])
+            pod_id = self.prepId('pod%s' % host['podid'])
+            cluster_id = self.prepId('cluster%s' % host['clusterid'])
+            host_id = self.prepId('host%s' % host['id'])
 
             compname = 'zones/%s/pods/%s/clusters/%s' % (
                 zone_id, pod_id, cluster_id)
@@ -205,6 +208,7 @@ class CloudStack(PythonPlugin):
             host_maps[compname].append(ObjectMap(data=dict(
                 id=host_id,
                 title=host.get('name', host_id),
+                cloudstack_id=host['id'],
                 allocation_state=host.get('allocationstate', ''),
                 host_type=host_type,
                 host_state=host.get('state', ''),
