@@ -68,6 +68,10 @@ class CloudStack(CommandParser):
             for c_key, suffix in suffix_map.items():
                 metric_name = '%s%s' % (prefix, suffix)
 
+                # Convert CPU from MHz to Hz.
+                if prefix == 'cpu' and suffix in ('Total', 'Used'):
+                    c[c_key] = float(c[c_key]) * 1e6
+
                 # Zone
                 if c.get('podid', -1) == -1:
                     metrics['cloud'].setdefault(metric_name, 0)
