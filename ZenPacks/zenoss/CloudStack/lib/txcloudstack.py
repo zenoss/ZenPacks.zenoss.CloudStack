@@ -90,6 +90,11 @@ class Client(object):
     def listCapacity(self, **kwargs):
         return self._request('listCapacity', **kwargs)
 
+    def listAlerts(self, **kwargs):
+        return self._request('listAlerts', **kwargs)
+
+    def listEvents(self, **kwargs):
+        return self._request('listEvents', **kwargs)
 
 if __name__ == '__main__':
     import os
@@ -109,6 +114,12 @@ if __name__ == '__main__':
         for success, result in results:
             if success:
                 data = json.loads(result)
+
+                import pickle
+                f = open('%s.pickle' % data.keys()[0], 'wb')
+                pickle.dump(result, f)
+                f.close()
+
                 from pprint import pprint
                 pprint(data)
             else:
@@ -122,6 +133,8 @@ if __name__ == '__main__':
             client.listClusters(),
             client.listHosts(),
             client.listCapacity(),
+            client.listAlerts(),
+            client.listEvents(),
             ))
     else:
         for command in sys.argv[1:]:
