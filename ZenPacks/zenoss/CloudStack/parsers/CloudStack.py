@@ -42,8 +42,8 @@ class CloudStack(CommandParser):
         # Incorporate events reported by the command.
         result.events.extend(data.get('events', []))
 
-        metrics = self._process_listCapacity(cmd, data)
-        metrics.update(self._process_listHosts(cmd, data))
+        metrics = self._process_listHosts(cmd, data)
+        metrics.update(self._process_listCapacity(cmd, data))
 
         for point in cmd.points:
             if point.component not in metrics:
@@ -131,27 +131,11 @@ class CloudStack(CommandParser):
         return metrics
 
     def _process_listHosts(self, cmd, data):
-        def init_cluster():
-            return {
-                'cpuTotal': 0,
-                'cpuTotalOP': 0,
-                'cpuAllocated': 0,
-                'cpuAllocatedPercent': 0,
-                'cpuUsed': 0,
-                'cpuUsedPercent': 0,
-                'cpuCores': 0,
-                'memoryTotal': 0,
-                'memoryAllocated': 0,
-                'memoryAllocatedPercent': 0,
-                'memoryUsed': 0,
-                'memoryUsedPercent': 0,
-                'networkRead': 0,
-                'networkWrite': 0,
-                }
-
         metrics = {}
 
         for h in data.get('listhostsresponse', {}).get('host', []):
+            zone_id = 'zone%s' % h['zoneid']
+            pod_id = 'pod%s' % ['podid']
             cluster_id = 'cluster%s' % h['clusterid']
             host_id = 'host%s' % h['id']
 
@@ -190,28 +174,47 @@ class CloudStack(CommandParser):
                 networkWrite=network_write,
                 )
 
-            if cluster_id not in metrics:
-                metrics[cluster_id] = init_cluster()
+            for a in (zone_id, pod_id, cluster_id):
+                if a not in metrics:
+                    metrics[a] = {
+                        'cpuTotalOP': 0,
+                        'cpuTotal': 0,
+                        'cpuAllocated': 0,
+                        'cpuAllocatedPercent': 0,
+                        'cpuUsed': 0,
+                        'cpuUsedPercent': 0,
+                        'cpuCores': 0,
+                        'memoryTotal': 0,
+                        'memoryAllocated': 0,
+                        'memoryAllocatedPercent': 0,
+                        'memoryUsed': 0,
+                        'memoryUsedPercent': 0,
+                        'networkRead': 0,
+                        'networkWrite': 0,
+                        }
 
-            metrics[cluster_id]['cpuTotal'] += cpu_total
-            metrics[cluster_id]['cpuTotalOP'] += cpu_total_op
-            metrics[cluster_id]['cpuAllocated'] += cpu_allocated
-            metrics[cluster_id]['cpuAllocatedPercent'] += cpu_allocated_percent
-            metrics[cluster_id]['cpuUsed'] += cpu_used
-            metrics[cluster_id]['cpuUsedPercent'] += cpu_used_percent
-            metrics[cluster_id]['cpuCores'] += cpu_cores
-            metrics[cluster_id]['memoryTotal'] += memory_total
-            metrics[cluster_id]['memoryAllocated'] += memory_allocated
-            metrics[cluster_id]['memoryAllocatedPercent'] += \
-                memory_allocated_percent
+                metrics[a]['cpuTotal'] += cpu_total
+                metrics[a]['cpuTotalOP'] += cpu_total_op
+                metrics[a]['cpuAllocated'] += cpu_allocated
+                metrics[a]['cpuAllocatedPercent'] += cpu_allocated_percent
+                metrics[a]['cpuUsed'] += cpu_used
+                metrics[a]['cpuUsedPercent'] += cpu_used_percent
+                metrics[a]['cpuCores'] += cpu_cores
+                metrics[a]['memoryTotal'] += memory_total
+                metrics[a]['memoryAllocated'] += memory_allocated
+                metrics[a]['memoryAllocatedPercent'] += \
+                    memory_allocated_percent
 
-            metrics[cluster_id]['memoryUsed'] += memory_used
-            metrics[cluster_id]['memoryUsedPercent'] += memory_used_percent
-            metrics[cluster_id]['networkRead'] += network_read
-            metrics[cluster_id]['networkWrite'] += network_write
+                metrics[a]['memoryUsed'] += memory_used
+                metrics[a]['memoryUsedPercent'] += memory_used_percent
+                metrics[a]['networkRead'] += network_read
+                metrics[a]['networkWrite'] += network_write
 
         for k, v in metrics.items():
-            if k.startswith('cluster'):
+            if k.startswith('zone') or \
+                    k.startswith('pod') or \
+                    k.startswith('cluster'):
+
                 metrics[k]['cpuAllocatedPercent'] = \
                     (v['cpuAllocated'] / v['cpuTotalOP']) * 100.0
 
