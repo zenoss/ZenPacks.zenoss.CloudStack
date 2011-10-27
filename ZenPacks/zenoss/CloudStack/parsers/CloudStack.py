@@ -55,34 +55,40 @@ class CloudStack(CommandParser):
             result.values.append((point, metrics[point.component][point.id]))
 
     def _process_listCapacity(self, cmd, data):
-        prefix_map = {
-            'memory': 'memory',
-            'cpu': 'cpu',
-            'primary_storage_used': 'primaryStorage',
-            'primary_storage_allocated': 'primaryStorageAlloc',
-            'public_ips': 'publicIPs',
-            'private_ips': 'privateIPs',
-            'secondary_storage': 'secondaryStorage',
-            }
-
-        suffix_map = {
-            'capacitytotal': 'Total',
-            'capacityused': 'Used',
-            'percentused': 'Percent',
-            'count': 'Count',
-            }
+        metric_name_map = {
+            ('memory', 'capacitytotal'): 'memoryTotalOP',
+            ('memory', 'capacityused'): 'memoryAllocated',
+            ('memory', 'percentused'): 'memoryAllocatedPercent',
+            ('cpu', 'capacitytotal'): 'cpuTotalOP',
+            ('cpu', 'capacityused'): 'cpuAllocated',
+            ('cpu', 'percentused'): 'cpuAllocatedPercent',
+            ('primary_storage_allocated', 'capacitytotal'): 'primaryStorageTotalOP',
+            ('primary_storage_allocated', 'capacityused'): 'primaryStorageAllocated',
+            ('primary_storage_allocated', 'percentused'): 'primaryStorageAllocatedPercent',
+            ('primary_storage_used', 'capacitytotal'): 'primaryStorageTotal',
+            ('primary_storage_used', 'capacityused'): 'primaryStorageUsed',
+            ('primary_storage_used', 'percentused'): 'primaryStorageUsedPercent',
+            ('public_ips', 'capacitytotal'): 'publicIPsTotal',
+            ('public_ips', 'capacityused'): 'publicIPsUsed',
+            ('public_ips', 'percentused'): 'publicIPsUsedPercent',
+            ('private_ips', 'capacitytotal'): 'privateIPsTotal',
+            ('private_ips', 'capacityused'): 'privateIPsUsed',
+            ('private_ips', 'percentused'): 'privateIPsUsedPercent',
+            ('secondary_storage', 'capacitytotal'): 'secondaryStorageTotal',
+            ('secondary_storage', 'capacityused'): 'secondaryStorageUsed',
+            ('secondary_storage', 'percentused'): 'secondaryStorageUsedPercent',
+        }
 
         metrics = {'cloud': {}}
 
         for c in data.get('listcapacityresponse', {}).get('capacity', []):
             c_type = txcloudstack.capacity_type_string(c['type'])
-            prefix = prefix_map[c_type]
 
-            for c_key, suffix in suffix_map.items():
-                metric_name = '%s%s' % (prefix, suffix)
+            for c_key in ('capacitytotal', 'capacityused', 'percentused'):
+                metric_name = metric_name_map[(c_type, c_key)]
 
                 # Convert CPU from MHz to Hz.
-                if prefix == 'cpu' and suffix in ('Total', 'Used'):
+                if c_type == 'cpu' and not c_key.startswith('percent'):
                     c[c_key] = float(c[c_key]) * 1e6
 
                 # Zone
@@ -107,12 +113,20 @@ class CloudStack(CommandParser):
                         metrics[pod_id][metric_name] = float(c[c_key])
 
         # Calculate average percentages for cloud.
-        for prefix in prefix_map.values():
-            percent_key = '%sPercent' % prefix
-            count_key = '%sCount' % prefix
-            if percent_key in metrics['cloud']:
-                metrics['cloud'][percent_key] = \
-                    metrics['cloud'][percent_key] / metrics['cloud'][count_key]
+        for k, v in metrics['cloud'].items():
+            if k.endswith('AllocatedPercent'):
+                allocated_k = k.replace('Percent', '')
+                total_op_k = k.replace('AllocatedPercent', 'TotalOP')
+                metrics['cloud'][k] = (
+                    metrics['cloud'][allocated_k] /
+                    metrics['cloud'][total_op_k]) * 100.0
+
+            elif k.endswith('UsedPercent'):
+                used_k = k.replace('Percent', '')
+                total_k = k.replace('UsedPercent', 'Total')
+                metrics['cloud'][k] = (
+                    metrics['cloud'][used_k] /
+                    metrics['cloud'][total_k]) * 100.0
 
         return metrics
 
