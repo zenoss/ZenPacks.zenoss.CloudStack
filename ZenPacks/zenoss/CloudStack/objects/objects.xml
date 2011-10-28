@@ -29,10 +29,10 @@ ZenPacks.zenoss.CloudStack.Cloud
 <tomanycont id='rrdTemplates'>
 <object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property type="text" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
 ZenPacks.zenoss.CloudStack.Cloud
@@ -67,15 +67,20 @@ False
 ZenPacks.zenoss.CloudStack.parsers.CloudStack
 </property>
 <tomanycont id='datapoints'>
-<object id='cpuPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='cpuAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -88,8 +93,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='cpuTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 </object>
 <object id='cpuUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -99,19 +109,32 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
-<object id='memoryPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="rrdmax" mode="w" >
+100
+</property>
+</object>
+<object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='memoryAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -124,8 +147,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='memoryTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 </object>
 <object id='memoryUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -135,55 +163,48 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
-<object id='primaryStorageAllocPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='memoryUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 </object>
-<object id='primaryStorageAllocTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 </object>
-<object id='primaryStorageAllocUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 </object>
-<object id='primaryStoragePercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='primaryStorageAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -196,8 +217,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='primaryStorageTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 </object>
 <object id='primaryStorageUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -207,19 +233,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
-<object id='privateIPsPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -232,9 +252,6 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
 <object id='privateIPsUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -243,19 +260,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
-<object id='publicIPsPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='privateIPsUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -268,9 +279,6 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
 <object id='publicIPsUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -279,19 +287,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
-<object id='secondaryStoragePercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='publicIPsUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -304,9 +306,6 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 </object>
 <object id='secondaryStorageUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -315,17 +314,25 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+</object>
+<object id='secondaryStorageUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 </tomanycont>
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_cpuPercent']
+['cloudstack_cpuAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -343,9 +350,9 @@ True
 0
 </property>
 </object>
-<object id='memory capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_memoryPercent']
+['cloudstack_cpuUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -363,9 +370,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage allocated capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStorageAllocPercent']
+['cloudstack_memoryAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -383,9 +390,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage used capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStoragePercent']
+['cloudstack_memoryUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -403,9 +410,9 @@ True
 0
 </property>
 </object>
-<object id='private IP capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_privateIPsPercent']
+['cloudstack_primaryStorageAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -423,9 +430,9 @@ True
 0
 </property>
 </object>
-<object id='public IP capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_publicIPsPercent']
+['cloudstack_primaryStorageUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -443,9 +450,49 @@ True
 0
 </property>
 </object>
-<object id='secondary storage capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_secondaryStoragePercent']
+['cloudstack_privateIPsUsedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='public IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_publicIPsUsedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='secondary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_secondaryStorageUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -465,7 +512,119 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='CloudStack - CPU Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Allocation' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - CPU Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -491,12 +650,47 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-4
+5
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -523,9 +717,38 @@ cloudstack_cpuTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -557,235 +780,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Capacity and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
-<property type="int" id="height" mode="w" >
-100
-</property>
-<property type="int" id="width" mode="w" >
-500
-</property>
-<property type="string" id="units" mode="w" >
-percent
-</property>
-<property type="boolean" id="log" mode="w" >
-False
-</property>
-<property type="boolean" id="base" mode="w" >
-False
-</property>
-<property type="int" id="miny" mode="w" >
-0
-</property>
-<property type="int" id="maxy" mode="w" >
-100
-</property>
-<property type="boolean" id="hasSummary" mode="w" >
-True
-</property>
-<tomanycont id='graphPoints'>
-<object id='Alloc Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-4
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-3
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_cpuPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-2
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_memoryPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Object Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-6
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_secondaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Private IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-1
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_privateIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_publicIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Used Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-5
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-</tomanycont>
-</object>
-<object id='CloudStack - Memory Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Memory Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -811,12 +806,47 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-3
+4
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -843,9 +873,38 @@ cloudstack_memoryTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -877,7 +936,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Network Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -885,13 +944,13 @@ AVERAGE
 500
 </property>
 <property type="string" id="units" mode="w" >
-bytes
+bits/sec
 </property>
 <property type="boolean" id="log" mode="w" >
 False
 </property>
 <property type="boolean" id="base" mode="w" >
-True
+False
 </property>
 <property type="int" id="miny" mode="w" >
 0
@@ -903,18 +962,15 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-5
+8
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="string" id="color" mode="w" >
-000000
-</property>
+<object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-2
+1
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -929,21 +985,18 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocTotal
+cloudstack_networkRead
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
 </property>
 </object>
-<object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Write' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
 1
 </property>
-<property type="string" id="color" mode="w" >
-00cc00
-</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -961,7 +1014,7 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocUsed
+cloudstack_networkWrite
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -969,7 +1022,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Used' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Primary Storage Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -998,9 +1051,44 @@ True
 6
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -1027,9 +1115,38 @@ cloudstack_primaryStorageTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -1061,7 +1178,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Private IP Addresses' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Private IP Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1087,7 +1204,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-2
+3
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -1153,7 +1270,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Public IP Addresses' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Public IP Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1179,7 +1296,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-1
+2
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -1245,7 +1362,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Secondary Storage Used' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Secondary Storage Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1330,6 +1447,208 @@ ${graphPoint/id}
 </property>
 <property type="string" id="dpName" mode="w" >
 cloudstack_secondaryStorageUsed
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+3
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+4
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Private IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_privateIPsUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_publicIPsUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Sec. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+5
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_secondaryStorageUsedPercent
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -1549,7 +1868,7 @@ True
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -1569,7 +1888,7 @@ True
 0
 </property>
 </object>
-<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -1589,7 +1908,7 @@ True
 0
 </property>
 </object>
-<object id='memory capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -1609,7 +1928,7 @@ True
 0
 </property>
 </object>
-<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -1631,7 +1950,7 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='CloudStack - CPU Allocation and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - CPU Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1665,7 +1984,7 @@ True
 2
 </property>
 <property type="string" id="color" mode="w" >
-00cc00
+0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -1758,7 +2077,7 @@ AVERAGE
 3
 </property>
 <property type="string" id="color" mode="w" >
-0000ff
+00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -1780,6 +2099,63 @@ ${graphPoint/id}
 </property>
 <property type="string" id="dpName" mode="w" >
 cloudstack_cpuUsed
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - CPU Cores' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+cores
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+4
+</property>
+<tomanycont id='graphPoints'>
+<object id='Cores' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%7.0lf
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuCores
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -1870,7 +2246,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Memory Allocation and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Memory Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1904,13 +2280,13 @@ True
 1
 </property>
 <property type="string" id="color" mode="w" >
-00cc00
+0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-2
+1
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -1965,7 +2341,7 @@ AVERAGE
 2
 </property>
 <property type="string" id="color" mode="w" >
-0000ff
+00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 AREA
@@ -2020,7 +2396,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-4
+5
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -2080,7 +2456,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -2462,7 +2838,7 @@ Aggregate capacity metrics for a CloudStack cluster. Includes allocation and uti
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -2482,7 +2858,7 @@ True
 0
 </property>
 </object>
-<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -2502,7 +2878,7 @@ True
 0
 </property>
 </object>
-<object id='memory capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -2522,7 +2898,7 @@ True
 0
 </property>
 </object>
-<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -2544,7 +2920,7 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='CloudStack - CPU Allocation and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - CPU Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -2578,7 +2954,7 @@ True
 2
 </property>
 <property type="string" id="color" mode="w" >
-00cc00
+0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -2671,7 +3047,7 @@ AVERAGE
 3
 </property>
 <property type="string" id="color" mode="w" >
-0000ff
+00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -2693,6 +3069,63 @@ ${graphPoint/id}
 </property>
 <property type="string" id="dpName" mode="w" >
 cloudstack_cpuUsed
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - CPU Cores' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+cores
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+4
+</property>
+<tomanycont id='graphPoints'>
+<object id='Cores' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%7.0lf
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuCores
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -2783,7 +3216,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Memory Allocation and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Memory Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -2817,7 +3250,7 @@ True
 1
 </property>
 <property type="string" id="color" mode="w" >
-00cc00
+0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -2878,7 +3311,7 @@ AVERAGE
 2
 </property>
 <property type="string" id="color" mode="w" >
-0000ff
+00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 AREA
@@ -2933,7 +3366,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-4
+5
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -2993,7 +3426,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -3083,10 +3516,10 @@ AVERAGE
 </object>
 <object id='Pod' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for a CloudStack pod. Includes memory, CPU, private IPs, and primary storage.
+Aggregate capacity metrics for a CloudStack pod. Includes private IPs, memory, CPU, primary storage, and network throughput.
 </property>
 <property type="text" id="description" mode="w" >
-Aggregate capacity metrics for a CloudStack pod. Includes memory, CPU, private IPs, and primary storage.
+Aggregate capacity metrics for a CloudStack pod. Includes private IPs, memory, CPU, primary storage, and network throughput.
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
 ZenPacks.zenoss.CloudStack.Pod
@@ -3121,9 +3554,9 @@ False
 ZenPacks.zenoss.CloudStack.parsers.CloudStack
 </property>
 <tomanycont id='datapoints'>
-<object id='cpuPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3131,19 +3564,30 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='cpuAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3151,53 +3595,89 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='cpuTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='cpuUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='memoryPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
+</property>
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3205,87 +3685,86 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='memoryUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='memoryUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStoragePercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3293,19 +3772,30 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='primaryStorageAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='primaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3313,53 +3803,58 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='primaryStorageTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='primaryStorageUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='privateIPsPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='privateIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3367,16 +3862,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='privateIPsUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -3384,20 +3876,34 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='privateIPsUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 </tomanycont>
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_cpuPercent']
+['cloudstack_cpuAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -3415,9 +3921,9 @@ True
 0
 </property>
 </object>
-<object id='memory capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_memoryPercent']
+['cloudstack_cpuUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -3435,9 +3941,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage allocated capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStorageAllocPercent']
+['cloudstack_memoryAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -3455,9 +3961,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage used capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStoragePercent']
+['cloudstack_memoryUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -3475,9 +3981,49 @@ True
 0
 </property>
 </object>
-<object id='private IP capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_privateIPsPercent']
+['cloudstack_primaryStorageAllocatedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_primaryStorageUsedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_privateIPsUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -3497,7 +4043,119 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='CloudStack - CPU Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Allocation' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - CPU Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -3523,12 +4181,47 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-3
+4
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -3555,9 +4248,38 @@ cloudstack_cpuTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -3589,235 +4311,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Capacity and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
-<property type="int" id="height" mode="w" >
-100
-</property>
-<property type="int" id="width" mode="w" >
-500
-</property>
-<property type="string" id="units" mode="w" >
-percent
-</property>
-<property type="boolean" id="log" mode="w" >
-False
-</property>
-<property type="boolean" id="base" mode="w" >
-False
-</property>
-<property type="int" id="miny" mode="w" >
-0
-</property>
-<property type="int" id="maxy" mode="w" >
-100
-</property>
-<property type="boolean" id="hasSummary" mode="w" >
-True
-</property>
-<tomanycont id='graphPoints'>
-<object id='Alloc Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-4
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-3
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_cpuPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-2
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_memoryPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Object Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-6
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_secondaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Private IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-1
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_privateIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_publicIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Used Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-5
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-</tomanycont>
-</object>
-<object id='CloudStack - Memory Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Memory Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -3843,12 +4337,47 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-2
+3
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -3875,9 +4404,38 @@ cloudstack_memoryTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -3909,7 +4467,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Network Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -3917,13 +4475,13 @@ AVERAGE
 500
 </property>
 <property type="string" id="units" mode="w" >
-bytes
+bits/sec
 </property>
 <property type="boolean" id="log" mode="w" >
 False
 </property>
 <property type="boolean" id="base" mode="w" >
-True
+False
 </property>
 <property type="int" id="miny" mode="w" >
 0
@@ -3935,18 +4493,15 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-4
+6
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="string" id="color" mode="w" >
-000000
-</property>
+<object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-2
+1
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -3961,21 +4516,18 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocTotal
+cloudstack_networkRead
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
 </property>
 </object>
-<object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Write' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
 1
 </property>
-<property type="string" id="color" mode="w" >
-00cc00
-</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -3993,7 +4545,7 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocUsed
+cloudstack_networkWrite
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -4001,7 +4553,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Used' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Primary Storage Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -4030,9 +4582,44 @@ True
 5
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -4059,9 +4646,38 @@ cloudstack_primaryStorageTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -4093,7 +4709,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Private IP Addresses' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Private IP Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -4119,7 +4735,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-1
+2
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -4185,14 +4801,129 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
+<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
 </tomanycont>
 </object>
 <object id='Zone' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for a CloudStack zone. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for a CloudStack zone. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property type="text" id="description" mode="w" >
-Aggregate capacity metrics for a CloudStack zone. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for a CloudStack zone. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
 ZenPacks.zenoss.CloudStack.Zone
@@ -4227,9 +4958,9 @@ False
 ZenPacks.zenoss.CloudStack.parsers.CloudStack
 </property>
 <tomanycont id='datapoints'>
-<object id='cpuPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4237,19 +4968,30 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='cpuAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4257,53 +4999,89 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='cpuTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='cpuUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='memoryPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='cpuUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
+</property>
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4311,87 +5089,86 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='memoryTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='memoryUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='memoryUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStorageAllocUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
+DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='primaryStoragePercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4399,19 +5176,30 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='primaryStorageAllocatedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='primaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4419,53 +5207,58 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='primaryStorageTotalOP' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='primaryStorageUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='privateIPsPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='primaryStorageUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='privateIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4473,53 +5266,44 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='privateIPsUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='publicIPsPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='privateIPsUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='publicIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4527,53 +5311,44 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='publicIPsUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
-<object id='secondaryStoragePercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<object id='publicIPsUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
-</property>
-<property type="string" id="rrdmin" mode="w" >
-0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='secondaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4581,16 +5356,13 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
-</property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 <object id='secondaryStorageUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property id='zendoc' type='string'>
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -4598,20 +5370,34 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmin" mode="w" >
-0
+<property type="string" id="description" mode="w" >
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+</object>
+<object id='secondaryStorageUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property id='zendoc' type='string'>
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
+</property>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 <property type="string" id="description" mode="w" >
-Aggregate capacity metrics for an entire CloudStack cloud. Includes memory, CPU, public and private IPs, and primary and secondary storage.
+Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 </object>
 </tomanycont>
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_cpuPercent']
+['cloudstack_cpuAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4629,9 +5415,9 @@ True
 0
 </property>
 </object>
-<object id='memory capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_memoryPercent']
+['cloudstack_cpuUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4649,9 +5435,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage allocated capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStorageAllocPercent']
+['cloudstack_memoryAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4669,9 +5455,9 @@ True
 0
 </property>
 </object>
-<object id='primary storage used capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_primaryStoragePercent']
+['cloudstack_memoryUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4689,9 +5475,9 @@ True
 0
 </property>
 </object>
-<object id='private IP capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_privateIPsPercent']
+['cloudstack_primaryStorageAllocatedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4709,9 +5495,9 @@ True
 0
 </property>
 </object>
-<object id='public IP capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_publicIPsPercent']
+['cloudstack_primaryStorageUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4729,9 +5515,49 @@ True
 0
 </property>
 </object>
-<object id='secondary storage capacity' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['cloudstack_secondaryStoragePercent']
+['cloudstack_privateIPsUsedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='public IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_publicIPsUsedPercent']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+90
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='secondary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_secondaryStorageUsedPercent']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 True
@@ -4751,7 +5577,119 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='CloudStack - CPU Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Allocation' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocatedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - CPU Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -4777,12 +5715,47 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-4
+5
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -4809,9 +5782,38 @@ cloudstack_cpuTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -4843,235 +5845,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Capacity and Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
-<property type="int" id="height" mode="w" >
-100
-</property>
-<property type="int" id="width" mode="w" >
-500
-</property>
-<property type="string" id="units" mode="w" >
-percent
-</property>
-<property type="boolean" id="log" mode="w" >
-False
-</property>
-<property type="boolean" id="base" mode="w" >
-False
-</property>
-<property type="int" id="miny" mode="w" >
-0
-</property>
-<property type="int" id="maxy" mode="w" >
-100
-</property>
-<property type="boolean" id="hasSummary" mode="w" >
-True
-</property>
-<tomanycont id='graphPoints'>
-<object id='Alloc Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-4
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-3
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_cpuPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-2
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_memoryPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Object Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-6
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_secondaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Private IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-1
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_privateIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_publicIPsPercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-<object id='Used Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="long" id="sequence" mode="w" >
-5
-</property>
-<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
-</property>
-<property type="long" id="lineWidth" mode="w" >
-1
-</property>
-<property type="boolean" id="stacked" mode="w" >
-False
-</property>
-<property type="string" id="format" mode="w" >
-%6.2lf%%
-</property>
-<property type="string" id="legend" mode="w" >
-${graphPoint/id}
-</property>
-<property type="long" id="limit" mode="w" >
--1
-</property>
-<property type="string" id="dpName" mode="w" >
-cloudstack_primaryStoragePercent
-</property>
-<property type="string" id="cFunc" mode="w" >
-AVERAGE
-</property>
-</object>
-</tomanycont>
-</object>
-<object id='CloudStack - Memory Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Memory Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5097,12 +5871,47 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-3
+4
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -5129,9 +5938,38 @@ cloudstack_memoryTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -5163,7 +6001,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Allocated' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Network Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5171,13 +6009,13 @@ AVERAGE
 500
 </property>
 <property type="string" id="units" mode="w" >
-bytes
+bits/sec
 </property>
 <property type="boolean" id="log" mode="w" >
 False
 </property>
 <property type="boolean" id="base" mode="w" >
-True
+False
 </property>
 <property type="int" id="miny" mode="w" >
 0
@@ -5189,18 +6027,15 @@ True
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-5
+8
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
-<property type="string" id="color" mode="w" >
-000000
-</property>
+<object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-2
+1
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -5215,21 +6050,18 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocTotal
+cloudstack_networkRead
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
 </property>
 </object>
-<object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Write' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
 1
 </property>
-<property type="string" id="color" mode="w" >
-00cc00
-</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -5247,7 +6079,7 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-cloudstack_primaryStorageAllocUsed
+cloudstack_networkWrite
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
@@ -5255,7 +6087,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Primary Storage Used' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Primary Storage Allocation and Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5284,9 +6116,44 @@ True
 6
 </property>
 <tomanycont id='graphPoints'>
-<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<object id='Allocated' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
 <property type="string" id="color" mode="w" >
-000000
+0000ff
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageAllocated
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+333333
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -5313,9 +6180,38 @@ cloudstack_primaryStorageTotal
 AVERAGE
 </property>
 </object>
+<object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageTotalOP
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
 <object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
-1
+3
 </property>
 <property type="string" id="color" mode="w" >
 00cc00
@@ -5347,7 +6243,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Private IP Addresses' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Private IP Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5373,7 +6269,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-2
+3
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -5439,7 +6335,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Public IP Addresses' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Public IP Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5465,7 +6361,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-1
+2
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -5531,7 +6427,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Secondary Storage Used' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Secondary Storage Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5616,6 +6512,208 @@ ${graphPoint/id}
 </property>
 <property type="string" id="dpName" mode="w" >
 cloudstack_secondaryStorageUsed
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+percent
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+100
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<tomanycont id='graphPoints'>
+<object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+3
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_memoryUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Pri. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+4
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_primaryStorageUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Private IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_privateIPsUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_publicIPsUsedPercent
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Sec. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+5
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%%
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_secondaryStorageUsedPercent
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE
