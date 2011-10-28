@@ -53,6 +53,7 @@ class ICloudInfo(IDeviceInfo):
 class IBaseComponentInfo(IComponentInfo):
     """Abstract base component API (Info) adapter."""
 
+    cloudstack_id = schema.Int(title=_t(u"CloudStack ID"))
     allocation_state = SingleLineText(title=_t(u"Allocation State"))
 
 

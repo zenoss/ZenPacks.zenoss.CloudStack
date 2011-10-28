@@ -61,6 +61,7 @@ class CloudInfo(DeviceInfo):
 class BaseComponentInfo(ComponentInfo):
     """Abstract base component API (Info) adapter factory."""
 
+    cloudstack_id = ProxyProperty('cloudstack_id')
     allocation_state = ProxyProperty('allocation_state')
 
     @property
@@ -200,4 +201,4 @@ class HostInfo(BaseComponentInfo):
     @property
     @info
     def cluster(self):
-        return self._object.pod()
+        return self._object.cluster()
