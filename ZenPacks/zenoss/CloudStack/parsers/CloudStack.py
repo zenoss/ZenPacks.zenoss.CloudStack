@@ -134,8 +134,11 @@ class CloudStack(CommandParser):
         metrics = {}
 
         for h in data.get('listhostsresponse', {}).get('host', []):
+            if h['type'] != 'Routing':
+                continue
+
             zone_id = 'zone%s' % h['zoneid']
-            pod_id = 'pod%s' % ['podid']
+            pod_id = 'pod%s' % h['podid']
             cluster_id = 'cluster%s' % h['clusterid']
             host_id = 'host%s' % h['id']
 
