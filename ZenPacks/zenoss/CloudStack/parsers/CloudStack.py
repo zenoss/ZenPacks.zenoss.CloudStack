@@ -56,6 +56,12 @@ class CloudStack(CommandParser):
 
     def _process_listCapacity(self, cmd, data):
         metric_name_map = {
+            ('public_ips', 'capacitytotal'): 'publicIPsTotal',
+            ('public_ips', 'capacityused'): 'publicIPsUsed',
+            ('public_ips', 'percentused'): 'publicIPsUsedPercent',
+            ('private_ips', 'capacitytotal'): 'privateIPsTotal',
+            ('private_ips', 'capacityused'): 'privateIPsUsed',
+            ('private_ips', 'percentused'): 'privateIPsUsedPercent',
             ('memory', 'capacitytotal'): 'memoryTotalOP',
             ('memory', 'capacityused'): 'memoryAllocated',
             ('memory', 'percentused'): 'memoryAllocatedPercent',
@@ -68,12 +74,6 @@ class CloudStack(CommandParser):
             ('primary_storage_used', 'capacitytotal'): 'primaryStorageTotal',
             ('primary_storage_used', 'capacityused'): 'primaryStorageUsed',
             ('primary_storage_used', 'percentused'): 'primaryStorageUsedPercent',
-            ('public_ips', 'capacitytotal'): 'publicIPsTotal',
-            ('public_ips', 'capacityused'): 'publicIPsUsed',
-            ('public_ips', 'percentused'): 'publicIPsUsedPercent',
-            ('private_ips', 'capacitytotal'): 'privateIPsTotal',
-            ('private_ips', 'capacityused'): 'privateIPsUsed',
-            ('private_ips', 'percentused'): 'privateIPsUsedPercent',
             ('secondary_storage', 'capacitytotal'): 'secondaryStorageTotal',
             ('secondary_storage', 'capacityused'): 'secondaryStorageUsed',
             ('secondary_storage', 'percentused'): 'secondaryStorageUsedPercent',
@@ -154,8 +154,9 @@ class CloudStack(CommandParser):
             memory_used = float(h['memoryused'])
             memory_used_percent = (memory_used / memory_total) * 100.0
 
-            network_read = float(h['networkkbsread']) * 1024
-            network_write = float(h['networkkbswrite']) * 1024
+            # Convert networkkbs* to bits/sec.
+            network_read = float(h['networkkbsread']) * 1024 * 8
+            network_write = float(h['networkkbswrite']) * 1024 * 8
 
             metrics[host_id] = dict(
                 cpuTotal=cpu_total,
@@ -177,6 +178,11 @@ class CloudStack(CommandParser):
             for a in (zone_id, pod_id, cluster_id):
                 if a not in metrics:
                     metrics[a] = {
+                        'memoryTotal': 0,
+                        'memoryAllocated': 0,
+                        'memoryAllocatedPercent': 0,
+                        'memoryUsed': 0,
+                        'memoryUsedPercent': 0,
                         'cpuTotalOP': 0,
                         'cpuTotal': 0,
                         'cpuAllocated': 0,
@@ -184,11 +190,6 @@ class CloudStack(CommandParser):
                         'cpuUsed': 0,
                         'cpuUsedPercent': 0,
                         'cpuCores': 0,
-                        'memoryTotal': 0,
-                        'memoryAllocated': 0,
-                        'memoryAllocatedPercent': 0,
-                        'memoryUsed': 0,
-                        'memoryUsedPercent': 0,
                         'networkRead': 0,
                         'networkWrite': 0,
                         }
