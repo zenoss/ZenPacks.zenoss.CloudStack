@@ -28,11 +28,20 @@ addLocalLibPath()
 import txcloudstack
 
 
+def zenoss_severity(level):
+    return {
+        'INFO': 2,
+        'WARN': 3,
+        'ERROR': 4,
+        }.get(level, 3)
+
+
 class CloudStackPoller(object):
     def __init__(self, url, api_key, secret_key):
         self._url = url
         self._api_key = api_key
         self._secret_key = secret_key
+        self._load_last()
 
     def _temp_filename(self):
         target_hash = md5.md5('%s+%s+%s' % (
@@ -40,29 +49,35 @@ class CloudStackPoller(object):
 
         return os.path.join(
             tempfile.gettempdir(),
-            '.zenoss_cloudstack_%s' % target_hash)
+            '.zenoss_cloudstack_events_%s' % target_hash)
 
-    def _cache_results(self, data):
-        tmpfile = self._temp_filename()
-        tmp = open(tmpfile, 'w')
-        json.dump(data, tmp)
-        tmp.close()
-
-    def _cached_results(self):
+    def _load_last(self):
         tmpfile = self._temp_filename()
         if not os.path.isfile(tmpfile):
-            return None
+            self._last_alert_sent = None
+            self._last_alert_id = None
+            self._last_event_sent = None
+            self._last_event_id = None
+        else:
+            tmp = open(tmpfile, 'r')
+            data = json.load(tmp)
+            tmp.close()
+            self._last_alert_sent = data['last_alert_sent']
+            self._last_alert_id = data['last_alert_id']
+            self._last_event_sent = data['last_event_sent']
+            self._last_event_id = data['last_event_id']
 
-        # Make sure temporary data isn't too stale.
-        if os.stat(tmpfile).st_mtime < (time.time() - 50):
-            os.unlink(tmpfile)
-            return None
+    def _save_last(self):
+        tmpfile = self._temp_filename()
+        tmp = open(tmpfile, 'w')
+        json.dump({
+            'last_alert_sent': self._last_alert_sent,
+            'last_alert_id': self._last_alert_id,
+            'last_event_sent': self._last_event_sent,
+            'last_event_id': self._last_event_id,
+            }, tmp)
 
-        tmp = open(tmpfile, 'r')
-        data = json.load(tmp)
         tmp.close()
-
-        return data
 
     def run(self):
         def callback(results):
@@ -96,7 +111,29 @@ class CloudStackPoller(object):
                     print json.dumps(data)
                     return
 
-            self._cache_results(results)
+            if 'listalertsresponse' in data:
+                for alert in data['listalertsresponse'].get('alert', []):
+                    data['events'].append(dict(
+                        severity=3,
+                        summary=alert['description'],
+                        eventClassKey='cloudstack_alert_%s' % alert['type'],
+                        rcvtime=alert['sent'],
+                        ))
+
+                del(data['listalertsresponse'])
+
+            if 'listeventsresponse' in data:
+                for event in data['listeventsresponse'].get('event', []):
+                    data['events'].append(dict(
+                        severity=zenoss_severity(event['level']),
+                        summary=event['description'],
+                        eventClassKey='cloudstack_event_%s' % event['type'],
+                        rcvtime=event['created'],
+                        ))
+
+                del(data['listeventsresponse'])
+
+            self._save_last()
 
             data['events'].append(dict(
                 severity=0,
@@ -107,19 +144,14 @@ class CloudStackPoller(object):
 
             print json.dumps(data)
 
-        cached_results = self._cached_results()
-        if cached_results is not None:
-            callback(cached_results)
-            return
-
         client = txcloudstack.Client(
             self._url,
             self._api_key,
             self._secret_key)
 
         DeferredList((
-            client.listCapacity(),
-            client.listHosts(type="Routing"),
+            client.listAlerts(),
+            client.listEvents(),
             ), consumeErrors=True).addCallback(callback)
 
         reactor.run()

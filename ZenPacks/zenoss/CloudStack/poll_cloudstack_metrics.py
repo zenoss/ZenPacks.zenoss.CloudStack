@@ -40,7 +40,7 @@ class CloudStackPoller(object):
 
         return os.path.join(
             tempfile.gettempdir(),
-            '.zenoss_cloudstack_%s' % target_hash)
+            '.zenoss_cloudstack_metrics_%s' % target_hash)
 
     def _cache_results(self, data):
         tmpfile = self._temp_filename()

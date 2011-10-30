@@ -40,13 +40,12 @@ class CloudStack(CommandParser):
             return
 
         # Incorporate events reported by the command.
-        result.events.extend(data.get('events', []))
+        for event in data.get('events', []):
+            fixed_event = {}
+            for k, v in event.items():
+                fixed_event[str(k)] = v
 
-        if 'listalertsresponse' in data:
-            self._process_listAlerts(cmd, data['listalertsresponse'], result)
-
-        if 'listeventsresponse' in data:
-            self._process_listEvents(cmd, data['listeventsresponse'], result)
+            result.events.append(fixed_event)
 
         metrics = {}
 
@@ -73,12 +72,6 @@ class CloudStack(CommandParser):
 
                 result.values.append((
                     point, metrics[point.component][point.id]))
-
-    def _process_listAlerts(self, cmd, data, result):
-        pass
-
-    def _process_listEvents(self, cmd, data, result):
-        pass
 
     def _process_listCapacity(self, cmd, data):
         metric_name_map = {

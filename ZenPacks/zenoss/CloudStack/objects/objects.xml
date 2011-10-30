@@ -328,6 +328,35 @@ True
 </object>
 </tomanycont>
 </object>
+<object id='cloudstackEvents' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+COMMAND
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="component" mode="w" >
+cloud
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Cmd/Fail
+</property>
+<property type="int" id="severity" mode="w" >
+4
+</property>
+<property type="string" id="commandTemplate" mode="w" >
+poll_cloudstack_events.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}"
+</property>
+<property type="int" id="cycletime" mode="w" >
+60
+</property>
+<property type="boolean" id="usessh" mode="w" >
+False
+</property>
+<property type="string" id="parser" mode="w" >
+ZenPacks.zenoss.CloudStack.parsers.CloudStack
+</property>
+</object>
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
