@@ -43,7 +43,12 @@ class CloudStack(CommandParser):
         result.events.extend(data.get('events', []))
 
         metrics = self._process_listHosts(cmd, data)
-        metrics.update(self._process_listCapacity(cmd, data))
+
+        for k, v in self._process_listCapacity(cmd, data).items():
+            if k in metrics:
+                metrics[k].update(v)
+            else:
+                metrics[k] = v
 
         for point in cmd.points:
             if point.component not in metrics:
@@ -137,6 +142,7 @@ class CloudStack(CommandParser):
             if h['type'] != 'Routing':
                 continue
 
+            cloud_id = 'cloud'
             zone_id = 'zone%s' % h['zoneid']
             pod_id = 'pod%s' % h['podid']
             cluster_id = 'cluster%s' % h['clusterid']
@@ -178,7 +184,7 @@ class CloudStack(CommandParser):
                 networkWrite=network_write,
                 )
 
-            for a in (zone_id, pod_id, cluster_id):
+            for a in (cloud_id, zone_id, pod_id, cluster_id):
                 if a not in metrics:
                     metrics[a] = {
                         'memoryTotal': 0,

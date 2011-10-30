@@ -661,10 +661,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -817,10 +817,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -1059,10 +1059,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -1990,7 +1990,7 @@ True
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -2080,7 +2080,7 @@ AVERAGE
 00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
+AREA
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -2286,7 +2286,7 @@ True
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -2960,7 +2960,7 @@ True
 LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -3050,7 +3050,7 @@ AVERAGE
 00cc00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
+AREA
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -4192,10 +4192,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -4348,10 +4348,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -4590,10 +4590,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -5726,10 +5726,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -5882,10 +5882,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
@@ -6124,10 +6124,10 @@ True
 0000ff
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-AREA
+LINE
 </property>
 <property type="long" id="lineWidth" mode="w" >
-1
+2
 </property>
 <property type="boolean" id="stacked" mode="w" >
 False
