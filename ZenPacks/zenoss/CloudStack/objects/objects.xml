@@ -55,7 +55,7 @@ cloud
 4
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" cloud
+poll_cloudstack_metrics.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" cloud
 </property>
 <property type="int" id="cycletime" mode="w" >
 300
@@ -1686,7 +1686,7 @@ ${here/id}
 4
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" cluster
+poll_cloudstack_metrics.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" cluster
 </property>
 <property type="int" id="cycletime" mode="w" >
 300
@@ -2572,7 +2572,7 @@ ${here/id}
 4
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" host
+poll_cloudstack_metrics.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" host
 </property>
 <property type="int" id="cycletime" mode="w" >
 300
@@ -3542,7 +3542,7 @@ ${here/id}
 4
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" pod
+poll_cloudstack_metrics.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" pod
 </property>
 <property type="int" id="cycletime" mode="w" >
 300
@@ -4946,7 +4946,7 @@ ${here/id}
 4
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" zone
+poll_cloudstack_metrics.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" zone
 </property>
 <property type="int" id="cycletime" mode="w" >
 300

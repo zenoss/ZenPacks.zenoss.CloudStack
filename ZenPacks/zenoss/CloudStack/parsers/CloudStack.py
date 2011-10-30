@@ -42,22 +42,43 @@ class CloudStack(CommandParser):
         # Incorporate events reported by the command.
         result.events.extend(data.get('events', []))
 
-        metrics = self._process_listHosts(cmd, data)
+        if 'listalertsresponse' in data:
+            self._process_listAlerts(cmd, data['listalertsresponse'], result)
 
-        for k, v in self._process_listCapacity(cmd, data).items():
-            if k in metrics:
-                metrics[k].update(v)
-            else:
-                metrics[k] = v
+        if 'listeventsresponse' in data:
+            self._process_listEvents(cmd, data['listeventsresponse'], result)
 
-        for point in cmd.points:
-            if point.component not in metrics:
-                continue
+        metrics = {}
 
-            if point.id not in metrics[point.component]:
-                continue
+        if 'listhostsresponse' in data:
+            metrics.update(
+                self._process_listHosts(cmd, data['listhostsresponse']))
 
-            result.values.append((point, metrics[point.component][point.id]))
+        if 'listcapacityresponse' in data:
+            for k, v in self._process_listCapacity(
+                    cmd, data['listcapacityresponse']).items():
+
+                if k in metrics:
+                    metrics[k].update(v)
+                else:
+                    metrics[k] = v
+
+        if len(metrics.keys()) > 0:
+            for point in cmd.points:
+                if point.component not in metrics:
+                    continue
+
+                if point.id not in metrics[point.component]:
+                    continue
+
+                result.values.append((
+                    point, metrics[point.component][point.id]))
+
+    def _process_listAlerts(self, cmd, data, result):
+        pass
+
+    def _process_listEvents(self, cmd, data, result):
+        pass
 
     def _process_listCapacity(self, cmd, data):
         metric_name_map = {
@@ -86,7 +107,7 @@ class CloudStack(CommandParser):
 
         metrics = {'cloud': {}}
 
-        for c in data.get('listcapacityresponse', {}).get('capacity', []):
+        for c in data.get('capacity', []):
             c_type = txcloudstack.capacity_type_string(c['type'])
 
             for c_key in ('capacitytotal', 'capacityused', 'percentused'):
@@ -138,7 +159,7 @@ class CloudStack(CommandParser):
     def _process_listHosts(self, cmd, data):
         metrics = {}
 
-        for h in data.get('listhostsresponse', {}).get('host', []):
+        for h in data.get('host', []):
             if h['type'] != 'Routing':
                 continue
 
