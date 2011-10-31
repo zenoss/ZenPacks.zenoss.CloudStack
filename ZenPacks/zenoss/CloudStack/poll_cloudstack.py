@@ -19,6 +19,8 @@ import sys
 import tempfile
 import time
 
+import xml.utils.iso8601
+
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList
 
@@ -255,20 +257,22 @@ class CloudStackPoller(object):
 
     def _process_listAlerts(self, response):
         for alert in response.get('alert', []):
+            rcvtime = xml.utils.iso8601.parse(alert['sent'])
             self._data['events'].append(dict(
                 severity=3,
                 summary=alert['description'],
                 eventClassKey='cloudstack_alert_%s' % alert['type'],
-                rcvtime=alert['sent'],
+                rcvtime=rcvtime,
                 ))
 
     def _process_listEvents(self, response):
         for event in response.get('event', []):
+            rcvtime = xml.utils.iso8601.parse(event['created'])
             self._data['events'].append(dict(
                 severity=SEVERITY_MAP.get(event['level'], 3),
                 summary=event['description'],
                 eventClassKey='cloudstack_event_%s' % event['type'],
-                rcvtime=event['created'],
+                rcvtime=rcvtime,
                 ))
 
     def _callback(self, results):
