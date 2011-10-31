@@ -384,6 +384,8 @@ class CloudStackPoller(object):
         if reactor.running:
             reactor.stop()
 
+        data = {}
+
         for success, result in results:
             if not success:
                 error = result.getErrorMessage()
@@ -397,28 +399,30 @@ class CloudStackPoller(object):
                 self._print_output()
                 return
 
-            if 'listalertsresponse' in result:
-                self._events.extend(
-                    self._process_listAlerts(result['listalertsresponse']))
+            data.update(result)
 
-            elif 'listeventsresponse' in result:
-                self._events.extend(
-                    self._process_listEvents(result['listeventsresponse']))
+        if 'listalertsresponse' in data:
+            self._events.extend(
+                self._process_listAlerts(data['listalertsresponse']))
 
-            elif 'listhostsresponse' in result:
-                self._values.update(
-                    self._process_listHosts(result['listhostsresponse']))
+        if 'listeventsresponse' in data:
+            self._events.extend(
+                self._process_listEvents(data['listeventsresponse']))
 
-            elif 'listcapacityresponse' in result:
-                capacity = self._process_listCapacity(
-                    result['listcapacityresponse'])
+        if 'listhostsresponse' in data:
+            self._values.update(
+                self._process_listHosts(data['listhostsresponse']))
 
-                for component, values in capacity.items():
-                    for k, v in values.items():
-                        if component in self._values:
-                            self._values[component].update(values)
-                        else:
-                            self._values[component] = values
+        if 'listcapacityresponse' in data:
+            capacity = self._process_listCapacity(
+                data['listcapacityresponse'])
+
+            for component, values in capacity.items():
+                for k, v in values.items():
+                    if component in self._values:
+                        self._values[component].update(values)
+                    else:
+                        self._values[component] = values
 
         if len(self._values.keys()) > 0:
             self._save(self._values, key='values')
