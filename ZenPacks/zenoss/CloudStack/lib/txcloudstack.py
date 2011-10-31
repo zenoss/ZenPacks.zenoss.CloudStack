@@ -17,6 +17,7 @@ import hmac
 import json
 import urllib
 
+from twisted.internet import defer
 from twisted.web.client import getPage
 
 
@@ -47,6 +48,7 @@ class Client(object):
         self.base_url = base_url.rstrip('/')
         self.api_key = api_key
         self.secret_key = secret_key
+        self._page_size = None
 
     def _sign(self, url):
         """Generate a signed URL for the provided url and secret key.
@@ -64,7 +66,10 @@ class Client(object):
         return '%s?%s&signature=%s' % (
             base_url, query_string, urllib.quote(signature))
 
-    def _request(self, command, **kwargs):
+    def _request_single(self, command, **kwargs):
+        def process_result(result):
+            return json.loads(result)
+
         params = kwargs
         params['command'] = command
         params['apiKey'] = self.api_key
@@ -73,7 +78,74 @@ class Client(object):
         url = self._sign("%s/client/api?%s" % (
             self.base_url, urllib.urlencode(params)))
 
-        return getPage(url)
+        return getPage(url).addCallback(process_result)
+
+    def _get_page_size(self):
+        if self._page_size is None:
+            d = self._request_single(
+                'listConfigurations', name='default.page.size')
+
+            return d.addCallback(self._process_page_size)
+        else:
+            return defer.succeed()
+
+    def _process_page_size(self, result):
+        configs_response = result.get('listconfigurationsresponse', {})
+        configs = configs_response.get('configuration', [])
+        if len(configs) == 1 and configs[0]['name'] == 'default.page.size':
+            self._page_size = int(configs[0]['value'])
+
+    def _request_page(self, result, page, all_results, command, **kwargs):
+        response_key = '%sresponse' % command.lower()
+
+        # Need to get first page.
+        if result is None:
+            d = self._request_single(
+                command, page=page, pagesize=self._page_size, **kwargs)
+
+            d.addCallback(
+                self._request_page, page, all_results, command, **kwargs)
+
+            return d
+
+        # Already have at least one page. Combine and decide if we need another.
+        else:
+            all_results.setdefault(response_key, {})
+
+            for k, v in result[response_key].items():
+                if k in all_results[response_key]:
+                    if k == 'count':
+                        all_results[response_key][k] += v
+                    else:
+                        all_results[response_key][k].extend(v)
+                else:
+                    all_results[response_key][k] = v
+
+            if result[response_key].get('count', 0) >= self._page_size:
+                page += 1
+                d = self._request_single(
+                    command, page=page, pagesize=self._page_size, **kwargs)
+
+                d.addCallback(
+                    self._request_page, page, all_results, command, **kwargs)
+
+                return d
+            else:
+                return all_results
+
+    def _request(self, command, **kwargs):
+        if command.startswith('list'):
+            all_results = {}
+
+            d = self._get_page_size()
+            d.addCallback(self._request_page, 0, all_results, command, **kwargs)
+
+            return d
+        else:
+            return self._single_request(command, **kwargs)
+
+    def listConfigurations(self, **kwargs):
+        return self._request('listConfigurations', **kwargs)
 
     def listZones(self, **kwargs):
         return self._request('listZones', **kwargs)
@@ -114,21 +186,20 @@ if __name__ == '__main__':
 
         for success, result in results:
             if success:
-                data = json.loads(result)
-
                 import pickle
-                f = open('%s.pickle' % data.keys()[0], 'wb')
+                f = open('%s.pickle' % result.keys()[0], 'wb')
                 pickle.dump(result, f)
                 f.close()
 
                 from pprint import pprint
-                pprint(data)
+                pprint(result)
             else:
-                print result.getErrorMessage()
+                print result.printTraceback()
 
     deferreds = []
     if len(sys.argv) < 2:
         deferreds.extend((
+            client.listConfigurations(),
             client.listZones(),
             client.listPods(),
             client.listClusters(),

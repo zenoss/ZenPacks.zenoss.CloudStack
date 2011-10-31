@@ -198,9 +198,6 @@ class CloudStackPoller(object):
                 cloudstack_type=event['type'],
                 )
 
-            if event['state'].lower() == 'completed':
-                new_event['action'] = 'history'
-
             if 'username' in event:
                 new_event['cloudstack_username'] = event['username']
 
@@ -387,8 +384,6 @@ class CloudStackPoller(object):
         if reactor.running:
             reactor.stop()
 
-        data = {}
-
         for success, result in results:
             if not success:
                 error = result.getErrorMessage()
@@ -402,40 +397,28 @@ class CloudStackPoller(object):
                 self._print_output()
                 return
 
-            try:
-                data.update(json.loads(result))
-            except Exception, ex:
-                self._events.append(dict(
-                    severity=4,
-                    summary='error parsing API response',
-                    message='error parsing API response: %s' % ex,
-                    eventKey='cloudstack_failure',
-                    eventClassKey='cloudstack_parse_error',
-                    ))
+            if 'listalertsresponse' in result:
+                self._events.extend(
+                    self._process_listAlerts(result['listalertsresponse']))
 
-                self._print_output()
-                return
+            elif 'listeventsresponse' in result:
+                self._events.extend(
+                    self._process_listEvents(result['listeventsresponse']))
 
-        if 'listalertsresponse' in data:
-            self._events.extend(
-                self._process_listAlerts(data['listalertsresponse']))
+            elif 'listhostsresponse' in result:
+                self._values.update(
+                    self._process_listHosts(result['listhostsresponse']))
 
-        if 'listeventsresponse' in data:
-            self._events.extend(
-                self._process_listEvents(data['listeventsresponse']))
+            elif 'listcapacityresponse' in result:
+                capacity = self._process_listCapacity(
+                    result['listcapacityresponse'])
 
-        if 'listhostsresponse' in data:
-            self._values.update(
-                self._process_listHosts(data['listhostsresponse']))
-
-        if 'listcapacityresponse' in data:
-            capacity = self._process_listCapacity(data['listcapacityresponse'])
-            for component, values in capacity.items():
-                for k, v in values.items():
-                    if component in self._values:
-                        self._values[component].update(values)
-                    else:
-                        self._values[component] = values
+                for component, values in capacity.items():
+                    for k, v in values.items():
+                        if component in self._values:
+                            self._values[component].update(values)
+                        else:
+                            self._values[component] = values
 
         if len(self._values.keys()) > 0:
             self._save(self._values, key='values')
@@ -458,22 +441,14 @@ class CloudStackPoller(object):
         deferreds = []
 
         if self._collect_events:
-            deferreds.append(client.listAlerts())
+            # Go back two days to compensate for downtime and timezone
+            # variance between poller and cloud.
+            startdate = datetime.date.today() - datetime.timedelta(days=2)
 
-            last_events = sorted(
-                self._saved(key='events'),
-                key=lambda x: x['id'])
-
-            if len(last_events) > 0:
-                # Go back two days to give long-running events time to complete.
-                last_ts = xml.utils.iso8601.parse(last_events[-1]['created'])
-                startdate = datetime.date.fromtimestamp(
-                    last_ts - (86400 * 2)).strftime('%Y-%m-%d')
-
-                deferreds.append(client.listEvents(startdate=startdate))
-            else:
-                deferreds.append(client.listEvents())
-
+            deferreds.extend((
+                client.listAlerts(),
+                client.listEvents(startdate=startdate.strftime('%Y-%m-%d')),
+                ))
         else:
             saved_values = self._saved_values()
             if saved_values is not None:
