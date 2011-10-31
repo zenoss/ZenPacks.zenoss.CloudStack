@@ -12,6 +12,7 @@
 #
 ###########################################################################
 
+import datetime
 import json
 import md5
 import os
@@ -29,10 +30,35 @@ add_local_lib_path()
 
 import txcloudstack
 
+# Map of listEvents level response parameter to Zenoss severity.
 SEVERITY_MAP = {
     'INFO': 2,
     'WARN': 3,
     'ERROR': 4,
+    }
+
+# Map of listAlerts type response parameter to textual description.
+# https://github.com/CloudStack/CloudStack/blob/2.2.4/ui/scripts/cloud.core.js#L2033
+ALERT_TYPE_MAP = {
+    0: 'Capacity Threshold - Memory',
+    1: 'Capacity Threshold - CPU',
+    2: 'Capacity Threshold - Storage Used',
+    3: 'Capacity Threshold - Storage Allocated',
+    4: 'Capacity Threshold - Public IP',
+    5: 'Capacity Threshold - Private IP',
+    6: 'Monitoring - Host',
+    7: 'Monitoring - VM',
+    8: 'Monitoring - Domain Router',
+    9: 'Monitoring - Console Proxy',
+    10: 'Monitoring - Routing Host',
+    11: 'Monitoring - Storage',
+    12: 'Monitoring - Usage Server',
+    13: 'Monitoring - Management Server',
+    14: 'Migration - Domain Router',
+    15: 'Migration - Console Proxy',
+    16: 'Migration - User VM',
+    17: 'VLAN',
+    18: 'Monitoring - Secondary Storage VM',
     }
 
 
@@ -53,13 +79,23 @@ class CloudStackPoller(object):
             tempfile.gettempdir(),
             '.zenoss_cloudstack_%s_%s' % (key, target_hash))
 
-    def _cache_values(self, values):
-        tmpfile = self._temp_filename(key='values')
+    def _save(self, data, key):
+        tmpfile = self._temp_filename(key=key)
         tmp = open(tmpfile, 'w')
-        json.dump(values, tmp)
+        json.dump(data, tmp)
         tmp.close()
 
-    def _cached_values(self):
+    def _saved(self, key):
+        tmpfile = self._temp_filename(key=key)
+        if not os.path.isfile(tmpfile):
+            return []
+
+        tmp = open(tmpfile, 'r')
+        data = json.load(tmp)
+        tmp.close()
+        return data
+
+    def _saved_values(self):
         tmpfile = self._temp_filename(key='values')
         if not os.path.isfile(tmpfile):
             return None
@@ -81,28 +117,94 @@ class CloudStackPoller(object):
     def _process_listAlerts(self, response):
         events = []
 
-        for alert in response.get('alert', []):
+        last_alerts = self._saved(key='alerts')
+        last_alert_ids = set()
+
+        for alert in last_alerts:
+            last_alert_ids.add(alert['id'])
+
+        new_alerts = response.get('alert', [])
+        new_alert_ids = set()
+
+        self._save(new_alerts, key='alerts')
+
+        for alert in new_alerts:
+            new_alert_ids.add(alert['id'])
+
+            # Don't send events for the same alert every cycle.
+            if alert['id'] in last_alert_ids:
+                continue
+
             rcvtime = xml.utils.iso8601.parse(alert['sent'])
+
             events.append(dict(
                 severity=3,
                 summary=alert['description'],
+                eventKey='alert%s' % alert['id'],
                 eventClassKey='cloudstack_alert_%s' % alert['type'],
                 rcvtime=rcvtime,
                 ))
+
+        # Send clear events for alerts that no longer exist.
+        for alert in last_alerts:
+            if alert['id'] not in new_alert_ids:
+                alert_type = ALERT_TYPE_MAP.get(
+                    alert['type'], 'Unknown (%s)' % alert['type'])
+
+                events.append(dict(
+                    severity=0,
+                    summary=alert['description'],
+                    message='%s: %s' % (alert_type, alert['description']),
+                    eventKey='alert%s' % alert['id'],
+                    eventClassKey='cloudstack_alert',
+                    cloudstack_type=alert_type,
+                    ))
 
         return events
 
     def _process_listEvents(self, response):
         events = []
 
-        for event in response.get('event', []):
+        last_events = self._saved(key='events')
+        last_events_dict = {}
+
+        for event in last_events:
+            last_events_dict[event['id']] = event
+
+        new_events = response.get('event', [])
+        new_event_ids = set()
+
+        self._save(new_events, key='events')
+
+        for event in new_events:
+            new_event_ids.add(event['id'])
+
+            # Don't sent events for the same event every cycle.
+            last_event = last_events_dict.get(event['id'], None)
+            if last_event is not None and last_event['state'] == event['state']:
+                continue
+
             rcvtime = xml.utils.iso8601.parse(event['created'])
-            events.append(dict(
+
+            new_event = dict(
                 severity=SEVERITY_MAP.get(event['level'], 3),
                 summary=event['description'],
-                eventClassKey='cloudstack_event_%s' % event['type'],
+                eventKey='event%s' % event['id'],
+                eventClassKey='cloudstack_event',
                 rcvtime=rcvtime,
-                ))
+                cloudstack_account=event['account'],
+                cloudstack_domain=event['domain'],
+                cloudstack_state=event['state'],
+                cloudstack_type=event['type'],
+                )
+
+            if event['state'].lower() == 'completed':
+                new_event['action'] = 'history'
+
+            if 'username' in event:
+                new_event['cloudstack_username'] = event['username']
+
+            events.append(new_event)
 
         return events
 
@@ -335,6 +437,9 @@ class CloudStackPoller(object):
                     else:
                         self._values[component] = values
 
+        if len(self._values.keys()) > 0:
+            self._save(self._values, key='values')
+
         self._events.append(dict(
             severity=0,
             summary='CloudStack polled successfully',
@@ -353,14 +458,26 @@ class CloudStackPoller(object):
         deferreds = []
 
         if self._collect_events:
-            deferreds.extend((
-                client.listAlerts(),
-                client.listEvents(),
-                ))
+            deferreds.append(client.listAlerts())
+
+            last_events = sorted(
+                self._saved(key='events'),
+                key=lambda x: x['id'])
+
+            if len(last_events) > 0:
+                # Go back two days to give long-running events time to complete.
+                last_ts = xml.utils.iso8601.parse(last_events[-1]['created'])
+                startdate = datetime.date.fromtimestamp(
+                    last_ts - (86400 * 2)).strftime('%Y-%m-%d')
+
+                deferreds.append(client.listEvents(startdate=startdate))
+            else:
+                deferreds.append(client.listEvents())
+
         else:
-            cached_values = self._cached_values()
-            if cached_values is not None:
-                self._values = cached_values
+            saved_values = self._saved_values()
+            if saved_values is not None:
+                self._values = saved_values
                 self._print_output()
                 return
 
