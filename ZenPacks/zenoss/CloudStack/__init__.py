@@ -32,8 +32,7 @@ class ZenPack(ZenPackBase):
         ]
 
     _plugins = (
-        'poll_cloudstack_metrics.py',
-        'poll_cloudstack_events.py',
+        'poll_cloudstack.py',
         )
 
     def install(self, app):

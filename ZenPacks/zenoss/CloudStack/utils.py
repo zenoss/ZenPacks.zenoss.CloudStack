@@ -12,10 +12,8 @@
 ###########################################################################
 
 
-def addLocalLibPath():
-    """
-    Helper to add the ZenPack's lib directory to PYTHONPATH.
-    """
+def add_local_lib_path():
+    """Helper to add the ZenPack's lib directory to PYTHONPATH."""
     import os
     import site
 

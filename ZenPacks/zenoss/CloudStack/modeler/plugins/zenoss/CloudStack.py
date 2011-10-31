@@ -21,8 +21,8 @@ from twisted.internet.defer import DeferredList
 from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
 from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap
 
-from ZenPacks.zenoss.CloudStack.utils import addLocalLibPath
-addLocalLibPath()
+from ZenPacks.zenoss.CloudStack.utils import add_local_lib_path
+add_local_lib_path()
 
 import txcloudstack
 

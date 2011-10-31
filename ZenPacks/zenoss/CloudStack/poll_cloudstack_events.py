@@ -22,8 +22,8 @@ import time
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList
 
-from utils import addLocalLibPath
-addLocalLibPath()
+from utils import add_local_lib_path
+add_local_lib_path()
 
 import txcloudstack
 
@@ -92,6 +92,7 @@ class CloudStackPoller(object):
                     data['events'].append(dict(
                         severity=4,
                         summary='CloudStack error: %s' % error,
+                        eventKey='cloudstack_failure',
                         eventClassKey='cloudstack_error',
                         ))
 
@@ -105,6 +106,7 @@ class CloudStackPoller(object):
                         severity=4,
                         summary='error parsing API response',
                         message='error parsing API response: %s' % ex,
+                        eventKey='cloudstack_failure',
                         eventClassKey='cloudstack_parse_error',
                         ))
 
