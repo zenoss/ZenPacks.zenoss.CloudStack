@@ -6756,6 +6756,27 @@ AVERAGE
 </object>
 <!-- ('', 'zport', 'dmd', 'Events', 'App', 'CloudStack') -->
 <object id='/zport/dmd/Events/App/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>
+<tomanycont id='instances'>
+<object id='cloudstack_alert' module='Products.ZenEvents.EventClassInst' class='EventClassInst'>
+<property type="string" id="eventClassKey" mode="w" >
+cloudstack_alert
+</property>
+<property type="int" id="sequence" mode="w" >
+7
+</property>
+</object>
+<object id='cloudstack_event' module='Products.ZenEvents.EventClassInst' class='EventClassInst'>
+<property type="string" id="eventClassKey" mode="w" >
+cloudstack_event
+</property>
+<property type="int" id="sequence" mode="w" >
+7
+</property>
+<property visible="True" type="string" id="zEventAction" >
+history
+</property>
+</object>
+</tomanycont>
 </object>
 <!-- ('', 'zport', 'dmd', 'Events', 'Perf', 'CloudStack') -->
 <object id='/zport/dmd/Events/Perf/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>
