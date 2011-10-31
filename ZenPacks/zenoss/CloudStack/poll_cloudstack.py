@@ -42,10 +42,8 @@ class CloudStackPoller(object):
         self._api_key = api_key
         self._secret_key = secret_key
         self._collect_events = collect_events
-        self._data = dict(
-            events=[],
-            values={},
-            )
+        self._events = []
+        self._values = {}
 
     def _temp_filename(self, key):
         target_hash = md5.md5('%s+%s+%s' % (
@@ -77,12 +75,46 @@ class CloudStackPoller(object):
 
         return values
 
+    def _print_output(self):
+        print json.dumps({'events': self._events, 'values': self._values})
+
+    def _process_listAlerts(self, response):
+        events = []
+
+        for alert in response.get('alert', []):
+            rcvtime = xml.utils.iso8601.parse(alert['sent'])
+            events.append(dict(
+                severity=3,
+                summary=alert['description'],
+                eventClassKey='cloudstack_alert_%s' % alert['type'],
+                rcvtime=rcvtime,
+                ))
+
+        return events
+
+    def _process_listEvents(self, response):
+        events = []
+
+        for event in response.get('event', []):
+            rcvtime = xml.utils.iso8601.parse(event['created'])
+            events.append(dict(
+                severity=SEVERITY_MAP.get(event['level'], 3),
+                summary=event['description'],
+                eventClassKey='cloudstack_event_%s' % event['type'],
+                rcvtime=rcvtime,
+                ))
+
+        return events
+
     def _process_listHosts(self, response):
+        values = {}
+
+        cloud_id = 'cloud'
+
         for h in response.get('host', []):
             if h['type'] != 'Routing':
                 continue
 
-            cloud_id = 'cloud'
             zone_id = 'zone%s' % h['zoneid']
             pod_id = 'pod%s' % h['podid']
             cluster_id = 'cluster%s' % h['clusterid']
@@ -107,7 +139,7 @@ class CloudStackPoller(object):
             network_read = float(h['networkkbsread']) * 1024 * 8
             network_write = float(h['networkkbswrite']) * 1024 * 8
 
-            self._data['values'][host_id] = dict(
+            values[host_id] = dict(
                 cpuTotal=cpu_total,
                 cpuTotalOP=cpu_total_op,
                 cpuAllocated=cpu_allocated,
@@ -125,8 +157,8 @@ class CloudStackPoller(object):
                 )
 
             for a in (cloud_id, zone_id, pod_id, cluster_id):
-                if a not in self._data['values']:
-                    self._data['values'][a] = {
+                if a not in values:
+                    values[a] = {
                         'memoryTotal': 0,
                         'memoryAllocated': 0,
                         'memoryAllocatedPercent': 0,
@@ -143,41 +175,43 @@ class CloudStackPoller(object):
                         'networkWrite': 0,
                         }
 
-                self._data['values'][a]['cpuTotal'] += cpu_total
-                self._data['values'][a]['cpuTotalOP'] += cpu_total_op
-                self._data['values'][a]['cpuAllocated'] += cpu_allocated
-                self._data['values'][a]['cpuAllocatedPercent'] += cpu_allocated_percent
-                self._data['values'][a]['cpuUsed'] += cpu_used
-                self._data['values'][a]['cpuUsedPercent'] += cpu_used_percent
-                self._data['values'][a]['cpuCores'] += cpu_cores
-                self._data['values'][a]['memoryTotal'] += memory_total
-                self._data['values'][a]['memoryAllocated'] += memory_allocated
-                self._data['values'][a]['memoryAllocatedPercent'] += \
-                    memory_allocated_percent
+                values[a]['cpuTotal'] += cpu_total
+                values[a]['cpuTotalOP'] += cpu_total_op
+                values[a]['cpuAllocated'] += cpu_allocated
+                values[a]['cpuAllocatedPercent'] += cpu_allocated_percent
+                values[a]['cpuUsed'] += cpu_used
+                values[a]['cpuUsedPercent'] += cpu_used_percent
+                values[a]['cpuCores'] += cpu_cores
+                values[a]['memoryTotal'] += memory_total
+                values[a]['memoryAllocated'] += memory_allocated
+                values[a]['memoryAllocatedPercent'] += memory_allocated_percent
+                values[a]['memoryUsed'] += memory_used
+                values[a]['memoryUsedPercent'] += memory_used_percent
+                values[a]['networkRead'] += network_read
+                values[a]['networkWrite'] += network_write
 
-                self._data['values'][a]['memoryUsed'] += memory_used
-                self._data['values'][a]['memoryUsedPercent'] += memory_used_percent
-                self._data['values'][a]['networkRead'] += network_read
-                self._data['values'][a]['networkWrite'] += network_write
-
-        for k, v in self._data['values'].items():
+        for k, v in values.items():
             if k.startswith('zone') or \
                     k.startswith('pod') or \
                     k.startswith('cluster'):
 
-                self._data['values'][k]['cpuAllocatedPercent'] = \
+                values[k]['cpuAllocatedPercent'] = \
                     (v['cpuAllocated'] / v['cpuTotalOP']) * 100.0
 
-                self._data['values'][k]['cpuUsedPercent'] = \
+                values[k]['cpuUsedPercent'] = \
                     (v['cpuUsed'] / v['cpuTotal']) * 100.0
 
-                self._data['values'][k]['memoryAllocatedPercent'] = \
+                values[k]['memoryAllocatedPercent'] = \
                     (v['memoryAllocated'] / v['memoryTotal']) * 100.0
 
-                self._data['values'][k]['memoryUsedPercent'] = \
+                values[k]['memoryUsedPercent'] = \
                     (v['memoryUsed'] / v['memoryTotal']) * 100.0
 
+        return values
+
     def _process_listCapacity(self, response):
+        values = {'cloud': {}}
+
         metric_name_map = {
             ('public_ips', 'capacitytotal'): 'publicIPsTotal',
             ('public_ips', 'capacityused'): 'publicIPsUsed',
@@ -202,8 +236,6 @@ class CloudStackPoller(object):
             ('secondary_storage', 'percentused'): 'secondaryStorageUsedPercent',
         }
 
-        self._data['values'].setdefault('cloud', {})
-
         for c in response.get('capacity', []):
             c_type = txcloudstack.capacity_type_string(c['type'])
 
@@ -216,64 +248,38 @@ class CloudStackPoller(object):
 
                 # Zone
                 if c.get('podid', -1) == -1:
-                    self._data['values']['cloud'].setdefault(metric_name, 0)
+                    values['cloud'].setdefault(metric_name, 0)
 
                     zone_id = 'zone%s' % c['zoneid']
-                    self._data['values'].setdefault(zone_id, {})
+                    values.setdefault(zone_id, {})
 
-                    if c_key == 'count':
-                        self._data['values']['cloud'][metric_name] += 1
-                    else:
-                        self._data['values']['cloud'][metric_name] += \
-                            float(c[c_key])
-
-                        self._data['values'][zone_id][metric_name] = \
-                            float(c[c_key])
+                    values['cloud'][metric_name] += float(c[c_key])
+                    values[zone_id][metric_name] = float(c[c_key])
 
                 # Pod
                 else:
                     pod_id = 'pod%s' % c['podid']
-                    self._data['values'].setdefault(pod_id, {})
+                    values.setdefault(pod_id, {})
 
-                    if c_key != 'count':
-                        self._data['values'][pod_id][metric_name] = \
-                            float(c[c_key])
+                    values[pod_id][metric_name] = float(c[c_key])
 
         # Calculate average percentages for cloud.
-        for k, v in self._data['values']['cloud'].items():
+        for k, v in values['cloud'].items():
             if k.endswith('AllocatedPercent'):
                 allocated_k = k.replace('Percent', '')
                 total_op_k = k.replace('AllocatedPercent', 'TotalOP')
-                self._data['values']['cloud'][k] = (
-                    self._data['values']['cloud'][allocated_k] /
-                    self._data['values']['cloud'][total_op_k]) * 100.0
+                values['cloud'][k] = (
+                    values['cloud'][allocated_k] /
+                    values['cloud'][total_op_k]) * 100.0
 
             elif k.endswith('UsedPercent'):
                 used_k = k.replace('Percent', '')
                 total_k = k.replace('UsedPercent', 'Total')
-                self._data['values']['cloud'][k] = (
-                    self._data['values']['cloud'][used_k] /
-                    self._data['values']['cloud'][total_k]) * 100.0
+                values['cloud'][k] = (
+                    values['cloud'][used_k] /
+                    values['cloud'][total_k]) * 100.0
 
-    def _process_listAlerts(self, response):
-        for alert in response.get('alert', []):
-            rcvtime = xml.utils.iso8601.parse(alert['sent'])
-            self._data['events'].append(dict(
-                severity=3,
-                summary=alert['description'],
-                eventClassKey='cloudstack_alert_%s' % alert['type'],
-                rcvtime=rcvtime,
-                ))
-
-    def _process_listEvents(self, response):
-        for event in response.get('event', []):
-            rcvtime = xml.utils.iso8601.parse(event['created'])
-            self._data['events'].append(dict(
-                severity=SEVERITY_MAP.get(event['level'], 3),
-                summary=event['description'],
-                eventClassKey='cloudstack_event_%s' % event['type'],
-                rcvtime=rcvtime,
-                ))
+        return values
 
     def _callback(self, results):
         if reactor.running:
@@ -284,20 +290,20 @@ class CloudStackPoller(object):
         for success, result in results:
             if not success:
                 error = result.getErrorMessage()
-                self._data['events'].append(dict(
+                self._events.append(dict(
                     severity=4,
                     summary='CloudStack error: %s' % error,
                     eventKey='cloudstack_failure',
                     eventClassKey='cloudstack_error',
                     ))
 
-                print json.dumps(self._data)
+                self._print_output()
                 return
 
             try:
                 data.update(json.loads(result))
             except Exception, ex:
-                self._data['events'].append(dict(
+                self._events.append(dict(
                     severity=4,
                     summary='error parsing API response',
                     message='error parsing API response: %s' % ex,
@@ -305,29 +311,38 @@ class CloudStackPoller(object):
                     eventClassKey='cloudstack_parse_error',
                     ))
 
-                print json.dumps(self._data)
+                self._print_output()
                 return
 
         if 'listalertsresponse' in data:
-            self._process_listAlerts(data['listalertsresponse'])
+            self._events.extend(
+                self._process_listAlerts(data['listalertsresponse']))
 
         if 'listeventsresponse' in data:
-            self._process_listEvents(data['listeventsresponse'])
+            self._events.extend(
+                self._process_listEvents(data['listeventsresponse']))
 
         if 'listhostsresponse' in data:
-            self._process_listHosts(data['listhostsresponse'])
+            self._values.update(
+                self._process_listHosts(data['listhostsresponse']))
 
         if 'listcapacityresponse' in data:
-            self._process_listCapacity(data['listcapacityresponse'])
+            capacity = self._process_listCapacity(data['listcapacityresponse'])
+            for component, values in capacity.items():
+                for k, v in values.items():
+                    if component in self._values:
+                        self._values[component].update(values)
+                    else:
+                        self._values[component] = values
 
-        self._data['events'].append(dict(
+        self._events.append(dict(
             severity=0,
             summary='CloudStack polled successfully',
             eventKey='cloudstack_failure',
             eventClassKey='cloudstack_success',
             ))
 
-        print json.dumps(self._data)
+        self._print_output()
 
     def run(self):
         client = txcloudstack.Client(
@@ -345,7 +360,8 @@ class CloudStackPoller(object):
         else:
             cached_values = self._cached_values()
             if cached_values is not None:
-                print json.dumps(cached_values)
+                self._values = cached_values
+                self._print_output()
                 return
 
             deferreds.extend((
