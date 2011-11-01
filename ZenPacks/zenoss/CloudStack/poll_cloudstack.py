@@ -141,7 +141,7 @@ class CloudStackPoller(object):
                 severity=3,
                 summary=alert['description'],
                 eventKey='alert%s' % alert['id'],
-                eventClassKey='cloudstack_alert_%s' % alert['type'],
+                eventClassKey='cloudstack_alert',
                 rcvtime=rcvtime,
                 ))
 

@@ -72,14 +72,16 @@ Installing the ZenPack will add the following items to your Zenoss system.
     * zenoss.CloudStack
 
   * Monitoring Templates
-    * CloudStack
-    * CloudStackZone
-    * CloudStackPod
-    * CloudStackCluster
+    * Cloud
+    * Zone
+    * Pod
+    * Cluster
+    * Host
 
   * Event Classes
     * /Status/CloudStack
     * /Perf/CloudStack
+    * /App/CloudStack
 
 The easiest way to start monitoring CloudStack is to navigate to the
 Infrastructure page, click the _+_ menu to add a device and choose
