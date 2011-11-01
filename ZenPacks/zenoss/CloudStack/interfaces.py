@@ -112,3 +112,4 @@ class IHostInfo(IBaseComponentInfo):
     zone = schema.Entity(title=_t(u"Zone"))
     pod = schema.Entity(title=_t(u"Pod"))
     cluster = schema.Entity(title=_t(u"Cluster"))
+    host_device = schema.Entity(title=_t(u"Host Device"))

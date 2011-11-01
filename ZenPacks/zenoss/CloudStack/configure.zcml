@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser">
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
 
     <!-- Import directRouter Directive -->
     <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
@@ -62,5 +63,11 @@
 
     <!-- Include Browser Code -->
     <include package=".browser"/>       
+
+    <!-- Include Dynamic View Adapters -->
+    <include
+        zcml:condition="installed ZenPacks.zenoss.DynamicView"
+        package=".dynamicview"
+        />
 
 </configure>

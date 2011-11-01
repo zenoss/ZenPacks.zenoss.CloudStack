@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure xmlns="http://namespaces.zope.org/zope">
+
+    <!-- IRelatable Adapters -->
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..Cloud.Cloud"
+        factory=".adapters.CloudRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..Zone.Zone"
+        factory=".adapters.ZoneRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..Pod.Pod"
+        factory=".adapters.PodRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..Cluster.Cluster"
+        factory=".adapters.ClusterRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..Host.Host"
+        factory=".adapters.HostRelatable"
+        />
+
+
+    <!-- IRelationsProvider Subscribers -->
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..Cloud.Cloud"
+        factory=".adapters.CloudRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..Zone.Zone"
+        factory=".adapters.ZoneRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..Pod.Pod"
+        factory=".adapters.PodRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..Cluster.Cluster"
+        factory=".adapters.ClusterRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..Host.Host"
+        factory=".adapters.HostRelationsProvider"
+        />
+
+
+    <!-- Dynamic View -->
+    <include package="ZenPacks.zenoss.DynamicView" file="meta.zcml"/>
+
+    <relatableGroup
+        name="CloudStack"
+        groupType="cloud"
+        icon="/++resource++cloudstack/img/cloudstack.png"
+        weight="11"
+        />
+
+    <dynamicViewToGroup
+        view="service_view"
+        group="CloudStack"
+        weight="550"
+        />
+
+    <dynamicViewToGroup
+        view="component_view"
+        group="CloudStack"
+        weight="215"
+        />
+    
+    <dynamicViewToGroup
+        view="subcomponent_view"
+        group="CloudStack"
+        weight="130"
+        />
+
+</configure>

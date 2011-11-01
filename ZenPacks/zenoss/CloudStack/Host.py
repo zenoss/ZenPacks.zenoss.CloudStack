@@ -54,3 +54,12 @@ class Host(BaseComponent):
 
     def device(self):
         return self.cluster().device()
+
+    def getHostDevice(self):
+        device = self.findDevice(self.ip_address)
+        if device:
+            return device
+
+        ip = self.getDmdRoot("Networks").findIp(self.ip_address)
+        if ip:
+            return ip.device()

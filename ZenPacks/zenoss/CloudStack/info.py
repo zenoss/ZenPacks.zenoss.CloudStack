@@ -202,3 +202,8 @@ class HostInfo(BaseComponentInfo):
     @info
     def cluster(self):
         return self._object.cluster()
+
+    @property
+    @info
+    def host_device(self):
+        return self._object.getHostDevice()
