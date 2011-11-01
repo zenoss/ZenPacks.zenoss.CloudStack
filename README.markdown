@@ -2,10 +2,6 @@
 Please watch the [Monitoring CloudStack][] video for a quick introduction that
 covers most of the details below.
 
-**Important!** This ZenPack is currently a placeholder and the functionality
-described below doesn't yet exist. At this point it describes what the ZenPack
-will be once the first full version is done.
-
 ## About
 This project is a [Zenoss][] extension (ZenPack) that allows for monitoring of
 CloudStack. An explanation of what CloudStack is can be found at
@@ -85,29 +81,50 @@ Installing the ZenPack will add the following items to your Zenoss system.
 
 The easiest way to start monitoring CloudStack is to navigate to the
 Infrastructure page, click the _+_ menu to add a device and choose
-_Add CloudStack_. Fill out the _URL_, API Key_, and _Secret Key_ fields then
-click _OK_. You can find or create the keys by logging into the CloudStack web
-interface and navigate to Accounts and users.
+_Add CloudStack_. Fill out the _URL_, _API Key_, and _Secret Key_ fields then
+click _OK_. The URL should only include the protocol, host and port
+(i.e. _http://cloudstack.example.com/_). You can find or create the keys by
+logging into the CloudStack web interface and navigate to Accounts and users.
 
 Zenoss will then add the CloudStack device to the system along with all of its
 associated zones, pods and clusters. Monitoring will also start after
 the discovery is complete.
 
 ### Metrics
-Once you've successfully added a CloudStack to Zenoss you will begin to see the
-following metrics collected and trended over time for individual clusters and
-aggregated up to each pod, zone and to the cloud as a whole.
+Once you've successfully added a CloudStack cloud to Zenoss you will begin to
+see the following metrics available for the entire cloud. These numbers are
+aggregated from all zones, pods, clusters and hosts.
 
-  * CPU Capacity: used, allocated, free
-  * Memory Capacity: used, allocated, free
-  * Primary Storage: allocated, consumed
-  * Public IP Addresses: used, available
-  * VMs: running, stopped, expungable
+  * Public IPs: Total and Used
+  * Private IPs: Total and Used
+  * Memory: Total (with and without over-provisioning), Allocated and Used
+  * CPU: Total (with and without over-provisioning), Allocated and Used
+  * Primary Storage: Total (with and without over-provisioning), Allocated and
+    Used
+  * Secondary Storage: Total and Used
+  * Network: Read and Write
 
-Additionally the following metrics are available only per zone and aggregated
-to the cloud as a whole.
+The same list of metrics are available for each zone. The same metrics with the
+exception of public IPs and secondary storage are also available for each pod.
 
-  * Secondary Storage: consumption
+The following metrics are available aggregated to each cluster, and for each
+host.
+
+  * Memory: Total and Used
+  * CPU: Total (with and without over-provisioning), Allocated, Used and Cores
+  * Network: Read and Write
+
+### Events
+CloudStack has both alerts and events. Once you've successfully added a
+CloudStack cloud to Zenoss you will automatically receive all CloudStack alerts
+as events in Zenoss. You will also automatically receive all CloudStack events.
+However, the events will go straight into your event history by default.
+
+To avoid overloading CloudStack and Zenoss, only the last two (2) days of
+events will be checked. This allows for timezone discrepency between the Zenoss
+and CloudStack servers as well as some downtime without missing events. There
+is no real-time event collection mechanism with the CloudStack API, so alerts
+and events will only be polled once per minute.
 
 ## What's Next
 The CloudStack management server is Java-based, specifically Tomcat. So there
@@ -118,7 +135,15 @@ Simple process and port checks could also be added for the Tomcat application
 server.
 
 ## Screenshots
-![TODO](TODO)
+![Add CloudStack](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_add.png)
+![Graphs 1](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_graphs1.png)
+![Graphs 2](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_graphs2.png)
+![Graphs 3](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_graphs3.png)
+![Zones](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_zones.png)
+![Pods](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_pods.png)
+![Clusters](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_clusters.png)
+![Hosts](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_hosts.png)
+![Events](https://github.com/zenoss/ZenPacks.zenoss.CloudStack/raw/master/screenshots/cloudstack_events.png)
 
 
 [Monitoring CloudStack]: <TODO>
