@@ -70,14 +70,7 @@ class CloudStack(PythonPlugin):
                 LOG.error("API Error: %s", result.getErrorMessage())
                 return None
 
-            try:
-                data = json.loads(result)
-            except Exception, ex:
-                LOG.error("Error parsing response: %s", ex)
-                LOG.exception(ex)
-                return None
-
-            all_data.update(data)
+            all_data.update(result)
 
         return all_data
 
