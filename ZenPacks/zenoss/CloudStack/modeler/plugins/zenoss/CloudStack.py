@@ -35,6 +35,11 @@ class CloudStack(PythonPlugin):
         )
 
     def collect(self, device, unused):
+        """Collect model-related information using the txcloudstack library.
+
+        Note: This method is not currently unit tested because we haven't gone
+        to the trouble of creating mock results within txcloudstack.
+        """
         if not device.zCloudStackURL:
             LOG.error('zCloudStackURL is not set. Not discovering')
             return None
@@ -63,6 +68,11 @@ class CloudStack(PythonPlugin):
         return d
 
     def _combine(self, results):
+        """Combines all responses within results into a single data structure.
+
+        Note: This method is not currently unit tested because we haven't gone
+        to the trouble of creating mock results within txcloudstack.
+        """
         all_data = {}
 
         for success, result in results:
@@ -182,11 +192,6 @@ class CloudStack(PythonPlugin):
         host_maps = {}
         for host in hosts_response.get('host', []):
             host_type = host.get('type', None)
-
-            # Only interested in normal hosts which are identified by the
-            # Routing type.
-            if host_type != 'Routing':
-                continue
 
             zone_id = self.prepId('zone%s' % host['zoneid'])
             pod_id = self.prepId('pod%s' % host['podid'])

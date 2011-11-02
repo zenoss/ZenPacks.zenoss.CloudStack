@@ -26,6 +26,9 @@ from ZenPacks.zenoss.CloudStack.modeler.plugins.zenoss.CloudStack \
 from ZenPacks.zenoss.CloudStack.tests.utils import loadPickle
 
 
+CLOUDSTACK_ICON = '/++resource++cloudstack/img/cloudstack.png'
+
+
 class TestModel(BaseTestCase):
     def afterSetUp(self):
         super(TestModel, self).afterSetUp()
@@ -68,8 +71,12 @@ class TestModel(BaseTestCase):
     def testZone(self):
         self._loadZenossData()
 
-        info = IInfo(self.d.zones._getOb('zone1'))
+        zone = self.d.zones._getOb('zone1')
+        self.assertEquals(zone.device().id, 'zenoss.CloudStack.testDevice')
+
+        info = IInfo(zone)
         self.assertEquals(info.entity['name'], 'Demo5')
+        self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
         self.assertEquals(info.guest_cidr_address, '10.1.1.0/24')
@@ -88,9 +95,13 @@ class TestModel(BaseTestCase):
         self._loadZenossData()
 
         zone = self.d.zones._getOb('zone1')
+        pod = zone.pods._getOb('pod1')
 
-        info = IInfo(zone.pods._getOb('pod1'))
+        self.assertEquals(pod.device().id, 'zenoss.CloudStack.testDevice')
+
+        info = IInfo(pod)
         self.assertEquals(info.entity['name'], 'Pod-A')
+        self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
         self.assertEquals(info.ip_range, '10.208.37.100 - 10.208.37.120')
@@ -105,9 +116,13 @@ class TestModel(BaseTestCase):
 
         zone = self.d.zones._getOb('zone1')
         pod = zone.pods._getOb('pod1')
+        cluster = pod.clusters._getOb('cluster1')
 
-        info = IInfo(pod.clusters._getOb('cluster1'))
+        self.assertEquals(cluster.device().id, 'zenoss.CloudStack.testDevice')
+
+        info = IInfo(cluster)
         self.assertEquals(info.entity['name'], 'XenCluster1-D5')
+        self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
         self.assertEquals(info.cluster_type, 'CloudManaged')
@@ -123,9 +138,13 @@ class TestModel(BaseTestCase):
         zone = self.d.zones._getOb('zone1')
         pod = zone.pods._getOb('pod1')
         cluster = pod.clusters._getOb('cluster1')
+        host = cluster.hosts._getOb('host1')
 
-        info = IInfo(cluster.hosts._getOb('host1'))
+        self.assertEquals(host.device().id, 'zenoss.CloudStack.testDevice')
+
+        info = IInfo(host)
         self.assertEquals(info.entity['name'], 'demo5-xen')
+        self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
         self.assertEquals(info.host_type, 'Routing')
@@ -142,6 +161,50 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.zone.id, 'zone1')
         self.assertEquals(info.pod.id, 'pod1')
         self.assertEquals(info.cluster.id, 'cluster1')
+
+    def test_getHostDevice(self):
+        self._loadZenossData()
+
+        host_device1 = self.dmd.Devices.createInstance('host_device1')
+        host_device1.setManageIp('10.208.37.11')
+        host_device1.setPerformanceMonitor('localhost')
+
+        host_device2 = self.dmd.Devices.createInstance('host_device2')
+        host_device2.setManageIp('12.34.56.78')
+        host_device2.setPerformanceMonitor('localhost')
+
+        from Products.ZenModel.IpInterface import manage_addIpInterface
+        manage_addIpInterface(host_device2.os.interfaces, 'eth0', False)
+        eth0 = host_device2.os.interfaces._getOb('eth0')
+        eth0.setIpAddresses(['10.208.37.12/24'])
+
+        zone = self.d.zones._getOb('zone1')
+        pod = zone.pods._getOb('pod1')
+        cluster = pod.clusters._getOb('cluster1')
+
+        # Test finding host device by manageIp.
+        info1 = IInfo(cluster.hosts._getOb('host1'))
+        self.assertEquals(info1.host_device.id, 'host_device1')
+
+        # Test finding host by interface IP.
+        info2 = IInfo(cluster.hosts._getOb('host5'))
+        self.assertEquals(info2.host_device.id, 'host_device2')
+
+    def testMissingHostsResponse(self):
+        modeler = CloudStackModeler()
+        modeler_results = loadPickle('cloudstack_results_missingHosts.pickle')
+
+        maps = modeler.process(self.d, modeler_results, log)
+        self.assertEquals(maps, None)
+
+    def testNoZonesResponse(self):
+        modeler = CloudStackModeler()
+        modeler_results = loadPickle('cloudstack_results_noZones.pickle')
+
+        maps = modeler.process(self.d, modeler_results, log)
+        self.assertEquals(len(maps), 1)
+        self.assertEquals(maps[0].relname, 'zones')
+        self.assertEquals(len(maps[0].maps), 0)
 
 
 def test_suite():

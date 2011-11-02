@@ -28,6 +28,8 @@ from Products.Zuul.utils import ZuulMessageFactory as _t
 from Products.ZenModel.ZVersion import VERSION as ZENOSS_VERSION
 from Products.ZenUtils.Version import Version
 
+# One of the following branches below will not be covered by unit tests on any
+# given Zenoss version because it is a Zenoss version test.
 if Version.parse('Zenoss %s' % ZENOSS_VERSION) >= Version.parse('Zenoss 4'):
     SingleLineText = schema.TextLine
     MultiLineText = schema.Text
