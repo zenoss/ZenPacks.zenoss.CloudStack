@@ -26,6 +26,9 @@ True
 <property visible="True" type="string" id="zPythonClass" >
 ZenPacks.zenoss.CloudStack.Cloud
 </property>
+<property visible="True" type="string" id="zIcon" >
+/++resource++cloudstack/img/cloudstack.png
+</property>
 <tomanycont id='rrdTemplates'>
 <object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>

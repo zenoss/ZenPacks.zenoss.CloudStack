@@ -89,6 +89,9 @@ class BaseComponent(DeviceComponent, ManagedEntity):
     # Query for events by id instead of name.
     event_key = "ComponentId"
 
+    def getIconPath(self):
+        return '/++resource++cloudstack/img/cloudstack.png'
+
 
 # We need to filter CloudStack components by id instead of name.
 EventManagerBase.ComponentIdWhere = (
