@@ -18,7 +18,7 @@ import json
 import urllib
 
 from twisted.internet import defer
-from twisted.web.client import getPage
+import twisted.web.client
 
 
 __all__ = ['Client', 'capacity_type_string']
@@ -68,7 +68,14 @@ class Client(object):
 
     def _request_single(self, command, **kwargs):
         def process_result(result):
-            return json.loads(result)
+            data = json.loads(result)
+
+            # For generating test data.
+            f = open('%s.json' % data.keys()[0], 'wb')
+            f.write(result)
+            f.close()
+
+            return data
 
         params = kwargs
         params['command'] = command
@@ -78,7 +85,7 @@ class Client(object):
         url = self._sign("%s/client/api?%s" % (
             self.base_url, urllib.urlencode(params)))
 
-        return getPage(url).addCallback(process_result)
+        return twisted.web.client.getPage(url).addCallback(process_result)
 
     def _get_page_size(self):
         if self._page_size is None:
@@ -186,11 +193,6 @@ if __name__ == '__main__':
 
         for success, result in results:
             if success:
-                import pickle
-                f = open('%s.pickle' % result.keys()[0], 'wb')
-                pickle.dump(result, f)
-                f.close()
-
                 from pprint import pprint
                 pprint(result)
             else:
@@ -199,7 +201,7 @@ if __name__ == '__main__':
     deferreds = []
     if len(sys.argv) < 2:
         deferreds.extend((
-            client.listConfigurations(),
+            client.listConfigurations(name='default.page.size'),
             client.listZones(),
             client.listPods(),
             client.listClusters(),
@@ -212,7 +214,9 @@ if __name__ == '__main__':
         for command in sys.argv[1:]:
             call = getattr(client, command, None)
             if call is not None:
-                if command == 'listHosts':
+                if command == 'listConfigurations':
+                    deferreds.append(call(name='default.page.size'))
+                elif command == 'listHosts':
                     deferreds.append(call(type='Routing'))
                 else:
                     deferreds.append(call())

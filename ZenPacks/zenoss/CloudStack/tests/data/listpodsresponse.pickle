@@ -1,3 +1,0 @@
-S'{ "listpodsresponse" : { "count":1 ,"pod" : [  {"id":1,"name":"Pod-A","zoneid":1,"zonename":"Demo5","gateway":"10.208.37.1","netmask":"255.255.255.128","startip":"10.208.37.100","endip":"10.208.37.120","allocationstate":"Enabled"} ] } }'
-p0
-.

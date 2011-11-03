@@ -13,6 +13,16 @@
 
 import os.path
 import pickle
+import re
+
+from twisted.internet import defer
+
+
+def loadString(filename):
+    f = open(os.path.join(os.path.dirname(__file__), 'data', filename), 'r')
+    data = f.read()
+    f.close()
+    return data
 
 
 def loadPickle(filename):
@@ -23,12 +33,9 @@ def loadPickle(filename):
 
 
 def mockGetPage(url):
-    from twisted.internet import defer
-
-    import re
     match = re.search(r'command=(\w+)', url)
     if not match:
-        return defer.fail('No pickle for URL')
+        return defer.fail('No JSON for URL')
 
-    pickle_name = '%sresponse.pickle' % match.group(1).lower()
-    return defer.succeed(loadPickle(pickle_name))
+    filename = '%sresponse.json' % match.group(1).lower()
+    return defer.succeed(loadString(filename))

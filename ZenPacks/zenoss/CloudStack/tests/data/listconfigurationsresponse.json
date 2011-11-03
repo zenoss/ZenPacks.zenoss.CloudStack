@@ -1,0 +1,1 @@
+{ "listconfigurationsresponse" : { "count":1 ,"configuration" : [  {"category":"Advanced","name":"default.page.size","value":"500","description":"Default page size for API list* commands"} ] } }

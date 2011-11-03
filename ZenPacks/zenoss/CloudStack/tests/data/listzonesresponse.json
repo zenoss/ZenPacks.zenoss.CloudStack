@@ -1,0 +1,1 @@
+{ "listzonesresponse" : { "count":1 ,"zone" : [  {"id":1,"name":"Demo5","dns1":"72.52.126.11","internaldns1":"72.52.126.12","vlan":"1000-1200","guestcidraddress":"10.1.1.0/24","networktype":"Advanced","securitygroupsenabled":false,"allocationstate":"Enabled","zonetoken":"f0c6542e-7a1a-39b3-8c92-1a1c67cede0b","dhcpprovider":"VirtualRouter"} ] } }
