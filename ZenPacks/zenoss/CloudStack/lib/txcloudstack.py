@@ -71,9 +71,9 @@ class Client(object):
             data = json.loads(result)
 
             # For generating test data.
-            f = open('%s.json' % data.keys()[0], 'wb')
-            f.write(result)
-            f.close()
+            # f = open('%s.json' % data.keys()[0], 'wb')
+            # f.write(result)
+            # f.close()
 
             return data
 

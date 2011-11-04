@@ -148,4 +148,4 @@ server.
 
 [Monitoring CloudStack]: <http://www.youtube.com/watch?v=3hr2H9iMz_o>
 [Zenoss]: <http://www.zenoss.com/>
-[Latest Package for Python 2.6]: <https://github.com/downloads/zenoss/ZenPacks.zenoss.CloudStack/ZenPacks.zenoss.CloudStack-0.7.2-py2.6.egg>
+[Latest Package for Python 2.6]: <https://github.com/downloads/zenoss/ZenPacks.zenoss.CloudStack/ZenPacks.zenoss.CloudStack-0.7.3-py2.6.egg>
