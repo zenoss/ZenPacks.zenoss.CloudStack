@@ -29,6 +29,9 @@ ZenPacks.zenoss.CloudStack.Cloud
 <property visible="True" type="string" id="zIcon" >
 /++resource++cloudstack/img/cloudstack.png
 </property>
+<property visible="True" type="float" id="zCommandCommandTimeout" >
+60.0
+</property>
 <tomanycont id='rrdTemplates'>
 <object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
@@ -88,6 +91,9 @@ True
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -123,6 +129,9 @@ True
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -141,6 +150,9 @@ True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -177,6 +189,9 @@ True
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -185,6 +200,9 @@ DERIVE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -192,6 +210,9 @@ DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 </object>
 <object id='primaryStorageAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -211,6 +232,9 @@ True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 </object>
 <object id='primaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -247,6 +271,9 @@ True
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='privateIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -273,6 +300,9 @@ True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 </object>
 <object id='publicIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -301,6 +331,9 @@ True
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 </object>
 <object id='secondaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -327,6 +360,9 @@ True
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 </object>
 </tomanycont>
@@ -3610,6 +3646,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -3669,6 +3708,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -3699,6 +3741,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -3759,6 +3804,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -3776,6 +3824,9 @@ DERIVE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -3789,6 +3840,9 @@ DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -3817,6 +3871,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -3877,6 +3934,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -3921,6 +3981,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -5014,6 +5077,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -5073,6 +5139,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -5103,6 +5172,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -5163,6 +5235,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -5180,6 +5255,9 @@ DERIVE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5193,6 +5271,9 @@ DERIVE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5221,6 +5302,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -5281,6 +5365,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -5325,6 +5412,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100
@@ -5371,6 +5461,9 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
 <property type="string" id="rrdmax" mode="w" >
 100
 </property>
@@ -5415,6 +5508,9 @@ GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
 </property>
 <property type="string" id="rrdmax" mode="w" >
 100

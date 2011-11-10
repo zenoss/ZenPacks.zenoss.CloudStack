@@ -82,6 +82,7 @@ class TestObjects(BaseTestCase):
         self.assertEqual(dc.zDeviceTemplates, ['Cloud'])
         self.assertEqual(dc.zPythonClass, 'ZenPacks.zenoss.CloudStack.Cloud')
         self.assertEqual(dc.zIcon, '/++resource++cloudstack/img/cloudstack.png')
+        self.assertEqual(dc.zCommandCommandTimeout, 60.0)
 
     def testDeviceLoader(self):
         device_loader = getUtility(IDeviceLoader, 'cloudstack', None)
@@ -90,6 +91,24 @@ class TestObjects(BaseTestCase):
 
         self.assertTrue(job[0])
         self.assertTrue(job[1].startswith('DeviceCreationJobStatus'))
+
+    def testTemplates(self):
+        """Verify all templates are configured properly.
+
+        1. Verify all DERIVE type datapoints have an rrdmin of 0.
+        2. Verify all percentage datapoints have rrdmin of 0 and rrdmax of 100.
+        """
+        for t_name in ('Cloud', 'Zone', 'Pod', 'Cluster', 'Host'):
+            t = self.dmd.Devices.CloudStack.rrdTemplates._getOb(t_name)
+            for ds in t.datasources():
+                for dp in ds.datapoints():
+                    if dp.rrdtype == 'DERIVE':
+                        self.assertEqual(int(dp.rrdmin), 0)
+
+                    # Also verify that percents are 0-100 bounded.
+                    elif dp.id.lower().endswith('percent'):
+                        self.assertEqual(int(dp.rrdmin), 0)
+                        self.assertEqual(int(dp.rrdmax), 100)
 
 
 def test_suite():
