@@ -88,11 +88,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -126,11 +126,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -148,11 +148,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -186,11 +186,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -230,11 +230,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='primaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -268,11 +268,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='privateIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -298,11 +298,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='publicIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -328,11 +328,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 <object id='secondaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -358,11 +358,11 @@ GAUGE
 <property type="boolean" id="isrow" mode="w" >
 True
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="rrdmin" mode="w" >
 0
+</property>
+<property type="string" id="rrdmax" mode="w" >
+100
 </property>
 </object>
 </tomanycont>
