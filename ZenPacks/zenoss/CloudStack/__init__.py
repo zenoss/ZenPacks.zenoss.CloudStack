@@ -16,12 +16,16 @@ LOG = logging.getLogger('zen.CloudStack')
 
 import os
 
+import Globals
+
 from Products.ZenEvents.EventManagerBase import EventManagerBase
 from Products.ZenModel.DeviceComponent import DeviceComponent
 from Products.ZenModel.ManagedEntity import ManagedEntity
 from Products.ZenModel.ZenossSecurity import ZEN_CHANGE_DEVICE
 from Products.ZenModel.ZenPack import ZenPack as ZenPackBase
-from Products.ZenUtils.Utils import zenPath
+from Products.ZenUtils.Utils import zenPath, unused
+
+unused(Globals)
 
 
 class ZenPack(ZenPackBase):
