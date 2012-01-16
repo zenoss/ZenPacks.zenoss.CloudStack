@@ -30,7 +30,7 @@ ZenPacks.zenoss.CloudStack.Cloud
 /++resource++cloudstack/img/cloudstack.png
 </property>
 <property visible="True" type="float" id="zCommandCommandTimeout" >
-60.0
+300.0
 </property>
 <tomanycont id='rrdTemplates'>
 <object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>

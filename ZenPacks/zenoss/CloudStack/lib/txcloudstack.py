@@ -128,6 +128,12 @@ class Client(object):
                 else:
                     all_results[response_key][k] = v
 
+            # Internal hard limit of 20 pages. At this many pages responses
+            # take too long to be useful. More data can be captured by
+            # increasing CloudStack's API page size configuration.
+            if page > 20:
+                return all_results
+
             if result[response_key].get('count', 0) >= self._page_size:
                 page += 1
                 d = self._request_single(
