@@ -82,7 +82,7 @@ class TestObjects(BaseTestCase):
         self.assertEqual(dc.zDeviceTemplates, ['Cloud'])
         self.assertEqual(dc.zPythonClass, 'ZenPacks.zenoss.CloudStack.Cloud')
         self.assertEqual(dc.zIcon, '/++resource++cloudstack/img/cloudstack.png')
-        self.assertEqual(dc.zCommandCommandTimeout, 60.0)
+        self.assertEqual(dc.zCommandCommandTimeout, 300.0)
 
     def testDeviceLoader(self):
         device_loader = getUtility(IDeviceLoader, 'cloudstack', None)
