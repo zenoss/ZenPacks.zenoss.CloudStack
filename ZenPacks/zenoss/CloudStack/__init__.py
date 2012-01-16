@@ -50,7 +50,7 @@ class ZenPack(ZenPackBase):
         super(ZenPack, self).remove(app, leaveObjects=leaveObjects)
 
     def symlink_plugins(self):
-        libexec = zenPath('libexec')
+        libexec = os.path.join(os.environ.get('ZENHOME'), 'libexec')
         if not os.path.isdir(libexec):
             # Stack installs might not have a $ZENHOME/libexec directory.
             os.mkdir(libexec)
