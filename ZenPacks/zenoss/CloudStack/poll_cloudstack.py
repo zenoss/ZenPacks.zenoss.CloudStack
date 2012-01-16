@@ -225,7 +225,7 @@ class CloudStackPoller(object):
             cpu_total_op = float(h['cpuwithoverprovisioning']) * 1e6
             cpu_allocated_percent = float(h['cpuallocated'].rstrip('%'))
             cpu_allocated = cpu_total_op * (cpu_allocated_percent * 0.01)
-            cpu_used_percent = float(h['cpuused'].rstrip('%'))
+            cpu_used_percent = float(h.get('cpuused', '0%').rstrip('%'))
             cpu_used = cpu_total * (cpu_used_percent * 0.01)
 
             memory_total = float(h['memorytotal'])
@@ -235,8 +235,8 @@ class CloudStackPoller(object):
             memory_used_percent = (memory_used / memory_total) * 100.0
 
             # Convert networkkbs* to bits/sec.
-            network_read = float(h['networkkbsread']) * 1024 * 8
-            network_write = float(h['networkkbswrite']) * 1024 * 8
+            network_read = float(h.get('networkkbsread', 0)) * 1024 * 8
+            network_write = float(h.get('networkkbswrite', 0)) * 1024 * 8
 
             values[host_id] = dict(
                 cpuTotal=cpu_total,
