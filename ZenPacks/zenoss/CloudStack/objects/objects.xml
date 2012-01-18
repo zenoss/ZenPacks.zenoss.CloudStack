@@ -409,7 +409,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -449,7 +449,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -489,7 +489,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -509,7 +509,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -529,7 +529,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -549,7 +549,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -569,7 +569,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -605,6 +605,9 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
 <object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
@@ -636,6 +639,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -786,6 +792,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -942,6 +951,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -1034,6 +1046,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -1184,6 +1199,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -1276,6 +1294,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -1368,6 +1389,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -1460,6 +1484,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -1668,6 +1695,9 @@ AVERAGE
 </property>
 </object>
 <object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -1947,7 +1977,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -1987,7 +2017,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -2112,6 +2142,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -2204,6 +2237,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Cores' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -2256,6 +2292,9 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
 <object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
@@ -2287,6 +2326,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -2376,6 +2418,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -2468,6 +2513,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -2583,6 +2631,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -2609,6 +2660,77 @@ AVERAGE
 </property>
 </object>
 </tomanycont>
+</object>
+</tomanycont>
+</object>
+<object id='ConsoleProxy' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+<tomanycont id='datasources'>
+<object id='cloudstack' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+COMMAND
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="component" mode="w" >
+${here/id}
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Cmd/Fail
+</property>
+<property type="int" id="severity" mode="w" >
+4
+</property>
+<property type="string" id="commandTemplate" mode="w" >
+poll_cloudstack.py "${here/zCloudStackURL}" "${here/zCloudStackAPIKey}" "${here/zCloudStackSecretKey}" systemvm
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="boolean" id="usessh" mode="w" >
+False
+</property>
+<property type="string" id="parser" mode="w" >
+ZenPacks.zenoss.CloudStack.parsers.CloudStack
+</property>
+<tomanycont id='datapoints'>
+<object id='activeViewerSessions' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
+</object>
+</tomanycont>
+</object>
+</tomanycont>
+<tomanycont id='thresholds'>
+<object id='viewer sessions' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property label="DataPoints" type="lines" id="dsnames" mode="w" >
+['cloudstack_activeViewerSessions']
+</property>
+<property label="Enabled" type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="maxval" mode="w" >
+45
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
 </object>
 </tomanycont>
 </object>
@@ -2917,7 +3039,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -2957,7 +3079,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -3082,6 +3204,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -3174,6 +3299,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Cores' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -3226,6 +3354,9 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
 <object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
@@ -3257,6 +3388,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -3346,6 +3480,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -3438,6 +3575,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -3553,6 +3693,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -4007,7 +4150,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -4047,7 +4190,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -4087,7 +4230,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -4107,7 +4250,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -4127,7 +4270,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -4163,6 +4306,9 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
 <object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
@@ -4194,6 +4340,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -4344,6 +4493,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -4500,6 +4652,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -4592,6 +4747,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -4742,6 +4900,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -4834,6 +4995,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -4955,6 +5119,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -5534,7 +5701,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5574,7 +5741,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5614,7 +5781,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5634,7 +5801,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5654,7 +5821,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5674,7 +5841,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5694,7 +5861,7 @@ True
 90
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
+/Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -5730,6 +5897,9 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
 <object id='CPU' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
@@ -5761,6 +5931,9 @@ AVERAGE
 </property>
 </object>
 <object id='Memory' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -5911,6 +6084,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6067,6 +6243,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6159,6 +6338,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -6309,6 +6491,9 @@ AVERAGE
 </property>
 </object>
 <object id='Total (OP)' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6401,6 +6586,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6493,6 +6681,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6585,6 +6776,9 @@ True
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property type="string" id="color" mode="w" >
 000000
 </property>
@@ -6793,6 +6987,9 @@ AVERAGE
 </property>
 </object>
 <object id='Public IPs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -6876,6 +7073,9 @@ history
 </property>
 </object>
 </tomanycont>
+</object>
+<!-- ('', 'zport', 'dmd', 'Events', 'Capacity', 'CloudStack') -->
+<object id='/zport/dmd/Events/Capacity/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>
 </object>
 <!-- ('', 'zport', 'dmd', 'Events', 'Perf', 'CloudStack') -->
 <object id='/zport/dmd/Events/Perf/CloudStack' module='Products.ZenEvents.EventClass' class='EventClass'>

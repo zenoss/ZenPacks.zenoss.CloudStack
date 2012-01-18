@@ -41,6 +41,11 @@ class Pod(BaseComponent):
             'ZenPacks.zenoss.CloudStack.Cluster.Cluster',
             'pod')
             ),
+
+        ('systemvms', ToManyCont(ToOne,
+            'ZenPacks.zenoss.CloudStack.SystemVM.SystemVM',
+            'pod')
+            ),
         )
 
     def device(self):

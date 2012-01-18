@@ -50,6 +50,12 @@
         />
 
     <adapter
+        provides=".interfaces.ISystemVMInfo"
+        for=".SystemVM.SystemVM"
+        factory=".info.SystemVMInfo"
+        />
+
+    <adapter
         provides=".interfaces.IClusterInfo"
         for=".Cluster.Cluster"
         factory=".info.ClusterInfo"

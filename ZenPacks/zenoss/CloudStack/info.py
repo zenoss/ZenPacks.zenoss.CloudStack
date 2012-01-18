@@ -19,7 +19,7 @@ from Products.Zuul.infos.device import DeviceInfo
 from Products.Zuul.infos.component import ComponentInfo
 
 from ZenPacks.zenoss.CloudStack.interfaces import (
-    ICloudInfo, IZoneInfo, IPodInfo, IClusterInfo, IHostInfo)
+    ICloudInfo, IZoneInfo, IPodInfo, ISystemVMInfo, IClusterInfo, IHostInfo)
 
 
 class CloudInfo(DeviceInfo):
@@ -145,6 +145,38 @@ class PodInfo(BaseComponentInfo):
             lambda x, y: x + y.hosts.countObjects(),
             self._object.clusters(),
             0)
+
+
+class SystemVMInfo(BaseComponentInfo):
+    """SystemVM API (Info) adapter factory."""
+
+    implements(ISystemVMInfo)
+
+    systemvm_type = ProxyProperty('systemvm_type')
+    hostname = ProxyProperty('hostname')
+    host_id = ProxyProperty('host_id')
+    network_domain = ProxyProperty('network_domain')
+    gateway = ProxyProperty('gateway')
+    public_ip = ProxyProperty('public_ip')
+    public_netmask = ProxyProperty('public_netmask')
+    public_macaddress = ProxyProperty('public_macaddress')
+    private_ip = ProxyProperty('private_ip')
+    private_netmask = ProxyProperty('private_netmask')
+    private_macaddress = ProxyProperty('private_macaddress')
+    linklocal_ip = ProxyProperty('linklocal_ip')
+    linklocal_netmask = ProxyProperty('linklocal_netmask')
+    linklocal_macaddress = ProxyProperty('linklocal_macaddress')
+    template_id = ProxyProperty('template_id')
+
+    @property
+    @info
+    def zone(self):
+        return self._object.pod().zone()
+
+    @property
+    @info
+    def pod(self):
+        return self._object.pod()
 
 
 class ClusterInfo(BaseComponentInfo):

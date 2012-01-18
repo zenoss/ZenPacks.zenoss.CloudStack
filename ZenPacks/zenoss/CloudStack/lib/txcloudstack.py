@@ -172,6 +172,12 @@ class Client(object):
     def listHosts(self, **kwargs):
         return self._request('listHosts', **kwargs)
 
+    def listSystemVms(self, **kwargs):
+        return self._request('listSystemVms', **kwargs)
+
+    def listVirtualMachines(self, **kwargs):
+        return self._request('listVirtualMachines', **kwargs)
+
     def listCapacity(self, **kwargs):
         return self._request('listCapacity', **kwargs)
 
@@ -205,27 +211,31 @@ if __name__ == '__main__':
                 print result.printTraceback()
 
     deferreds = []
-    if len(sys.argv) < 2:
-        deferreds.extend((
-            client.listConfigurations(name='default.page.size'),
-            client.listZones(),
-            client.listPods(),
-            client.listClusters(),
-            client.listHosts(),
-            client.listCapacity(),
-            client.listAlerts(),
-            client.listEvents(),
-            ))
-    else:
-        for command in sys.argv[1:]:
-            call = getattr(client, command, None)
-            if call is not None:
-                if command == 'listConfigurations':
-                    deferreds.append(call(name='default.page.size'))
-                elif command == 'listHosts':
-                    deferreds.append(call(type='Routing'))
-                else:
-                    deferreds.append(call())
+    # if len(sys.argv) < 2:
+    #     deferreds.extend((
+    #         client.listConfigurations(name='default.page.size'),
+    #         client.listZones(),
+    #         client.listPods(),
+    #         client.listClusters(),
+    #         client.listHosts(),
+    #         client.listSystemVms(),
+    #         client.listVirtualMachines(),
+    #         client.listCapacity(),
+    #         client.listAlerts(),
+    #         client.listEvents(),
+    #         ))
+    # else:
+    #     for command in sys.argv[1:]:
+    #         call = getattr(client, command, None)
+    #         if call is not None:
+    #             if command == 'listConfigurations':
+    #                 deferreds.append(call(name='default.page.size'))
+    #             elif command == 'listHosts':
+    #                 deferreds.append(call(type='Routing'))
+    #             else:
+    #                 deferreds.append(call())
+
+    deferreds.append(client.listSystemVms())
 
     DeferredList(deferreds, consumeErrors=True).addCallback(callback)
     reactor.run()

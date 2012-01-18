@@ -86,6 +86,26 @@ class IPodInfo(IBaseComponentInfo):
     host_count = schema.Int(title=_t(u"Host Count"))
 
 
+class ISystemVMInfo(IBaseComponentInfo):
+    """Interface for SystemVM API (Info) adapter."""
+
+    systemvm_type = SingleLineText(title=_t(u"System VM Type"))
+    hostname = SingleLineText(title=_t(u"Hostname"))
+    host_id = schema.Int(title=_t(u"Host ID"))
+    network_domain = SingleLineText(title=_t(u"Network Domain"))
+    gateway = SingleLineText(title=_t(u"Gateway"))
+    public_ip = SingleLineText(title=_t(u"Public IP Address"))
+    public_netmask = SingleLineText(title=_t(u"Public Netmask"))
+    public_macaddress = SingleLineText(title=_t(u"Public MAC Address"))
+    private_ip = SingleLineText(title=_t(u"Private IP Address"))
+    private_netmask = SingleLineText(title=_t(u"Private Netmask"))
+    private_macaddress = SingleLineText(title=_t(u"Private MAC Addresss"))
+    linklocal_ip = SingleLineText(title=_t(u"Link-local IP Address"))
+    linklocal_netmask = SingleLineText(title=_t(u"Link-local Netmask"))
+    linklocal_macaddress = SingleLineText(title=_t(u"Link-local MAC Address"))
+    template_id = schema.Int(title=_t(u"Template ID"))
+
+
 class IClusterInfo(IBaseComponentInfo):
     """Interface for Cluster API (Info) adapter."""
 

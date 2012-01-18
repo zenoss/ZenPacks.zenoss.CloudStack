@@ -14,8 +14,6 @@
 import logging
 LOG = logging.getLogger('zen.CloudStack')
 
-import json
-
 from twisted.internet.defer import DeferredList
 
 from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
@@ -62,6 +60,7 @@ class CloudStack(PythonPlugin):
             client.listPods(),
             client.listClusters(),
             client.listHosts(type="Routing"),
+            client.listSystemVms(),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
 
@@ -87,7 +86,7 @@ class CloudStack(PythonPlugin):
     def process(self, device, results, unused):
         maps = []
 
-        for t in ('zones', 'pods', 'clusters', 'hosts'):
+        for t in ('zones', 'pods', 'clusters', 'hosts', 'systemvms'):
             response = results.get('list%sresponse' % t, None)
             if response is None:
                 LOG.error('No list%s response from API', t.capitalize())
@@ -226,4 +225,43 @@ class CloudStack(PythonPlugin):
                 compname=compname,
                 relname='hosts',
                 modname='ZenPacks.zenoss.CloudStack.Host',
+                objmaps=obj_maps)
+
+    def get_systemvms_rel_maps(self, systemvms_response):
+        systemvm_maps = {}
+        for systemvm in systemvms_response.get('systemvm', []):
+            zone_id = self.prepId('zone%s' % systemvm['zoneid'])
+            pod_id = self.prepId('pod%s' % systemvm['podid'])
+            systemvm_id = self.prepId('systemvm%s' % systemvm['id'])
+
+            compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
+
+            systemvm_maps.setdefault(compname, [])
+
+            systemvm_maps[compname].append(ObjectMap(data=dict(
+                id=systemvm_id,
+                title=systemvm.get('name', systemvm_id),
+                cloudstack_id=systemvm['id'],
+                gateway=systemvm.get('gateway', ''),
+                host_id=systemvm.get('hostid', None),
+                hostname=systemvm.get('hostname', ''),
+                linklocal_ip=systemvm.get('linklocalip', ''),
+                linklocal_macaddress=systemvm.get('linklocalmacaddress', ''),
+                linklocal_netmask=systemvm.get('linklocalnetmask', ''),
+                network_domain=systemvm.get('networkdomain', ''),
+                private_ip=systemvm.get('privateip', ''),
+                private_macaddress=systemvm.get('privatemacaddress', ''),
+                private_netmask=systemvm.get('privatenetmask', ''),
+                public_ip=systemvm.get('publicip', ''),
+                public_macaddress=systemvm.get('publicmacaddress', ''),
+                public_netmask=systemvm.get('publicnetmask', ''),
+                systemvm_type=systemvm.get('systemvmtype', ''),
+                template_id=systemvm.get('templateid', None),
+                )))
+
+        for compname, obj_maps in systemvm_maps.items():
+            yield RelationshipMap(
+                compname=compname,
+                relname='systemvms',
+                modname='ZenPacks.zenoss.CloudStack.SystemVM',
                 objmaps=obj_maps)
