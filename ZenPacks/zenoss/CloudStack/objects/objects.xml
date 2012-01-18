@@ -51,9 +51,6 @@ COMMAND
 <property type="boolean" id="enabled" mode="w" >
 True
 </property>
-<property type="string" id="component" mode="w" >
-cloud
-</property>
 <property type="string" id="eventClass" mode="w" >
 /Cmd/Fail
 </property>
@@ -373,9 +370,6 @@ COMMAND
 </property>
 <property type="boolean" id="enabled" mode="w" >
 True
-</property>
-<property type="string" id="component" mode="w" >
-cloud
 </property>
 <property type="string" id="eventClass" mode="w" >
 /Cmd/Fail

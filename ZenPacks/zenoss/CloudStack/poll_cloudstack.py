@@ -2,7 +2,7 @@
 ###########################################################################
 #
 # This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2011, Zenoss Inc.
+# Copyright (C) 2011, 2012 Zenoss Inc.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 or (at your
@@ -308,6 +308,22 @@ class CloudStackPoller(object):
 
         return values
 
+    def _process_listSystemVms(self, response):
+        values = {}
+
+        for systemvm in response.get('systemvm', []):
+            if systemvm['systemvmtype'] != 'consoleproxy':
+                continue
+
+            systemvm_id = 'systemvm%s' % systemvm['id']
+
+            if 'activeviewersessions' in systemvm:
+                values[systemvm_id] = {
+                    'activeViewerSessions': systemvm['activeviewersessions'],
+                    }
+
+        return values
+
     def _process_listCapacity(self, response):
         values = {'cloud': {}}
 
@@ -424,6 +440,10 @@ class CloudStackPoller(object):
                     else:
                         self._values[component] = values
 
+        if 'listsystemvmsresponse' in data:
+            self._values.update(
+                self._process_listSystemVms(data['listsystemvmsresponse']))
+
         if len(self._values.keys()) > 0:
             self._save(self._values, key='values')
 
@@ -463,6 +483,7 @@ class CloudStackPoller(object):
             deferreds.extend((
                 client.listCapacity(),
                 client.listHosts(type="Routing"),
+                client.listSystemVms(),
                 ))
 
         DeferredList(deferreds, consumeErrors=True).addCallback(self._callback)

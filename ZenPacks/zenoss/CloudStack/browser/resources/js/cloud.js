@@ -234,25 +234,25 @@ ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 dataIndex: 'systemvm_type',
                 header: _t('Type'),
                 sortable: true,
-                width: 80
+                width: 125
             },{
                 id: 'network_domain',
                 dataIndex: 'network_domain',
                 header: _t('Network Domain'),
                 sortable: true,
-                width: 80
+                width: 115
             },{
                 id: 'public_ip',
                 dataIndex: 'public_ip',
                 header: _t('Public IP'),
                 sortable: true,
-                width: 80
+                width: 85
             },{
                 id: 'private_ip',
                 dataIndex: 'private_ip',
                 header: _t('Private IP'),
                 sortable: true,
-                width: 80
+                width: 85
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
