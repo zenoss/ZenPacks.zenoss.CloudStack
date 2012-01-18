@@ -1,7 +1,7 @@
 ###########################################################################
 #
 # This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2011, Zenoss Inc.
+# Copyright (C) 2011, 2012 Zenoss Inc.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 or (at your
@@ -211,31 +211,29 @@ if __name__ == '__main__':
                 print result.printTraceback()
 
     deferreds = []
-    # if len(sys.argv) < 2:
-    #     deferreds.extend((
-    #         client.listConfigurations(name='default.page.size'),
-    #         client.listZones(),
-    #         client.listPods(),
-    #         client.listClusters(),
-    #         client.listHosts(),
-    #         client.listSystemVms(),
-    #         client.listVirtualMachines(),
-    #         client.listCapacity(),
-    #         client.listAlerts(),
-    #         client.listEvents(),
-    #         ))
-    # else:
-    #     for command in sys.argv[1:]:
-    #         call = getattr(client, command, None)
-    #         if call is not None:
-    #             if command == 'listConfigurations':
-    #                 deferreds.append(call(name='default.page.size'))
-    #             elif command == 'listHosts':
-    #                 deferreds.append(call(type='Routing'))
-    #             else:
-    #                 deferreds.append(call())
-
-    deferreds.append(client.listSystemVms())
+    if len(sys.argv) < 2:
+        deferreds.extend((
+            client.listConfigurations(name='default.page.size'),
+            client.listZones(),
+            client.listPods(),
+            client.listClusters(),
+            client.listHosts(),
+            client.listSystemVms(),
+            client.listVirtualMachines(),
+            client.listCapacity(),
+            client.listAlerts(),
+            client.listEvents(),
+            ))
+    else:
+        for command in sys.argv[1:]:
+            call = getattr(client, command, None)
+            if call is not None:
+                if command == 'listConfigurations':
+                    deferreds.append(call(name='default.page.size'))
+                elif command == 'listHosts':
+                    deferreds.append(call(type='Routing'))
+                else:
+                    deferreds.append(call())
 
     DeferredList(deferreds, consumeErrors=True).addCallback(callback)
     reactor.run()
