@@ -11,7 +11,7 @@
 #
 ###########################################################################
 
-from Products.ZenRelations.RelSchema import ToManyCont, ToOne
+from Products.ZenRelations.RelSchema import ToMany, ToManyCont, ToOne
 
 from ZenPacks.zenoss.CloudStack import BaseComponent
 
@@ -20,8 +20,6 @@ class SystemVM(BaseComponent):
     meta_type = portal_type = "SystemVM"
 
     gateway = None
-    host_id = None
-    hostname = None
     linklocal_ip = None
     linklocal_macaddress = None
     linklocal_netmask = None
@@ -37,8 +35,6 @@ class SystemVM(BaseComponent):
 
     _properties = BaseComponent._properties + (
         {'id': 'gateway', 'type': 'string', 'mode': 'w'},
-        {'id': 'host_id', 'type': 'int', 'mode': 'w'},
-        {'id': 'hostname', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_ip', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_macaddress', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_netmask', 'type': 'string', 'mode': 'w'},
@@ -58,10 +54,28 @@ class SystemVM(BaseComponent):
             'ZenPacks.zenoss.CloudStack.Pod.Pod',
             'systemvms')
             ),
+
+        ('host', ToOne(ToMany,
+            'ZenPacks.zenoss.CloudStack.Host.Host',
+            'systemvms')
+            ),
         )
 
     def device(self):
         return self.pod().device()
+
+    def setHostId(self, host_id):
+        import pdb; pdb.set_trace()
+        for cluster in self.pod.clusters():
+            for host in cluster.hosts():
+                if host_id == host.cloudstack_id:
+                    self.host.addRelation(host)
+                    return
+
+    def getHostId(self):
+        host = self.host()
+        if host:
+            return host.cloudstack_id
 
     def getRRDTemplateName(self):
         if self.systemvm_type == 'consoleproxy':

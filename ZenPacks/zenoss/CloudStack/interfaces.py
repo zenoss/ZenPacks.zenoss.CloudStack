@@ -90,8 +90,7 @@ class ISystemVMInfo(IBaseComponentInfo):
     """Interface for SystemVM API (Info) adapter."""
 
     systemvm_type = SingleLineText(title=_t(u"System VM Type"))
-    hostname = SingleLineText(title=_t(u"Hostname"))
-    host_id = schema.Int(title=_t(u"Host ID"))
+    host = schema.Entity(title=_t(u"Host"))
     network_domain = SingleLineText(title=_t(u"Network Domain"))
     gateway = SingleLineText(title=_t(u"Gateway"))
     public_ip = SingleLineText(title=_t(u"Public IP Address"))

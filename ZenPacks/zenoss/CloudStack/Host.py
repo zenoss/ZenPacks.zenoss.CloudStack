@@ -11,7 +11,7 @@
 #
 ###########################################################################
 
-from Products.ZenRelations.RelSchema import ToManyCont, ToOne
+from Products.ZenRelations.RelSchema import ToMany, ToManyCont, ToOne
 
 from ZenPacks.zenoss.CloudStack import BaseComponent
 
@@ -49,6 +49,11 @@ class Host(BaseComponent):
         ('cluster', ToOne(ToManyCont,
             'ZenPacks.zenoss.CloudStack.Cluster.Cluster',
             'hosts')
+            ),
+
+        ('systemvms', ToMany(ToOne,
+            'ZenPacks.zenoss.CloudStack.SystemVM.SystemVM',
+            'host')
             ),
         )
 

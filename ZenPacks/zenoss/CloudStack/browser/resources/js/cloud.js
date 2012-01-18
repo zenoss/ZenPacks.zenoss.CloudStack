@@ -197,6 +197,7 @@ ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'entity'},
                 {name: 'zone'},
                 {name: 'pod'},
+                {name: 'host'},
                 {name: 'systemvm_type'},
                 {name: 'network_domain'},
                 {name: 'public_ip'},
@@ -227,6 +228,12 @@ ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 id: 'pod',
                 dataIndex: 'pod',
                 header: _t('Pod'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'host',
+                dataIndex: 'host',
+                header: _t('Host'),
                 renderer: Zenoss.render.entityLinkFromGrid,
                 width: 140
             },{

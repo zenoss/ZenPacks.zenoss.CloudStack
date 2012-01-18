@@ -243,8 +243,6 @@ class CloudStack(PythonPlugin):
                 title=systemvm.get('name', systemvm_id),
                 cloudstack_id=systemvm['id'],
                 gateway=systemvm.get('gateway', ''),
-                host_id=systemvm.get('hostid', None),
-                hostname=systemvm.get('hostname', ''),
                 linklocal_ip=systemvm.get('linklocalip', ''),
                 linklocal_macaddress=systemvm.get('linklocalmacaddress', ''),
                 linklocal_netmask=systemvm.get('linklocalnetmask', ''),
@@ -257,6 +255,7 @@ class CloudStack(PythonPlugin):
                 public_netmask=systemvm.get('publicnetmask', ''),
                 systemvm_type=systemvm.get('systemvmtype', ''),
                 template_id=systemvm.get('templateid', None),
+                setHostId=systemvm.get('hostid', None),
                 )))
 
         for compname, obj_maps in systemvm_maps.items():

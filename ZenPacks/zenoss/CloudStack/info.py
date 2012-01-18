@@ -178,6 +178,11 @@ class SystemVMInfo(BaseComponentInfo):
     def pod(self):
         return self._object.pod()
 
+    @property
+    @info
+    def host(self):
+        return self._object.host()
+
 
 class ClusterInfo(BaseComponentInfo):
     """Cluster API (Info) adapter factory."""
