@@ -421,6 +421,23 @@ Zenoss.nav.appendTo('Component', [{
 }]);
 
 Zenoss.nav.appendTo('Component', [{
+    id: 'component_systemvms',
+    text: _t('Related System VMs'),
+    xtype: 'SystemVMPanel',
+    subComponentGridPanel: true,
+    filterNav: function(navpanel) {
+        switch (navpanel.refOwner.componentType) {
+            case 'Zone': return true;
+            case 'Pod': return true;
+            default: return false;
+        }
+    },
+    setContext: function(uid) {
+        ZC.SystemVMPanel.superclass.setContext.apply(this, [uid]);
+    }
+}]);
+
+Zenoss.nav.appendTo('Component', [{
     id: 'component_clusters',
     text: _t('Related Clusters'),
     xtype: 'ClusterPanel',
