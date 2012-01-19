@@ -51,6 +51,9 @@ COMMAND
 <property type="boolean" id="enabled" mode="w" >
 True
 </property>
+<property type="string" id="component" mode="w" >
+cloud
+</property>
 <property type="string" id="eventClass" mode="w" >
 /Cmd/Fail
 </property>
@@ -88,9 +91,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -126,9 +126,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -147,9 +144,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -185,9 +179,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -230,9 +221,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='primaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -268,9 +256,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='privateIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -297,9 +282,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 </object>
 <object id='publicIPsTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -328,9 +310,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='secondaryStorageTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -358,9 +337,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 </tomanycont>
 </object>
@@ -370,6 +346,9 @@ COMMAND
 </property>
 <property type="boolean" id="enabled" mode="w" >
 True
+</property>
+<property type="string" id="component" mode="w" >
+cloud
 </property>
 <property type="string" id="eventClass" mode="w" >
 /Cmd/Fail
@@ -1811,9 +1790,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='cpuCores' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -1869,9 +1845,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 </object>
 <object id='memoryAllocated' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
@@ -1893,9 +1866,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 </object>
 <object id='memoryTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -1929,9 +1899,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -2860,9 +2827,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
@@ -2948,9 +2912,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
@@ -2984,9 +2945,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
@@ -3038,9 +2996,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
@@ -3848,9 +3803,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -3910,9 +3862,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -3943,9 +3892,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -4005,9 +3951,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -4074,9 +4017,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -4136,9 +4076,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -4183,9 +4120,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5236,6 +5170,39 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
+<object id='SystemVM' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.ZenModel.Device
+</property>
+<tomanycont id='datasources'>
+<object id='fileTouch' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+COMMAND
+</property>
+<property type="boolean" id="enabled" mode="w" >
+False
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Cmd/Fail
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="string" id="commandTemplate" mode="w" >
+ssh -i ${device/zKeyPath} ${device/zCommandUsername}@${here/host/ip_address} ssh -i /root/.ssh/id_rsa.cloud -p3922 ${here/linklocal_ip} "touch zenosstest ; rm zenosstest"
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="boolean" id="usessh" mode="w" >
+False
+</property>
+<property type="string" id="parser" mode="w" >
+Auto
+</property>
+</object>
+</tomanycont>
+</object>
 <object id='Zone' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Aggregate capacity metrics for a CloudStack zone. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5303,9 +5270,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5365,9 +5329,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5398,9 +5359,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5460,9 +5418,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5529,9 +5484,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5591,9 +5543,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5638,9 +5587,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
@@ -5687,9 +5633,6 @@ True
 <property type="string" id="rrdmin" mode="w" >
 0
 </property>
-<property type="string" id="rrdmax" mode="w" >
-100
-</property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -5734,9 +5677,6 @@ True
 </property>
 <property type="string" id="rrdmin" mode="w" >
 0
-</property>
-<property type="string" id="rrdmax" mode="w" >
-100
 </property>
 <property type="string" id="description" mode="w" >
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
