@@ -76,8 +76,10 @@ class SystemVM(BaseComponent):
         if host:
             return host.cloudstack_id
 
-    def getRRDTemplateName(self):
-        if self.systemvm_type == 'consoleproxy':
-            return 'ConsoleProxy'
+    def getRRDTemplates(self):
+        templates = super(BaseComponent, self).getRRDTemplates()
 
-        return super(BaseComponent, self).getRRDTemplateName()
+        if self.systemvm_type == 'consoleproxy':
+            templates.append(self.getRRDTemplateByName('ConsoleProxy'))
+
+        return templates
