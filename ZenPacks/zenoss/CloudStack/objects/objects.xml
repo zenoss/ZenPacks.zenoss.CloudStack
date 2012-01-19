@@ -5182,23 +5182,29 @@ COMMAND
 <property type="boolean" id="enabled" mode="w" >
 False
 </property>
+<property type="string" id="component" mode="w" >
+${here/id}
+</property>
 <property type="string" id="eventClass" mode="w" >
-/Cmd/Fail
+/Status/CloudStack
+</property>
+<property type="string" id="eventKey" mode="w" >
+fileTouch
 </property>
 <property type="int" id="severity" mode="w" >
-3
+5
 </property>
 <property type="string" id="commandTemplate" mode="w" >
-ssh -i ${device/zKeyPath} ${device/zCommandUsername}@${here/host/ip_address} ssh -i /root/.ssh/id_rsa.cloud -p3922 ${here/linklocal_ip} "touch zenosstest ; rm zenosstest"
+${here/touch_test_command}
 </property>
 <property type="int" id="cycletime" mode="w" >
-300
+60
 </property>
 <property type="boolean" id="usessh" mode="w" >
 False
 </property>
 <property type="string" id="parser" mode="w" >
-Auto
+Nagios
 </property>
 </object>
 </tomanycont>
