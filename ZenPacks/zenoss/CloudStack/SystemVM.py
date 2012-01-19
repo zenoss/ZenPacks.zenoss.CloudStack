@@ -65,7 +65,6 @@ class SystemVM(BaseComponent):
         return self.pod().device()
 
     def setHostId(self, host_id):
-        import pdb; pdb.set_trace()
         for cluster in self.pod.clusters():
             for host in cluster.hosts():
                 if host_id == host.cloudstack_id:
