@@ -90,8 +90,15 @@ class CloudStackPoller(object):
         if not os.path.isfile(tmpfile):
             return []
 
+        data = None
+
         tmp = open(tmpfile, 'r')
-        data = json.load(tmp)
+
+        try:
+            data = json.load(tmp)
+        except ValueError:
+            pass
+
         tmp.close()
         return data
 
@@ -327,7 +334,9 @@ class CloudStackPoller(object):
                     values[vm_id]['cpuTotal'] = (
                         vm['cpunumber'] * vm['cpuspeed'] * 1e6)
 
-            if 'cpuUsedPercent' and 'cpuTotal' in values[vm_id]:
+            if 'cpuUsedPercent' in values[vm_id] and \
+                'cpuTotal' in values[vm_id]:
+
                 values[vm_id]['cpuUsed'] = (
                     values[vm_id]['cpuTotal'] * (
                         values[vm_id]['cpuUsedPercent'] * 0.01))
