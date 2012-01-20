@@ -5361,7 +5361,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-2
+1
 </property>
 <tomanycont id='graphPoints'>
 <object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
@@ -5456,7 +5456,7 @@ False
 True
 </property>
 <property type="long" id="sequence" mode="w" >
-1
+2
 </property>
 <tomanycont id='graphPoints'>
 <object id='Read' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
