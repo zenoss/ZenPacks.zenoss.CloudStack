@@ -63,7 +63,7 @@ class VirtualMachine(BaseComponent):
 
         ('host', ToOne(ToMany,
             'ZenPacks.zenoss.CloudStack.Host.Host',
-            'systemvms')
+            'vms')
             ),
         )
 
