@@ -391,7 +391,7 @@ True
 0
 </property>
 </object>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -431,7 +431,7 @@ True
 0
 </property>
 </object>
-<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -471,7 +471,7 @@ True
 0
 </property>
 </object>
-<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -491,7 +491,7 @@ True
 0
 </property>
 </object>
-<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -511,7 +511,7 @@ True
 0
 </property>
 </object>
-<object id='public IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_publicIPsUsedPercent']
 </property>
@@ -531,7 +531,7 @@ True
 0
 </property>
 </object>
-<object id='secondary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_secondaryStorageUsedPercent']
 </property>
@@ -1522,7 +1522,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -1947,7 +1947,7 @@ True
 0
 </property>
 </object>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -1987,7 +1987,7 @@ True
 0
 </property>
 </object>
-<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -2533,7 +2533,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -3059,7 +3059,7 @@ True
 0
 </property>
 </object>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -3099,7 +3099,7 @@ True
 0
 </property>
 </object>
-<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -3645,7 +3645,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -4149,7 +4149,7 @@ True
 0
 </property>
 </object>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -4189,7 +4189,7 @@ True
 0
 </property>
 </object>
-<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -4229,7 +4229,7 @@ True
 0
 </property>
 </object>
-<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -4249,7 +4249,7 @@ True
 0
 </property>
 </object>
-<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -5050,7 +5050,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5243,6 +5243,39 @@ False
 ZenPacks.zenoss.CloudStack.parsers.CloudStack
 </property>
 <tomanycont id='datapoints'>
+<object id='cpuCores' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
+</object>
+<object id='cpuTotal' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
+</object>
+<object id='cpuUsed' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+<property type="string" id="rrdmin" mode="w" >
+0
+</property>
+</object>
 <object id='cpuUsedPercent' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
@@ -5280,7 +5313,7 @@ True
 </object>
 </tomanycont>
 <tomanycont id='thresholds'>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -5302,6 +5335,101 @@ False
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
+<object id='CloudStack - CPU Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+Hz
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<tomanycont id='graphPoints'>
+<object id='Total' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
+<property type="string" id="color" mode="w" >
+333333
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+2
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuTotal
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='Used' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+00cc00
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%6.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+cloudstack_cpuUsed
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
 <object id='CloudStack - Network Throughput' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
@@ -5391,7 +5519,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
@@ -5956,7 +6084,7 @@ True
 0
 </property>
 </object>
-<object id='CPU usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -5996,7 +6124,7 @@ True
 0
 </property>
 </object>
-<object id='memory usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -6036,7 +6164,7 @@ True
 0
 </property>
 </object>
-<object id='primary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -6056,7 +6184,7 @@ True
 0
 </property>
 </object>
-<object id='private IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -6076,7 +6204,7 @@ True
 0
 </property>
 </object>
-<object id='public IP usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_publicIPsUsedPercent']
 </property>
@@ -6096,7 +6224,7 @@ True
 0
 </property>
 </object>
-<object id='secondary storage usage' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_secondaryStorageUsedPercent']
 </property>
@@ -7087,7 +7215,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='CloudStack - Usage' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='CloudStack - Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>

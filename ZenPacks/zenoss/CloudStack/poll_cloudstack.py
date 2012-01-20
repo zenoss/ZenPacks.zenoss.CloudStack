@@ -308,6 +308,40 @@ class CloudStackPoller(object):
 
         return values
 
+    def _process_listVirtualMachines(self, response):
+        values = {}
+
+        for vm in response.get('virtualmachine', []):
+            vm_id = 'vm%s' % vm['id']
+
+            values[vm_id] = {}
+
+            if 'cpuused' in vm:
+                values[vm_id]['cpuUsedPercent'] = float(
+                    vm.get('cpuused', '0%').rstrip('%'))
+
+            if 'cpunumber' in vm:
+                values[vm_id]['cpuCores'] = vm['cpunumber']
+
+                if 'cpuspeed' in vm:
+                    values[vm_id]['cpuTotal'] = (
+                        vm['cpunumber'] * vm['cpuspeed'] * 1e6)
+
+            if 'cpuUsedPercent' and 'cpuTotal' in values[vm_id]:
+                values[vm_id]['cpuUsed'] = (
+                    values[vm_id]['cpuTotal'] * (
+                        values[vm_id]['cpuUsedPercent'] * 0.01))
+
+            if 'networkkbsread' in vm:
+                values[vm_id]['networkRead'] = float(
+                    vm.get('networkkbsread', 0)) * 1024 * 8
+
+            if 'networkkbswrite' in vm:
+                values[vm_id]['networkWrite'] = float(
+                    vm.get('networkkbswrite', 0)) * 1024 * 8
+
+        return values
+
     def _process_listSystemVms(self, response):
         values = {}
 
@@ -444,6 +478,11 @@ class CloudStackPoller(object):
             self._values.update(
                 self._process_listSystemVms(data['listsystemvmsresponse']))
 
+        if 'listvirtualmachinesresponse' in data:
+            self._values.update(
+                self._process_listVirtualMachines(
+                    data['listvirtualmachinesresponse']))
+
         if len(self._values.keys()) > 0:
             self._save(self._values, key='values')
 
@@ -484,6 +523,7 @@ class CloudStackPoller(object):
                 client.listCapacity(),
                 client.listHosts(type="Routing"),
                 client.listSystemVms(),
+                client.listVirtualMachines(state="Running"),
                 ))
 
         DeferredList(deferreds, consumeErrors=True).addCallback(self._callback)
