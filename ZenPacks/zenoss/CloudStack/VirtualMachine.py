@@ -19,6 +19,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 class VirtualMachine(BaseComponent):
     meta_type = portal_type = "VirtualMachine"
 
+    account = None
     cpu_number = None
     cpu_speed = None
     created = None
@@ -36,6 +37,7 @@ class VirtualMachine(BaseComponent):
     template = None
 
     _properties = BaseComponent._properties + (
+        {'id': 'account', 'type': 'string', 'mode': 'w'},
         {'id': 'cpu_number', 'type': 'int', 'mode': 'w'},
         {'id': 'cpu_speed', 'type': 'int', 'mode': 'w'},
         {'id': 'created', 'type': 'string', 'mode': 'w'},

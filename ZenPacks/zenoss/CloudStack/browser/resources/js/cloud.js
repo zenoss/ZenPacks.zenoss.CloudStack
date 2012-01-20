@@ -348,11 +348,11 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'uid'},
                 {name: 'name'},
                 {name: 'severity'},
+                {name: 'entity'},
+                {name: 'managed_device'},
                 {name: 'zone'},
                 {name: 'pod'},
                 {name: 'cluster'},
-                {name: 'host_device'},
-                {name: 'entity'},
                 {name: 'monitor'},
                 {name: 'monitored'}
             ],
@@ -370,6 +370,16 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.entityLinkFromGrid,
                 panel: this
             },{
+                id: 'managed_device',
+                dataIndex: 'managed_device',
+                header: _t('Managed Device'),
+                renderer: function(obj) {
+                    if (obj && obj.uid && obj.name) {
+                        return Zenoss.render.link(obj.uid, undefined, obj.name);
+                    }
+                },
+                width: 140
+            },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
@@ -386,16 +396,6 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 dataIndex: 'cluster',
                 header: _t('Cluster'),
                 renderer: Zenoss.render.entityLinkFromGrid,
-                width: 140
-            },{
-                id: 'host_device',
-                dataIndex: 'host_device',
-                header: _t('Managed Device'),
-                renderer: function(obj) {
-                    if (obj && obj.uid && obj.name) {
-                        return Zenoss.render.link(obj.uid, undefined, obj.name);
-                    }
-                },
                 width: 140
             },{
                 id: 'monitored',
@@ -423,11 +423,13 @@ ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'severity'},
                 {name: 'entity'},
                 {name: 'display_name'},
+                {name: 'account'},
+                {name: 'managed_device'},
                 {name: 'zone'},
                 {name: 'host'},
-                {name: 'service_offering'},
+                {name: 'cpu_number'},
+                {name: 'cpu_speed'},
                 {name: 'memory'},
-                {name: 'managed_device'},
                 {name: 'state'},
                 {name: 'monitor'},
                 {name: 'monitored'}
@@ -452,6 +454,21 @@ ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Display Name'),
                 sortable: true
             },{
+                id: 'account',
+                dataIndex: 'account',
+                header: _t('Account'),
+                sortable: true
+            },{
+                id: 'managed_device',
+                dataIndex: 'managed_device',
+                header: _t('Managed Device'),
+                renderer: function(obj) {
+                    if (obj && obj.uid && obj.name) {
+                        return Zenoss.render.link(obj.uid, undefined, obj.name);
+                    }
+                },
+                width: 140
+            },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
@@ -464,28 +481,26 @@ ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.entityLinkFromGrid,
                 width: 140
             },{
-                id: 'service_offering',
-                dataIndex: 'service_offering',
-                header: _t('Service Offering'),
+                id: 'cpu_total',
+                dataIndex: 'cpu_number',
+                header: _t('CPU'),
+                renderer: function(name, col, record) {
+                    var item = record.data;
+                    if (item.cpu_number && item.cpu_speed) {
+                        return (item.cpu_number * item.cpu_speed) + ' MHz';
+                    }
+
+                    return "Unknown";
+                },
                 sortable: true,
-                width: 140
+                width: 70
             },{
                 id: 'memory',
                 dataIndex: 'memory',
                 header: _t('Memory'),
                 renderer: Zenoss.render.memory,
                 sortable: true,
-                width: 75
-            },{
-                id: 'managed_device',
-                dataIndex: 'managed_device',
-                header: _t('Managed Device'),
-                renderer: function(obj) {
-                    if (obj && obj.uid && obj.name) {
-                        return Zenoss.render.link(obj.uid, undefined, obj.name);
-                    }
-                },
-                width: 140
+                width: 70
             },{
                 id: 'state',
                 dataIndex: 'state',

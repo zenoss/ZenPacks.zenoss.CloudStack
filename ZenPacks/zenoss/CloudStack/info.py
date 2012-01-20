@@ -243,8 +243,8 @@ class HostInfo(BaseComponentInfo):
 
     @property
     @info
-    def host_device(self):
-        return self._object.getHostDevice()
+    def managed_device(self):
+        return self._object.getManagedDevice()
 
 
 class VirtualMachineInfo(BaseComponentInfo):
@@ -252,6 +252,7 @@ class VirtualMachineInfo(BaseComponentInfo):
 
     implements(IVirtualMachineInfo)
 
+    account = ProxyProperty('account')
     cpu_number = ProxyProperty('cpu_number')
     cpu_speed = ProxyProperty('cpu_speed')
     created = ProxyProperty('created')

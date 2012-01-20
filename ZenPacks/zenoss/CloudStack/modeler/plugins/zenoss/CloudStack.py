@@ -301,6 +301,7 @@ class CloudStack(PythonPlugin):
                 id=vm_id,
                 title=vm.get('name', vm_id),
                 cloudstack_id=vm['id'],
+                account=vm.get('account', ''),
                 cpu_number=vm.get('cpunumber', None),
                 cpu_speed=vm.get('cpuspeed', None),
                 created=vm.get('created', ''),

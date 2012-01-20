@@ -133,12 +133,13 @@ class IHostInfo(IBaseComponentInfo):
     zone = schema.Entity(title=_t(u"Zone"))
     pod = schema.Entity(title=_t(u"Pod"))
     cluster = schema.Entity(title=_t(u"Cluster"))
-    host_device = schema.Entity(title=_t(u"Host Device"))
+    managed_device = schema.Entity(title=_t(u"Managed Device"))
 
 
 class IVirtualMachineInfo(IBaseComponentInfo):
     """Interface for VirtualMachine API (Info) adapter."""
 
+    account = SingleLineText(title=_t(u"Account"))
     cpu_number = schema.Int(title=_t(u"Number of CPUs"))
     cpu_speed = schema.Int(title=_t(u"CPU Speed"))
     created = SingleLineText(title=_t(u"Created"))

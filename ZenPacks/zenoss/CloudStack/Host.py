@@ -65,7 +65,7 @@ class Host(BaseComponent):
     def device(self):
         return self.cluster().device()
 
-    def getHostDevice(self):
+    def getManagedDevice(self):
         device = self.findDevice(self.ip_address)
         if device:
             return device
