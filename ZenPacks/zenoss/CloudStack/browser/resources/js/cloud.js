@@ -415,13 +415,14 @@ Ext.reg('HostPanel', ZC.HostPanel);
 ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'display_name',
             componentType: 'VirtualMachine',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
                 {name: 'severity'},
                 {name: 'entity'},
+                {name: 'display_name'},
                 {name: 'zone'},
                 {name: 'host'},
                 {name: 'service_offering'},
@@ -443,7 +444,13 @@ ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 dataIndex: 'entity',
                 header: _t('Name'),
                 renderer: Zenoss.render.entityLinkFromGrid,
-                panel: this
+                panel: this,
+                width: 140
+            },{
+                id: 'display_name',
+                dataIndex: 'display_name',
+                header: _t('Display Name'),
+                sortable: true
             },{
                 id: 'zone',
                 dataIndex: 'zone',
