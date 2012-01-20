@@ -16,48 +16,58 @@ from Products.ZenRelations.RelSchema import ToMany, ToManyCont, ToOne
 from ZenPacks.zenoss.CloudStack import BaseComponent, TouchTestMixin
 
 
-class SystemVM(BaseComponent, TouchTestMixin):
-    meta_type = portal_type = "SystemVM"
+class RouterVM(BaseComponent, TouchTestMixin):
+    meta_type = portal_type = "CloudStackRouterVM"
 
+    account = None
+    created = None
+    dns1 = None
+    dns2 = None
+    domain = None
     gateway = None
+    guest_ip = None
+    guest_macaddress = None
+    guest_netmask = None
     linklocal_ip = None
     linklocal_macaddress = None
     linklocal_netmask = None
     network_domain = None
-    private_ip = None
-    private_macaddress = None
-    private_netmask = None
     public_ip = None
     public_macaddress = None
     public_netmask = None
-    systemvm_type = None
+    state = None
     template_id = None
 
     _properties = BaseComponent._properties + (
+        {'id': 'account', 'type': 'string', 'mode': 'w'},
+        {'id': 'created', 'type': 'string', 'mode': 'w'},
+        {'id': 'dns1', 'type': 'string', 'mode': 'w'},
+        {'id': 'dns2', 'type': 'string', 'mode': 'w'},
+        {'id': 'domain', 'type': 'string', 'mode': 'w'},
         {'id': 'gateway', 'type': 'string', 'mode': 'w'},
+        {'id': 'guest_ip', 'type': 'string', 'mode': 'w'},
+        {'id': 'guest_macaddress', 'type': 'string', 'mode': 'w'},
+        {'id': 'guest_netmask', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_ip', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_macaddress', 'type': 'string', 'mode': 'w'},
         {'id': 'linklocal_netmask', 'type': 'string', 'mode': 'w'},
         {'id': 'network_domain', 'type': 'string', 'mode': 'w'},
-        {'id': 'private_ip', 'type': 'string', 'mode': 'w'},
-        {'id': 'private_macaddress', 'type': 'string', 'mode': 'w'},
-        {'id': 'private_netmask', 'type': 'string', 'mode': 'w'},
         {'id': 'public_ip', 'type': 'string', 'mode': 'w'},
         {'id': 'public_macaddress', 'type': 'string', 'mode': 'w'},
         {'id': 'public_netmask', 'type': 'string', 'mode': 'w'},
-        {'id': 'systemvm_type', 'type': 'string', 'mode': 'w'},
+        {'id': 'state', 'type': 'string', 'mode': 'w'},
         {'id': 'template_id', 'type': 'int', 'mode': 'w'},
         )
 
     _relations = BaseComponent._relations + (
         ('pod', ToOne(ToManyCont,
             'ZenPacks.zenoss.CloudStack.Pod.Pod',
-            'systemvms')
+            'routervms')
             ),
 
         ('host', ToOne(ToMany,
             'ZenPacks.zenoss.CloudStack.Host.Host',
-            'systemvms')
+            'routervms')
             ),
         )
 
@@ -82,10 +92,5 @@ class SystemVM(BaseComponent, TouchTestMixin):
         file_touch = self.getRRDTemplateByName("FileTouch")
         if file_touch:
             templates.append(file_touch)
-
-        if self.systemvm_type == 'consoleproxy':
-            console_proxy = self.getRRDTemplateByName('ConsoleProxy')
-            if console_proxy:
-                templates.append(console_proxy)
 
         return templates

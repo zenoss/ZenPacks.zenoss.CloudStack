@@ -102,6 +102,75 @@ class BaseComponent(DeviceComponent, ManagedEntity):
         return '/++resource++cloudstack/img/cloudstack.png'
 
 
+class TouchTestMixin(object):
+    """Common code for objects that support a "touch test"."""
+
+    def ssh_prefix(self):
+        """SSH prefix for connecting to system VMs through their host.
+
+        This is necessary because system VMs are only able to be connected to
+        via SSH through their link-local IP address. The only server that can
+        reach the link-local IP is the host that the VM is currently running on.
+
+        """
+
+        host_ip = None
+        host = self.host()
+        if host and host.ip_address:
+            host_ip = host.ip_address
+        else:
+            # From TEST-NET. Should never be a real IP address.
+            host_ip = '192.0.2.1'
+
+        key_option = None
+        if self.primaryAq().zKeyPath:
+            key_option = '-i %s' % self.primaryAq().zKeyPath
+        else:
+            key_option = ''
+
+        user_prefix = None
+        if self.primaryAq().zCommandUsername:
+            user_prefix = '%s@' % self.primaryAq().zCommandUsername
+        else:
+            user_prefix = ''
+
+        connect_timeout = None
+        if self.primaryAq().zCommandCommandTimeout:
+            connect_timeout = int(self.primaryAq().zCommandCommandTimeout) / 2
+        else:
+            connect_timeout = 30
+
+        ssh_options = (
+            "-q ",
+            "-o ConnectTimeout=%s" % connect_timeout,
+            "-o StrictHostKeyChecking=no",
+            "-o UserKnownHostsFile=/dev/null",
+            )
+
+        context = {
+            'key_option': key_option,
+            'user_prefix': user_prefix,
+            'ssh_options': ' '.join(ssh_options),
+            'host_ip': host_ip,
+            'linklocal_ip': self.linklocal_ip,
+            }
+
+        return (
+            "ssh %(key_option)s %(ssh_options)s "
+            "%(user_prefix)s%(host_ip)s "
+            "ssh -i /root/.ssh/id_rsa.cloud -p3922 %(ssh_options)s "
+            "root@%(linklocal_ip)s" % context)
+
+    def touch_test_command(self):
+        """Command template for touching and removing a file."""
+        return (
+            '/usr/bin/env sh -c \''
+            '%s "touch zenosstest \&\& rm zenosstest" '
+            '&& echo "file touched successfully" || '
+            '(echo "file touch failed" ; false)\' '
+            '2>/dev/null' % self.ssh_prefix())
+
+
 # We need to filter CloudStack components by id instead of name.
 EventManagerBase.ComponentIdWhere = (
     "\"(device = '%s' and component = '%s')\""

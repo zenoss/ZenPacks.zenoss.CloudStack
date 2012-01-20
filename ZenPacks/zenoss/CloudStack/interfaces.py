@@ -105,6 +105,30 @@ class ISystemVMInfo(IBaseComponentInfo):
     template_id = schema.Int(title=_t(u"Template ID"))
 
 
+class IRouterVMInfo(IBaseComponentInfo):
+    """Interface for RouterVM API (Info) adapter."""
+
+    account = SingleLineText(title=_t(u"Account"))
+    created = SingleLineText(title=_t(u"Created"))
+    dns1 = SingleLineText(title=_t(u"Primary DNS"))
+    dns2 = SingleLineText(title=_t(u"Secondary DNS"))
+    domain = SingleLineText(title=_t(u"Domain"))
+    gateway = SingleLineText(title=_t(u"Gateway"))
+    guest_ip = SingleLineText(title=_t(u"Guest IP Address"))
+    guest_netmask = SingleLineText(title=_t(u"Guest Netmask"))
+    guest_macaddress = SingleLineText(title=_t(u"Guest MAC Addresss"))
+    host = schema.Entity(title=_t(u"Host"))
+    linklocal_ip = SingleLineText(title=_t(u"Link-local IP Address"))
+    linklocal_netmask = SingleLineText(title=_t(u"Link-local Netmask"))
+    linklocal_macaddress = SingleLineText(title=_t(u"Link-local MAC Address"))
+    network_domain = SingleLineText(title=_t(u"Network Domain"))
+    public_ip = SingleLineText(title=_t(u"Public IP Address"))
+    public_netmask = SingleLineText(title=_t(u"Public Netmask"))
+    public_macaddress = SingleLineText(title=_t(u"Public MAC Address"))
+    state = SingleLineText(title=_t(u"State"))
+    template_id = schema.Int(title=_t(u"Template ID"))
+
+
 class IClusterInfo(IBaseComponentInfo):
     """Interface for Cluster API (Info) adapter."""
 

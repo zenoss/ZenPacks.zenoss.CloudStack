@@ -46,6 +46,11 @@ class Pod(BaseComponent):
             'ZenPacks.zenoss.CloudStack.SystemVM.SystemVM',
             'pod')
             ),
+
+        ('routervms', ToManyCont(ToOne,
+            'ZenPacks.zenoss.CloudStack.RouterVM.RouterVM',
+            'pod')
+            ),
         )
 
     def device(self):

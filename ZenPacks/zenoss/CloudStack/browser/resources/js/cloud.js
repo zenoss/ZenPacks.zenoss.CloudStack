@@ -5,6 +5,7 @@ var ZC = Ext.ns('Zenoss.component');
 ZC.registerName('Zone', _t('Zone'), _t('Zones'));
 ZC.registerName('Pod', _t('Pod'), _t('Pods'));
 ZC.registerName('SystemVM', _t('System VM'), _t('System VMs'));
+ZC.registerName('CloudStackRouterVM', _t('Router VM'), _t('Router VMs'));
 ZC.registerName('Cluster', _t('Cluster'), _t('Clusters'));
 ZC.registerName('Host', _t('Host'), _t('Hosts'));
 ZC.registerName('VirtualMachine', _t('VM'), _t('VMs'));
@@ -16,6 +17,7 @@ Zenoss.types.register({
     'Zone': "^/zport/dmd/Devices/.*/devices/.*/zones/[^/]*/?$",
     'Pod': "^/zport/dmd/Devices/.*/devices/.*/pods/[^/]*/?$",
     'SystemVM': "^/zport/dmd/Devices/.*/devices/.*/systemvms/[^/]*/?$",
+    'CloudStackRouterVM': "^/zport/dmd/Devices/.*/devices/.*/routervms/[^/]*/?$",
     'Cluster': "^/zport/dmd/Devices/.*/devices/.*/clusters/[^/]*/?$",
     'Host': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$",
     'VirtualMachine': "^/zport/dmd/Devices/.*/devices/.*/vms/[^/]*/?$"
@@ -276,6 +278,96 @@ ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
 });
 
 Ext.reg('SystemVMPanel', ZC.SystemVMPanel);
+
+ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+    constructor: function(config) {
+        config = Ext.applyIf(config||{}, {
+            autoExpandColumn: 'entity',
+            componentType: 'SystemVM',
+            fields: [
+                {name: 'uid'},
+                {name: 'name'},
+                {name: 'severity'},
+                {name: 'entity'},
+                {name: 'zone'},
+                {name: 'pod'},
+                {name: 'host'},
+                {name: 'network_domain'},
+                {name: 'public_ip'},
+                {name: 'guest_ip'},
+                {name: 'state'},
+                {name: 'monitor'},
+                {name: 'monitored'}
+            ],
+            columns: [{
+                id: 'severity',
+                dataIndex: 'severity',
+                header: _t('Events'),
+                renderer: Zenoss.render.severity,
+                sortable: true,
+                width: 50
+            },{
+                id: 'entity',
+                dataIndex: 'entity',
+                header: _t('Name'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                panel: this
+            },{
+                id: 'zone',
+                dataIndex: 'zone',
+                header: _t('Zone'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'pod',
+                dataIndex: 'pod',
+                header: _t('Pod'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'host',
+                dataIndex: 'host',
+                header: _t('Host'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'network_domain',
+                dataIndex: 'network_domain',
+                header: _t('Network Domain'),
+                sortable: true,
+                width: 115
+            },{
+                id: 'public_ip',
+                dataIndex: 'public_ip',
+                header: _t('Public IP'),
+                sortable: true,
+                width: 85
+            },{
+                id: 'guest_ip',
+                dataIndex: 'guest_ip',
+                header: _t('Guest IP'),
+                sortable: true,
+                width: 85
+            },{
+                id: 'state',
+                dataIndex: 'state',
+                header: _t('State'),
+                sortable: true,
+                width: 70
+            },{
+                id: 'monitored',
+                dataIndex: 'monitored',
+                header: _t('Monitored'),
+                renderer: Zenoss.render.checkbox,
+                sortable: true,
+                width: 65
+            }]
+        });
+        ZC.CloudStackRouterVMPanel.superclass.constructor.call(this, config);
+    }
+});
+
+Ext.reg('CloudStackRouterVMPanel', ZC.CloudStackRouterVMPanel);
 
 ZC.ClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {

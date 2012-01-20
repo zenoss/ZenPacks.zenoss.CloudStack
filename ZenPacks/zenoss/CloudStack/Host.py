@@ -56,6 +56,11 @@ class Host(BaseComponent):
             'host')
             ),
 
+        ('routervms', ToMany(ToOne,
+            'ZenPacks.zenoss.CloudStack.RouterVM.RouterVM',
+            'host')
+            ),
+
         ('vms', ToMany(ToOne,
             'ZenPacks.zenoss.CloudStack.VirtualMachine.VirtualMachine',
             'host')

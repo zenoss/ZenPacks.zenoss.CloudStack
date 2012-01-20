@@ -61,6 +61,7 @@ class CloudStack(PythonPlugin):
             client.listClusters(),
             client.listHosts(type="Routing"),
             client.listSystemVms(),
+            client.listRouters(),
             client.listVirtualMachines(),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
@@ -88,7 +89,7 @@ class CloudStack(PythonPlugin):
         maps = []
 
         response_types = (
-            'zones', 'pods', 'clusters', 'hosts', 'systemvms',
+            'zones', 'pods', 'clusters', 'hosts', 'systemvms', 'routers',
             'virtualmachines',
             )
 
@@ -269,6 +270,49 @@ class CloudStack(PythonPlugin):
                 compname=compname,
                 relname='systemvms',
                 modname='ZenPacks.zenoss.CloudStack.SystemVM',
+                objmaps=obj_maps)
+
+    def get_routers_rel_maps(self, routers_response):
+        routervm_maps = {}
+        for routervm in routers_response.get('router', []):
+            zone_id = self.prepId('zone%s' % routervm['zoneid'])
+            pod_id = self.prepId('pod%s' % routervm['podid'])
+            routervm_id = self.prepId('routervm%s' % routervm['id'])
+
+            compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
+
+            routervm_maps.setdefault(compname, [])
+
+            routervm_maps[compname].append(ObjectMap(data=dict(
+                id=routervm_id,
+                title=routervm.get('name', routervm_id),
+                cloudstack_id=routervm['id'],
+                account=routervm.get('account', ''),
+                created=routervm.get('created', ''),
+                dns1=routervm.get('dns1', ''),
+                dns2=routervm.get('dns2', ''),
+                domain=routervm.get('domain', ''),
+                gateway=routervm.get('gateway', ''),
+                guest_ip=routervm.get('guestip', ''),
+                guest_macaddress=routervm.get('guestmacaddress', ''),
+                guest_netmask=routervm.get('guestnetmask', ''),
+                linklocal_ip=routervm.get('linklocalip', ''),
+                linklocal_macaddress=routervm.get('linklocalmacaddress', ''),
+                linklocal_netmask=routervm.get('linklocalnetmask', ''),
+                network_domain=routervm.get('networkdomain', ''),
+                public_ip=routervm.get('publicip', ''),
+                public_macaddress=routervm.get('publicmacaddress', ''),
+                public_netmask=routervm.get('publicnetmask', ''),
+                state=routervm.get('state', ''),
+                template_id=routervm.get('templateid', None),
+                setHostId=routervm.get('hostid', None),
+                )))
+
+        for compname, obj_maps in routervm_maps.items():
+            yield RelationshipMap(
+                compname=compname,
+                relname='routervms',
+                modname='ZenPacks.zenoss.CloudStack.RouterVM',
                 objmaps=obj_maps)
 
     def get_virtualmachines_rel_maps(self, vms_response):

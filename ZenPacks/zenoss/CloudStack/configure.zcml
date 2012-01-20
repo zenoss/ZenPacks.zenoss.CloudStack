@@ -56,6 +56,12 @@
         />
 
     <adapter
+        provides=".interfaces.IRouterVMInfo"
+        for=".RouterVM.RouterVM"
+        factory=".info.RouterVMInfo"
+        />
+
+    <adapter
         provides=".interfaces.IClusterInfo"
         for=".Cluster.Cluster"
         factory=".info.ClusterInfo"
