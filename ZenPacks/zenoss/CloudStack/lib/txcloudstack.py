@@ -175,6 +175,9 @@ class Client(object):
     def listSystemVms(self, **kwargs):
         return self._request('listSystemVms', **kwargs)
 
+    def listRouters(self, **kwargs):
+        return self._request('listRouters', **kwargs)
+
     def listVirtualMachines(self, **kwargs):
         return self._request('listVirtualMachines', **kwargs)
 
@@ -219,6 +222,7 @@ if __name__ == '__main__':
             client.listClusters(),
             client.listHosts(),
             client.listSystemVms(),
+            client.listRouters(),
             client.listVirtualMachines(),
             client.listCapacity(),
             client.listAlerts(),
