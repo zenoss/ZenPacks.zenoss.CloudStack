@@ -7,6 +7,7 @@ ZC.registerName('Pod', _t('Pod'), _t('Pods'));
 ZC.registerName('SystemVM', _t('System VM'), _t('System VMs'));
 ZC.registerName('Cluster', _t('Cluster'), _t('Clusters'));
 ZC.registerName('Host', _t('Host'), _t('Hosts'));
+ZC.registerName('VirtualMachine', _t('VM'), _t('VMs'));
 
 Zenoss.types.TYPES.DeviceClass[0] = new RegExp(
     "^/zport/dmd/Devices(/(?!devices)[^/*])*/?$");
@@ -16,7 +17,8 @@ Zenoss.types.register({
     'Pod': "^/zport/dmd/Devices/.*/devices/.*/pods/[^/]*/?$",
     'SystemVM': "^/zport/dmd/Devices/.*/devices/.*/systemvms/[^/]*/?$",
     'Cluster': "^/zport/dmd/Devices/.*/devices/.*/clusters/[^/]*/?$",
-    'Host': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$"
+    'Host': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$",
+    'VirtualMachine': "^/zport/dmd/Devices/.*/devices/.*/vms/[^/]*/?$"
 });
 
 Ext.apply(Zenoss.render, {
@@ -388,7 +390,7 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
             },{
                 id: 'host_device',
                 dataIndex: 'host_device',
-                header: _t('Device'),
+                header: _t('Managed Device'),
                 renderer: function(obj) {
                     if (obj && obj.uid && obj.name) {
                         return Zenoss.render.link(obj.uid, undefined, obj.name);
@@ -409,6 +411,94 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
 });
 
 Ext.reg('HostPanel', ZC.HostPanel);
+
+ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+    constructor: function(config) {
+        config = Ext.applyIf(config||{}, {
+            autoExpandColumn: 'entity',
+            componentType: 'VirtualMachine',
+            fields: [
+                {name: 'uid'},
+                {name: 'name'},
+                {name: 'severity'},
+                {name: 'entity'},
+                {name: 'zone'},
+                {name: 'host'},
+                {name: 'service_offering'},
+                {name: 'memory'},
+                {name: 'managed_device'},
+                {name: 'state'},
+                {name: 'monitor'},
+                {name: 'monitored'}
+            ],
+            columns: [{
+                id: 'severity',
+                dataIndex: 'severity',
+                header: _t('Events'),
+                renderer: Zenoss.render.severity,
+                sortable: true,
+                width: 50
+            },{
+                id: 'entity',
+                dataIndex: 'entity',
+                header: _t('Name'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                panel: this
+            },{
+                id: 'zone',
+                dataIndex: 'zone',
+                header: _t('Zone'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'host',
+                dataIndex: 'host',
+                header: _t('Host'),
+                renderer: Zenoss.render.entityLinkFromGrid,
+                width: 140
+            },{
+                id: 'service_offering',
+                dataIndex: 'service_offering',
+                header: _t('Service Offering'),
+                sortable: true,
+                width: 140
+            },{
+                id: 'memory',
+                dataIndex: 'memory',
+                header: _t('Memory'),
+                renderer: Zenoss.render.memory,
+                sortable: true,
+                width: 75
+            },{
+                id: 'managed_device',
+                dataIndex: 'managed_device',
+                header: _t('Managed Device'),
+                renderer: function(obj) {
+                    if (obj && obj.uid && obj.name) {
+                        return Zenoss.render.link(obj.uid, undefined, obj.name);
+                    }
+                },
+                width: 140
+            },{
+                id: 'state',
+                dataIndex: 'state',
+                header: _t('State'),
+                sortable: true,
+                width: 70
+            },{
+                id: 'monitored',
+                dataIndex: 'monitored',
+                header: _t('Monitored'),
+                renderer: Zenoss.render.checkbox,
+                sortable: true,
+                width: 65
+            }]
+        });
+        ZC.VirtualMachinePanel.superclass.constructor.call(this, config);
+    }
+});
+
+Ext.reg('VirtualMachinePanel', ZC.VirtualMachinePanel);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_pods',
@@ -476,6 +566,23 @@ Zenoss.nav.appendTo('Component', [{
     },
     setContext: function(uid) {
         ZC.HostPanel.superclass.setContext.apply(this, [uid]);
+    }
+}]);
+
+Zenoss.nav.appendTo('Component', [{
+    id: 'component_vms',
+    text: _t('Related VMs'),
+    xtype: 'VirtualMachinePanel',
+    subComponentGridPanel: true,
+    filterNav: function(navpanel) {
+        if (navpanel.refOwner.componentType == 'Zone') {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    setContext: function(uid) {
+        ZC.VirtualMachinePanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 

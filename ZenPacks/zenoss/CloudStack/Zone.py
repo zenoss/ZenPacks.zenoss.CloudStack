@@ -53,6 +53,11 @@ class Zone(BaseComponent):
             'ZenPacks.zenoss.CloudStack.Pod.Pod',
             'zone')
             ),
+
+        ('vms', ToManyCont(ToOne,
+            'ZenPacks.zenoss.CloudStack.VirtualMachine.VirtualMachine',
+            'zone')
+            ),
         )
 
     def device(self):

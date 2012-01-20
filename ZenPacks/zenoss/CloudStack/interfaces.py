@@ -134,3 +134,25 @@ class IHostInfo(IBaseComponentInfo):
     pod = schema.Entity(title=_t(u"Pod"))
     cluster = schema.Entity(title=_t(u"Cluster"))
     host_device = schema.Entity(title=_t(u"Host Device"))
+
+
+class IVirtualMachineInfo(IBaseComponentInfo):
+    """Interface for VirtualMachine API (Info) adapter."""
+
+    cpu_number = schema.Int(title=_t(u"Number of CPUs"))
+    cpu_speed = schema.Int(title=_t(u"CPU Speed"))
+    created = SingleLineText(title=_t(u"Created"))
+    display_name = SingleLineText(title=_t(u"Display Name"))
+    domain = SingleLineText(title=_t(u"Domain"))
+    ha_enable = schema.Bool(title=_t(u"HA Enabled"))
+    host = schema.Entity(title=_t(u"Host"))
+    memory = schema.Int(title=_t(u"Memory"))
+    mac_address = SingleLineText(title=_t(u"MAC Address"))
+    ip_address = SingleLineText(title=_t(u"IP Address"))
+    netmask = SingleLineText(title=_t(u"Netmask"))
+    gateway = SingleLineText(title=_t(u"Gateway"))
+    root_device_type = SingleLineText(title=_t(u"Root Device Type"))
+    service_offering = SingleLineText(title=_t(u"Service Offering"))
+    state = SingleLineText(title=_t(u"State"))
+    template = SingleLineText(title=_t(u"Template"))
+    managed_device = schema.Entity(title=_t(u"Managed Device"))

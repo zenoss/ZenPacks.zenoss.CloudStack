@@ -61,6 +61,7 @@ class CloudStack(PythonPlugin):
             client.listClusters(),
             client.listHosts(type="Routing"),
             client.listSystemVms(),
+            client.listVirtualMachines(),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
 
@@ -86,7 +87,12 @@ class CloudStack(PythonPlugin):
     def process(self, device, results, unused):
         maps = []
 
-        for t in ('zones', 'pods', 'clusters', 'hosts', 'systemvms'):
+        response_types = (
+            'zones', 'pods', 'clusters', 'hosts', 'systemvms',
+            'virtualmachines',
+            )
+
+        for t in response_types:
             response = results.get('list%sresponse' % t, None)
             if response is None:
                 LOG.error('No list%s response from API', t.capitalize())
@@ -263,4 +269,59 @@ class CloudStack(PythonPlugin):
                 compname=compname,
                 relname='systemvms',
                 modname='ZenPacks.zenoss.CloudStack.SystemVM',
+                objmaps=obj_maps)
+
+    def get_virtualmachines_rel_maps(self, vms_response):
+        vm_maps = {}
+        for vm in vms_response.get('virtualmachine', []):
+            zone_id = self.prepId('zone%s' % vm['zoneid'])
+            vm_id = self.prepId('vm%s' % vm['id'])
+
+            compname = 'zones/%s' % zone_id
+
+            vm_maps.setdefault(compname, [])
+
+            memory = None
+            if 'memory' in vm:
+                memory = vm['memory'] * (1024 ** 2)
+
+            mac_address = ''
+            ip_address = ''
+            netmask = ''
+            gateway = ''
+
+            for nic in vm.get('nic', []):
+                if nic.get('isdefault', False):
+                    mac_address = nic.get('macaddress', '')
+                    ip_address = nic.get('ipaddress', '')
+                    netmask = nic.get('netmask', '')
+                    gateway = nic.get('gateway', '')
+
+            vm_maps[compname].append(ObjectMap(data=dict(
+                id=vm_id,
+                title=vm.get('name', vm_id),
+                cloudstack_id=vm['id'],
+                cpu_number=vm.get('cpunumber', None),
+                cpu_speed=vm.get('cpuspeed', None),
+                created=vm.get('created', ''),
+                display_name=vm.get('displayname', ''),
+                domain=vm.get('domain', ''),
+                ha_enable=vm.get('haenable', False),
+                setHostId=vm.get('hostid', None),
+                memory=memory,
+                mac_address=mac_address,
+                ip_address=ip_address,
+                netmask=netmask,
+                gateway=gateway,
+                root_device_type=vm.get('rootdevicetype', ''),
+                service_offering=vm.get('serviceofferingname', ''),
+                state=vm.get('state', ''),
+                template=vm.get('templatename', ''),
+                )))
+
+        for compname, obj_maps in vm_maps.items():
+            yield RelationshipMap(
+                compname=compname,
+                relname='vms',
+                modname='ZenPacks.zenoss.CloudStack.VirtualMachine',
                 objmaps=obj_maps)

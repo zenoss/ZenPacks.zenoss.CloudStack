@@ -19,7 +19,8 @@ from Products.Zuul.infos.device import DeviceInfo
 from Products.Zuul.infos.component import ComponentInfo
 
 from ZenPacks.zenoss.CloudStack.interfaces import (
-    ICloudInfo, IZoneInfo, IPodInfo, ISystemVMInfo, IClusterInfo, IHostInfo)
+    ICloudInfo, IZoneInfo, IPodInfo, ISystemVMInfo, IClusterInfo, IHostInfo,
+    IVirtualMachineInfo)
 
 
 class CloudInfo(DeviceInfo):
@@ -244,3 +245,40 @@ class HostInfo(BaseComponentInfo):
     @info
     def host_device(self):
         return self._object.getHostDevice()
+
+
+class VirtualMachineInfo(BaseComponentInfo):
+    """VirtualMachine API (Info) adapter factory."""
+
+    implements(IVirtualMachineInfo)
+
+    cpu_number = ProxyProperty('cpu_number')
+    cpu_speed = ProxyProperty('cpu_speed')
+    created = ProxyProperty('created')
+    display_name = ProxyProperty('display_name')
+    domain = ProxyProperty('domain')
+    ha_enable = ProxyProperty('ha_enable')
+    memory = ProxyProperty('memory')
+    mac_address = ProxyProperty('mac_address')
+    ip_address = ProxyProperty('ip_address')
+    netmask = ProxyProperty('netmask')
+    gateway = ProxyProperty('gateway')
+    root_device_type = ProxyProperty('root_device_type')
+    service_offering = ProxyProperty('service_offering')
+    state = ProxyProperty('state')
+    template = ProxyProperty('template')
+
+    @property
+    @info
+    def zone(self):
+        return self._object.zone()
+
+    @property
+    @info
+    def host(self):
+        return self._object.host()
+
+    @property
+    @info
+    def managed_device(self):
+        return self._object.getManagedDevice()

@@ -67,6 +67,12 @@
         factory=".info.HostInfo"
         />
 
+    <adapter
+        provides=".interfaces.IVirtualMachineInfo"
+        for=".VirtualMachine.VirtualMachine"
+        factory=".info.VirtualMachineInfo"
+        />
+
     <!-- Include Browser Code -->
     <include package=".browser"/>       
 

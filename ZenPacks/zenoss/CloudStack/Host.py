@@ -55,6 +55,11 @@ class Host(BaseComponent):
             'ZenPacks.zenoss.CloudStack.SystemVM.SystemVM',
             'host')
             ),
+
+        ('vms', ToMany(ToOne,
+            'ZenPacks.zenoss.CloudStack.VirtualMachine.VirtualMachine',
+            'host')
+            ),
         )
 
     def device(self):
