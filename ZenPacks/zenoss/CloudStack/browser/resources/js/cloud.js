@@ -283,7 +283,7 @@ ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'SystemVM',
+            componentType: 'CloudStackRouter',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
