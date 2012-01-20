@@ -2757,6 +2757,45 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
+<object id='FileTouch' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+Products.DeviceComponent.DeviceComponent
+</property>
+<tomanycont id='datasources'>
+<object id='fileTouch' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+COMMAND
+</property>
+<property type="boolean" id="enabled" mode="w" >
+False
+</property>
+<property type="string" id="component" mode="w" >
+${here/id}
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Status/CloudStack
+</property>
+<property type="string" id="eventKey" mode="w" >
+fileTouch
+</property>
+<property type="int" id="severity" mode="w" >
+5
+</property>
+<property type="string" id="commandTemplate" mode="w" >
+${here/touch_test_command}
+</property>
+<property type="int" id="cycletime" mode="w" >
+60
+</property>
+<property type="boolean" id="usessh" mode="w" >
+False
+</property>
+<property type="string" id="parser" mode="w" >
+Nagios
+</property>
+</object>
+</tomanycont>
+</object>
 <object id='Host' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Capacity metrics for a CloudStack host. Includes allocation and utilization of memory and CPU, and network throughput.
@@ -5167,45 +5206,6 @@ AVERAGE
 </property>
 </object>
 </tomanycont>
-</object>
-</tomanycont>
-</object>
-<object id='SystemVM' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
-<property type="string" id="targetPythonClass" mode="w" >
-Products.ZenModel.Device
-</property>
-<tomanycont id='datasources'>
-<object id='fileTouch' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
-<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
-COMMAND
-</property>
-<property type="boolean" id="enabled" mode="w" >
-False
-</property>
-<property type="string" id="component" mode="w" >
-${here/id}
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Status/CloudStack
-</property>
-<property type="string" id="eventKey" mode="w" >
-fileTouch
-</property>
-<property type="int" id="severity" mode="w" >
-5
-</property>
-<property type="string" id="commandTemplate" mode="w" >
-${here/touch_test_command}
-</property>
-<property type="int" id="cycletime" mode="w" >
-60
-</property>
-<property type="boolean" id="usessh" mode="w" >
-False
-</property>
-<property type="string" id="parser" mode="w" >
-Nagios
-</property>
 </object>
 </tomanycont>
 </object>
