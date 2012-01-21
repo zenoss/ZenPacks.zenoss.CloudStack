@@ -111,6 +111,6 @@ class HostRelationsProvider(BaseRelationsProvider):
         if type in (TAG_ALL, TAG_IMPACTED_BY):
             yield self.constructRelationTo(self._adapted.cluster())
 
-            device = self._adapted.getHostDevice()
+            device = self._adapted.getManagedDevice()
             if device:
                 yield self.constructRelationTo(device, TAG_IMPACTED_BY)

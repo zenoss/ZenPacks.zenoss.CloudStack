@@ -162,7 +162,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.pod.id, 'pod1')
         self.assertEquals(info.cluster.id, 'cluster1')
 
-    def test_getHostDevice(self):
+    def test_getManagedDevice(self):
         self._loadZenossData()
 
         host_device1 = self.dmd.Devices.createInstance('host_device1')
@@ -184,11 +184,11 @@ class TestModel(BaseTestCase):
 
         # Test finding host device by manageIp.
         info1 = IInfo(cluster.hosts._getOb('host1'))
-        self.assertEquals(info1.host_device.id, 'host_device1')
+        self.assertEquals(info1.managed_device.id, 'host_device1')
 
         # Test finding host by interface IP.
         info2 = IInfo(cluster.hosts._getOb('host5'))
-        self.assertEquals(info2.host_device.id, 'host_device2')
+        self.assertEquals(info2.managed_device.id, 'host_device2')
 
     def testMissingHostsResponse(self):
         modeler = CloudStackModeler()
