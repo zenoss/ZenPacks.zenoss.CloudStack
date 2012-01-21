@@ -21,8 +21,11 @@ from ZenPacks.zenoss.DynamicView.model.adapters import DeviceComponentRelatable
 from ZenPacks.zenoss.CloudStack.Cloud import Cloud
 from ZenPacks.zenoss.CloudStack.Zone import Zone
 from ZenPacks.zenoss.CloudStack.Pod import Pod
+from ZenPacks.zenoss.CloudStack.SystemVM import SystemVM
+from ZenPacks.zenoss.CloudStack.RouterVM import RouterVM
 from ZenPacks.zenoss.CloudStack.Cluster import Cluster
 from ZenPacks.zenoss.CloudStack.Host import Host
+from ZenPacks.zenoss.CloudStack.VirtualMachine import VirtualMachine
 
 
 ### IRelatable Adapters
@@ -45,6 +48,18 @@ class PodRelatable(DeviceComponentRelatable):
     group = 'CloudStack'
 
 
+class SystemVMRelatable(DeviceComponentRelatable):
+    adapts(SystemVM)
+
+    group = 'CloudStack'
+
+
+class RouterVMRelatable(DeviceComponentRelatable):
+    adapts(RouterVM)
+
+    group = 'CloudStack'
+
+
 class ClusterRelatable(DeviceComponentRelatable):
     adapts(Cluster)
 
@@ -53,6 +68,12 @@ class ClusterRelatable(DeviceComponentRelatable):
 
 class HostRelatable(DeviceComponentRelatable):
     adapts(Host)
+
+    group = 'CloudStack'
+
+
+class VirtualMachineRelatable(DeviceComponentRelatable):
+    adapts(VirtualMachine)
 
     group = 'CloudStack'
 
@@ -77,7 +98,8 @@ class ZoneRelationsProvider(BaseRelationsProvider):
                 yield self.constructRelationTo(pod, TAG_IMPACTS)
 
         if type in (TAG_ALL, TAG_IMPACTED_BY):
-            yield self.constructRelationTo(self._adapted.cloud())
+            yield self.constructRelationTo(
+                self._adapted.cloud(), TAG_IMPACTED_BY)
 
 
 class PodRelationsProvider(BaseRelationsProvider):
@@ -89,7 +111,34 @@ class PodRelationsProvider(BaseRelationsProvider):
                 yield self.constructRelationTo(cluster, TAG_IMPACTS)
 
         if type in (TAG_ALL, TAG_IMPACTED_BY):
-            yield self.constructRelationTo(self._adapted.zone())
+            yield self.constructRelationTo(
+                self._adapted.zone(), TAG_IMPACTED_BY)
+
+
+class SystemVMRelationsProvider(BaseRelationsProvider):
+    adapts(SystemVM)
+
+    def relations(self, type=TAG_ALL):
+        if type in (TAG_ALL, TAG_IMPACTS):
+            yield self.constructRelationTo(self._adapted.pod(), TAG_IMPACTS)
+
+        if type in (TAG_ALL, TAG_IMPACTED_BY):
+            host = self._adapted.host()
+            if host:
+                yield self.constructRelationTo(host, TAG_IMPACTED_BY)
+
+
+class RouterVMRelationsProvider(BaseRelationsProvider):
+    adapts(RouterVM)
+
+    def relations(self, type=TAG_ALL):
+        if type in (TAG_ALL, TAG_IMPACTS):
+            yield self.constructRelationTo(self._adapted.pod(), TAG_IMPACTS)
+
+        if type in (TAG_ALL, TAG_IMPACTED_BY):
+            host = self._adapted.host()
+            if host:
+                yield self.constructRelationTo(host, TAG_IMPACTED_BY)
 
 
 class ClusterRelationsProvider(BaseRelationsProvider):
@@ -101,16 +150,45 @@ class ClusterRelationsProvider(BaseRelationsProvider):
                 yield self.constructRelationTo(host, TAG_IMPACTS)
 
         if type in (TAG_ALL, TAG_IMPACTED_BY):
-            yield self.constructRelationTo(self._adapted.pod())
+            yield self.constructRelationTo(
+                self._adapted.pod(), TAG_IMPACTED_BY)
 
 
 class HostRelationsProvider(BaseRelationsProvider):
     adapts(Host)
 
     def relations(self, type=TAG_ALL):
+        if type in (TAG_ALL, TAG_IMPACTS):
+            for systemvm in self._adapted.systemvms():
+                yield self.constructRelationTo(systemvm, TAG_IMPACTS)
+
+            for routervm in self._adapted.routervms():
+                yield self.constructRelationTo(routervm, TAG_IMPACTS)
+
+            for vm in self._adapted.vms():
+                yield self.constructRelationTo(vm, TAG_IMPACTS)
+
         if type in (TAG_ALL, TAG_IMPACTED_BY):
             yield self.constructRelationTo(self._adapted.cluster())
 
             device = self._adapted.getManagedDevice()
             if device:
                 yield self.constructRelationTo(device, TAG_IMPACTED_BY)
+
+
+class VirtualMachineRelationsProvider(BaseRelationsProvider):
+    adapts(VirtualMachine)
+
+    def relations(self, type=TAG_ALL):
+        if type in (TAG_ALL, TAG_IMPACTS):
+            device = self._adapted.getManagedDevice()
+            if device:
+                self.constructRelationTo(device, TAG_IMPACTS)
+
+        if type in (TAG_ALL, TAG_IMPACTED_BY):
+            yield self.constructRelationTo(
+                self._adapted.zone(), TAG_IMPACTED_BY)
+
+            host = self._adapted.getManagedDevice()
+            if host:
+                self.constructRelationTo(host, TAG_IMPACTED_BY)

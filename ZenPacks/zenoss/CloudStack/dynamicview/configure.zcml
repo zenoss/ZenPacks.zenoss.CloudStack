@@ -22,6 +22,18 @@
 
     <adapter
         provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..SystemVM.SystemVM"
+        factory=".adapters.SystemVMRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..RouterVM.RouterVM"
+        factory=".adapters.RouterVMRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
         for="..Cluster.Cluster"
         factory=".adapters.ClusterRelatable"
         />
@@ -30,6 +42,12 @@
         provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
         for="..Host.Host"
         factory=".adapters.HostRelatable"
+        />
+
+    <adapter
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelatable"
+        for="..VirtualMachine.VirtualMachine"
+        factory=".adapters.VirtualMachineRelatable"
         />
 
 
@@ -54,6 +72,18 @@
 
     <subscriber
         provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..SystemVM.SystemVM"
+        factory=".adapters.SystemVMRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..RouterVM.RouterVM"
+        factory=".adapters.RouterVMRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
         for="..Cluster.Cluster"
         factory=".adapters.ClusterRelationsProvider"
         />
@@ -62,6 +92,12 @@
         provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
         for="..Host.Host"
         factory=".adapters.HostRelationsProvider"
+        />
+
+    <subscriber
+        provides="ZenPacks.zenoss.DynamicView.interfaces.IRelationsProvider"
+        for="..VirtualMachine.VirtualMachine"
+        factory=".adapters.VirtualMachineRelationsProvider"
         />
 
 
