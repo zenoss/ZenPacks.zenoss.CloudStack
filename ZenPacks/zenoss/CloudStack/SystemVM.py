@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent, TouchTestMixin
 
 
 class SystemVM(BaseComponent, TouchTestMixin):
-    meta_type = portal_type = "SystemVM"
+    meta_type = portal_type = "CloudStackSystemVM"
 
     gateway = None
     linklocal_ip = None
@@ -79,12 +79,12 @@ class SystemVM(BaseComponent, TouchTestMixin):
     def getRRDTemplates(self):
         templates = super(BaseComponent, self).getRRDTemplates()
 
-        file_touch = self.getRRDTemplateByName("FileTouch")
+        file_touch = self.getRRDTemplateByName("CloudStackFileTouch")
         if file_touch:
             templates.append(file_touch)
 
         if self.systemvm_type == 'consoleproxy':
-            console_proxy = self.getRRDTemplateByName('ConsoleProxy')
+            console_proxy = self.getRRDTemplateByName('CloudStackConsoleProxy')
             if console_proxy:
                 templates.append(console_proxy)
 

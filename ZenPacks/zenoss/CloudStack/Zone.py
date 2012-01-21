@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class Zone(BaseComponent):
-    meta_type = portal_type = "Zone"
+    meta_type = portal_type = "CloudStackZone"
 
     guest_cidr_address = None
     dhcp_provider = None

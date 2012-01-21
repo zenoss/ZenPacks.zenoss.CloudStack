@@ -16,7 +16,7 @@ from Products.ZenRelations.RelSchema import ToManyCont, ToOne
 
 
 class Cloud(Device):
-    meta_type = portal_type = "Cloud"
+    meta_type = portal_type = "CloudStackCloud"
 
     _relations = Device._relations + (
         ('zones', ToManyCont(ToOne,

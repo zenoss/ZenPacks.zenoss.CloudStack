@@ -2,25 +2,25 @@
 
 var ZC = Ext.ns('Zenoss.component');
 
-ZC.registerName('Zone', _t('Zone'), _t('Zones'));
-ZC.registerName('Pod', _t('Pod'), _t('Pods'));
-ZC.registerName('SystemVM', _t('System VM'), _t('System VMs'));
+ZC.registerName('CloudStackZone', _t('Zone'), _t('Zones'));
+ZC.registerName('CloudStackPod', _t('Pod'), _t('Pods'));
+ZC.registerName('CloudStackSystemVM', _t('System VM'), _t('System VMs'));
 ZC.registerName('CloudStackRouterVM', _t('Router VM'), _t('Router VMs'));
-ZC.registerName('Cluster', _t('Cluster'), _t('Clusters'));
-ZC.registerName('Host', _t('Host'), _t('Hosts'));
-ZC.registerName('VirtualMachine', _t('VM'), _t('VMs'));
+ZC.registerName('CloudStackCluster', _t('Cluster'), _t('Clusters'));
+ZC.registerName('CloudStackHost', _t('Host'), _t('Hosts'));
+ZC.registerName('CloudStackVirtualMachine', _t('VM'), _t('VMs'));
 
 Zenoss.types.TYPES.DeviceClass[0] = new RegExp(
     "^/zport/dmd/Devices(/(?!devices)[^/*])*/?$");
 
 Zenoss.types.register({
-    'Zone': "^/zport/dmd/Devices/.*/devices/.*/zones/[^/]*/?$",
-    'Pod': "^/zport/dmd/Devices/.*/devices/.*/pods/[^/]*/?$",
-    'SystemVM': "^/zport/dmd/Devices/.*/devices/.*/systemvms/[^/]*/?$",
+    'CloudStackZone': "^/zport/dmd/Devices/.*/devices/.*/zones/[^/]*/?$",
+    'CloudStackPod': "^/zport/dmd/Devices/.*/devices/.*/pods/[^/]*/?$",
+    'CloudStackSystemVM': "^/zport/dmd/Devices/.*/devices/.*/systemvms/[^/]*/?$",
     'CloudStackRouterVM': "^/zport/dmd/Devices/.*/devices/.*/routervms/[^/]*/?$",
-    'Cluster': "^/zport/dmd/Devices/.*/devices/.*/clusters/[^/]*/?$",
-    'Host': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$",
-    'VirtualMachine': "^/zport/dmd/Devices/.*/devices/.*/vms/[^/]*/?$"
+    'CloudStackCluster': "^/zport/dmd/Devices/.*/devices/.*/clusters/[^/]*/?$",
+    'CloudStackHost': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$",
+    'CloudStackVirtualMachine': "^/zport/dmd/Devices/.*/devices/.*/vms/[^/]*/?$"
 });
 
 Ext.apply(Zenoss.render, {
@@ -65,11 +65,11 @@ ZC.CloudStackComponentGridPanel = Ext.extend(ZC.ComponentGridPanel, {
     }
 });
 
-ZC.ZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'Zone',
+            componentType: 'CloudStackZone',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -121,17 +121,17 @@ ZC.ZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.ZonePanel.superclass.constructor.call(this, config);
+        ZC.CloudStackZonePanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('ZonePanel', ZC.ZonePanel);
+Ext.reg('CloudStackZonePanel', ZC.CloudStackZonePanel);
 
-ZC.PodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackPodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'Pod',
+            componentType: 'CloudStackPod',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -183,17 +183,17 @@ ZC.PodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.PodPanel.superclass.constructor.call(this, config);
+        ZC.CloudStackPodPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('PodPanel', ZC.PodPanel);
+Ext.reg('CloudStackPodPanel', ZC.CloudStackPodPanel);
 
-ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackSystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'SystemVM',
+            componentType: 'CloudStackSystemVM',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -273,17 +273,17 @@ ZC.SystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.SystemVMPanel.superclass.constructor.call(this, config);
+        ZC.CloudStackSystemVMPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SystemVMPanel', ZC.SystemVMPanel);
+Ext.reg('CloudStackSystemVMPanel', ZC.CloudStackSystemVMPanel);
 
 ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'CloudStackRouter',
+            componentType: 'CloudStackRouterVM',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -369,11 +369,11 @@ ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
 
 Ext.reg('CloudStackRouterVMPanel', ZC.CloudStackRouterVMPanel);
 
-ZC.ClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'Cluster',
+            componentType: 'CloudStackCluster',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -425,17 +425,17 @@ ZC.ClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.ClusterPanel.superclass.constructor.call(this, config);
+        ZC.CloudStackClusterPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('ClusterPanel', ZC.ClusterPanel);
+Ext.reg('CloudStackClusterPanel', ZC.CloudStackClusterPanel);
 
-ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackHostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'entity',
-            componentType: 'Host',
+            componentType: 'CloudStackHost',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -498,17 +498,17 @@ ZC.HostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.HostPanel.superclass.constructor.call(this, config);
+        ZC.CloudStackHostPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('HostPanel', ZC.HostPanel);
+Ext.reg('CloudStackHostPanel', ZC.CloudStackHostPanel);
 
-ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
+ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
             autoExpandColumn: 'display_name',
-            componentType: 'VirtualMachine',
+            componentType: 'CloudStackVirtualMachine',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
@@ -608,95 +608,95 @@ ZC.VirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 width: 65
             }]
         });
-        ZC.VirtualMachinePanel.superclass.constructor.call(this, config);
+        ZC.CloudStackVirtualMachinePanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('VirtualMachinePanel', ZC.VirtualMachinePanel);
+Ext.reg('CloudStackVirtualMachinePanel', ZC.CloudStackVirtualMachinePanel);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_pods',
     text: _t('Related Pods'),
-    xtype: 'PodPanel',
+    xtype: 'CloudStackPodPanel',
     subComponentGridPanel: true,
     filterNav: function(navpanel) {
-        if (navpanel.refOwner.componentType == 'Zone') {
+        if (navpanel.refOwner.componentType == 'CloudStackZone') {
             return true;
         } else {
             return false;
         }
     },
     setContext: function(uid) {
-        ZC.PodPanel.superclass.setContext.apply(this, [uid]);
+        ZC.CloudStackPodPanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_systemvms',
     text: _t('Related System VMs'),
-    xtype: 'SystemVMPanel',
+    xtype: 'CloudStackSystemVMPanel',
     subComponentGridPanel: true,
     filterNav: function(navpanel) {
         switch (navpanel.refOwner.componentType) {
-            case 'Zone': return true;
-            case 'Pod': return true;
+            case 'CloudStackZone': return true;
+            case 'CloudStackPod': return true;
             default: return false;
         }
     },
     setContext: function(uid) {
-        ZC.SystemVMPanel.superclass.setContext.apply(this, [uid]);
+        ZC.CloudStackSystemVMPanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_clusters',
     text: _t('Related Clusters'),
-    xtype: 'ClusterPanel',
+    xtype: 'CloudStackClusterPanel',
     subComponentGridPanel: true,
     filterNav: function(navpanel) {
         switch (navpanel.refOwner.componentType) {
-            case 'Zone': return true;
-            case 'Pod': return true;
+            case 'CloudStackZone': return true;
+            case 'CloudStackPod': return true;
             default: return false;
         }
     },
     setContext: function(uid) {
-        ZC.ClusterPanel.superclass.setContext.apply(this, [uid]);
+        ZC.CloudStackClusterPanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_hosts',
     text: _t('Related Hosts'),
-    xtype: 'HostPanel',
+    xtype: 'CloudStackHostPanel',
     subComponentGridPanel: true,
     filterNav: function(navpanel) {
         switch (navpanel.refOwner.componentType) {
-            case 'Zone': return true;
-            case 'Pod': return true;
-            case 'Cluster': return true;
+            case 'CloudStackZone': return true;
+            case 'CloudStackPod': return true;
+            case 'CloudStackCluster': return true;
             default: return false;
         }
     },
     setContext: function(uid) {
-        ZC.HostPanel.superclass.setContext.apply(this, [uid]);
+        ZC.CloudStackHostPanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 
 Zenoss.nav.appendTo('Component', [{
     id: 'component_vms',
     text: _t('Related VMs'),
-    xtype: 'VirtualMachinePanel',
+    xtype: 'CloudStackVirtualMachinePanel',
     subComponentGridPanel: true,
     filterNav: function(navpanel) {
-        if (navpanel.refOwner.componentType == 'Zone') {
+        if (navpanel.refOwner.componentType == 'CloudStackZone') {
             return true;
         } else {
             return false;
         }
     },
     setContext: function(uid) {
-        ZC.VirtualMachinePanel.superclass.setContext.apply(this, [uid]);
+        ZC.CloudStackVirtualMachinePanel.superclass.setContext.apply(this, [uid]);
     }
 }]);
 

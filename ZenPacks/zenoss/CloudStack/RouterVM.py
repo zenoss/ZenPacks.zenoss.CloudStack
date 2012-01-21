@@ -89,7 +89,7 @@ class RouterVM(BaseComponent, TouchTestMixin):
     def getRRDTemplates(self):
         templates = super(BaseComponent, self).getRRDTemplates()
 
-        file_touch = self.getRRDTemplateByName("FileTouch")
+        file_touch = self.getRRDTemplateByName("CloudStackFileTouch")
         if file_touch:
             templates.append(file_touch)
 

@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class Pod(BaseComponent):
-    meta_type = portal_type = "Pod"
+    meta_type = portal_type = "CloudStackPod"
 
     start_ip = None
     end_ip = None

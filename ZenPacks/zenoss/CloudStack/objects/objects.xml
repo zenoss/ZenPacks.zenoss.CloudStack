@@ -33,7 +33,7 @@ ZenPacks.zenoss.CloudStack.Cloud
 300.0
 </property>
 <tomanycont id='rrdTemplates'>
-<object id='Cloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackCloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
@@ -1729,7 +1729,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='Cluster' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackCluster' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
@@ -2624,9 +2624,9 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='ConsoleProxy' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackConsoleProxy' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="string" id="targetPythonClass" mode="w" >
-Products.ZenModel.Device
+ZenPacks.zenoss.CloudStack.SystemVM
 </property>
 <tomanycont id='datasources'>
 <object id='cloudstack' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
@@ -2757,9 +2757,9 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='FileTouch' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackFileTouch' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="string" id="targetPythonClass" mode="w" >
-Products.DeviceComponent.DeviceComponent
+Products.ZenModel.DeviceComponent
 </property>
 <tomanycont id='datasources'>
 <object id='fileTouch' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
@@ -2796,7 +2796,7 @@ Nagios
 </object>
 </tomanycont>
 </object>
-<object id='Host' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackHost' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Capacity metrics for a CloudStack host. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
@@ -3775,7 +3775,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='Pod' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackPod' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Aggregate capacity metrics for a CloudStack pod. Includes private IPs, memory, CPU, primary storage, and network throughput.
 </property>
@@ -5209,9 +5209,9 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='VirtualMachine' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackVirtualMachine' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="string" id="targetPythonClass" mode="w" >
-Products.ZenModel.Device
+ZenPacks.zenoss.CloudStack.VirtualMachine
 </property>
 <tomanycont id='datasources'>
 <object id='cloudstack' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
@@ -5581,7 +5581,7 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<object id='Zone' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<object id='CloudStackZone' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
 Aggregate capacity metrics for a CloudStack zone. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>

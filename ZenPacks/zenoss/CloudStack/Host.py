@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class Host(BaseComponent):
-    meta_type = portal_type = "Host"
+    meta_type = portal_type = "CloudStackHost"
 
     host_type = None
     host_state = None

@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class VirtualMachine(BaseComponent):
-    meta_type = portal_type = "VirtualMachine"
+    meta_type = portal_type = "CloudStackVirtualMachine"
 
     account = None
     cpu_number = None

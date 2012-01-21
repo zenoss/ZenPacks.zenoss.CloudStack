@@ -17,7 +17,7 @@ from ZenPacks.zenoss.CloudStack import BaseComponent
 
 
 class Cluster(BaseComponent):
-    meta_type = portal_type = "Cluster"
+    meta_type = portal_type = "CloudStackCluster"
 
     cluster_type = None
     hypervisor_type = None
