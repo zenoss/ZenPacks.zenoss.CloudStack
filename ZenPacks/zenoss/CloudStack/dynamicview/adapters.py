@@ -132,9 +132,6 @@ class RouterVMRelationsProvider(BaseRelationsProvider):
     adapts(RouterVM)
 
     def relations(self, type=TAG_ALL):
-        if type in (TAG_ALL, TAG_IMPACTS):
-            yield self.constructRelationTo(self._adapted.pod(), TAG_IMPACTS)
-
         if type in (TAG_ALL, TAG_IMPACTED_BY):
             host = self._adapted.host()
             if host:
