@@ -21,7 +21,7 @@ True
 ['zenoss.CloudStack']
 </property>
 <property visible="True" type="lines" id="zDeviceTemplates" >
-['Cloud']
+['CloudStackCloud']
 </property>
 <property visible="True" type="string" id="zPythonClass" >
 ZenPacks.zenoss.CloudStack.Cloud
