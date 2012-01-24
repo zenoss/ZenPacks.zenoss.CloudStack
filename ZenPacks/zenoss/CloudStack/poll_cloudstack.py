@@ -297,7 +297,8 @@ class CloudStackPoller(object):
                 values[a]['networkWrite'] += network_write
 
         for k, v in values.items():
-            if k.startswith('zone') or \
+            if k.startswith('cloud') or \
+                    k.startswith('zone') or \
                     k.startswith('pod') or \
                     k.startswith('cluster'):
 
