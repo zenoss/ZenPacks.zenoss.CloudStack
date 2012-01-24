@@ -41,8 +41,8 @@ class TestModel(BaseTestCase):
 
         # Required to prevent erroring out when trying to define viewlets in
         # ../browser/configure.zcml.
-        import Products.ZenUI3.navigation
-        zcml.load_config('testing.zcml', Products.ZenUI3.navigation)
+        import zope.viewlet
+        zcml.load_config('meta.zcml', zope.viewlet)
 
         import ZenPacks.zenoss.CloudStack
         zcml.load_config('configure.zcml', ZenPacks.zenoss.CloudStack)
