@@ -40,6 +40,10 @@ class ZenPack(ZenPackBase):
         )
 
     def install(self, app):
+        # We expect the /Capacity event class to exist, but don't want to add
+        # it into objects.xml in case someone removes this ZenPack.
+        app.zport.dmd.Events.createOrganizer('/Capacity')
+
         super(ZenPack, self).install(app)
         self.symlink_plugins()
 
