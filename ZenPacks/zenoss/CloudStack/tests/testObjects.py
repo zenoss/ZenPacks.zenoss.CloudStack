@@ -26,6 +26,7 @@ DEVICECLASS_DEPENDENCIES = tuple()
 
 EVENTCLASS_DEPENDENCIES = (
     '/App',
+    '/Capacity',
     '/Perf',
     '/Status',
     )
@@ -79,7 +80,7 @@ class TestObjects(BaseTestCase):
         self.assertEqual(dc.zSnmpMonitorIgnore, True)
         self.assertEqual(dc.zWmiMonitorIgnore, True)
         self.assertEqual(dc.zCollectorPlugins, ['zenoss.CloudStack'])
-        self.assertEqual(dc.zDeviceTemplates, ['Cloud'])
+        self.assertEqual(dc.zDeviceTemplates, ['CloudStackCloud'])
         self.assertEqual(dc.zPythonClass, 'ZenPacks.zenoss.CloudStack.Cloud')
         self.assertEqual(dc.zIcon, '/++resource++cloudstack/img/cloudstack.png')
         self.assertEqual(dc.zCommandCommandTimeout, 300.0)
@@ -98,17 +99,23 @@ class TestObjects(BaseTestCase):
         1. Verify all DERIVE type datapoints have an rrdmin of 0.
         2. Verify all percentage datapoints have rrdmin of 0 and rrdmax of 100.
         """
-        for t_name in ('Cloud', 'Zone', 'Pod', 'Cluster', 'Host'):
+        template_names = (
+            'CloudStackCloud', 'CloudStackZone', 'CloudStackPod',
+            'CloudStackCluster', 'CloudStackHost',
+            )
+
+        for t_name in template_names:
             t = self.dmd.Devices.CloudStack.rrdTemplates._getOb(t_name)
             for ds in t.datasources():
                 for dp in ds.datapoints():
                     if dp.rrdtype == 'DERIVE':
                         self.assertEqual(int(dp.rrdmin), 0)
 
-                    # Also verify that percents are 0-100 bounded.
+                    # Lower-bound percentages at 0. No upper-bound to allow for
+                    # over-provisioning.
                     elif dp.id.lower().endswith('percent'):
                         self.assertEqual(int(dp.rrdmin), 0)
-                        self.assertEqual(int(dp.rrdmax), 100)
+                        self.assertEqual(dp.rrdmax, None)
 
 
 def test_suite():
