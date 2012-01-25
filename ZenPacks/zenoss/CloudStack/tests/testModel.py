@@ -17,6 +17,7 @@ log = logging.getLogger('zen.CloudStack')
 from Products.Five import zcml
 
 from Products.DataCollector.ApplyDataMap import ApplyDataMap
+from Products.ZenModel import ZVersion
 from Products.ZenTestCase.BaseTestCase import BaseTestCase
 from Products.Zuul.interfaces.info import IInfo
 
@@ -50,7 +51,9 @@ class TestModel(BaseTestCase):
         dc.setZenProperty('zPythonClass', 'ZenPacks.zenoss.CloudStack.Cloud')
 
         self.d = dc.createInstance('zenoss.CloudStack.testDevice')
-        self.d.dmd._p_jar = MockJar()
+
+        if not ZVersion.VERSION.startswith('3.'):
+            self.d.dmd._p_jar = MockJar()
 
         self.applyDataMap = ApplyDataMap()._applyDataMap
 
