@@ -64,9 +64,9 @@ class TestModel(BaseTestCase):
 
         info = IInfo(self.d)
         self.assertEquals(info.zone_count, 1)
-        self.assertEquals(info.pod_count, 1)
-        self.assertEquals(info.cluster_count, 1)
-        self.assertEquals(info.host_count, 2)
+        self.assertEquals(info.pod_count, 2)
+        self.assertEquals(info.cluster_count, 2)
+        self.assertEquals(info.host_count, 6)
 
     def testZone(self):
         self._loadZenossData()
@@ -87,9 +87,9 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.security_groups_enabled, False)
         self.assertEquals(info.vlan, '1000-1200')
         self.assertEquals(info.zone_token, 'f0c6542e-7a1a-39b3-8c92-1a1c67cede0b')
-        self.assertEquals(info.pod_count, 1)
-        self.assertEquals(info.cluster_count, 1)
-        self.assertEquals(info.host_count, 2)
+        self.assertEquals(info.pod_count, 2)
+        self.assertEquals(info.cluster_count, 2)
+        self.assertEquals(info.host_count, 6)
 
     def testPod(self):
         self._loadZenossData()
@@ -109,7 +109,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.gateway, '10.208.37.1')
         self.assertEquals(info.zone.id, 'zone1')
         self.assertEquals(info.cluster_count, 1)
-        self.assertEquals(info.host_count, 2)
+        self.assertEquals(info.host_count, 3)
 
     def testCluster(self):
         self._loadZenossData()
@@ -130,7 +130,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.managed_state, 'Managed')
         self.assertEquals(info.zone.id, 'zone1')
         self.assertEquals(info.pod.id, 'pod1')
-        self.assertEquals(info.host_count, 2)
+        self.assertEquals(info.host_count, 3)
 
     def testHost(self):
         self._loadZenossData()
@@ -149,13 +149,13 @@ class TestModel(BaseTestCase):
         self.assertEquals(info.allocation_state, 'Enabled')
         self.assertEquals(info.host_type, 'Routing')
         self.assertEquals(info.hypervisor, 'XenServer')
-        self.assertEquals(info.host_version, '2.2.12.20110927185324')
+        self.assertEquals(info.host_version, '2.2.13.20111117191758')
         self.assertEquals(info.capabilities, 'xen-3.0-x86_64 , xen-3.0-x86_32p , hvm-3.0-x86_32 , hvm-3.0-x86_32p , hvm-3.0-x86_64')
         self.assertEquals(info.host_state, 'Up')
         self.assertEquals(info.created, '2011-10-17T21:19:45-0700')
         self.assertEquals(info.host_tags, '')
         self.assertEquals(info.ip_address, '10.208.37.11')
-        self.assertEquals(info.host_events, 'Ping; PrepareUnmanaged; PingTimeout; AgentDisconnected; HypervisorVersionChanged; StartAgentRebalance; HostDown; ShutdownRequested; MaintenanceRequested; ManagementServerDown; AgentConnected')
+        self.assertEquals(info.host_events, 'ShutdownRequested; AgentDisconnected; AgentConnected; HypervisorVersionChanged; PrepareUnmanaged; HostDown; PingTimeout; ManagementServerDown; StartAgentRebalance; Ping; MaintenanceRequested')
         self.assertEquals(info.local_storage_active, False)
         self.assertEquals(info.management_server_id, 257544418526661)
         self.assertEquals(info.zone.id, 'zone1')
