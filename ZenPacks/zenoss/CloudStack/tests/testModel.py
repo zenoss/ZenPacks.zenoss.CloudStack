@@ -29,6 +29,19 @@ from ZenPacks.zenoss.CloudStack.tests.utils import loadPickle
 CLOUDSTACK_ICON = '/++resource++cloudstack/img/cloudstack.png'
 
 
+class MockJar(object):
+    """Mock object for x._p_jar.
+
+    Used to trick ApplyDataMap into not aborting transactions after adding
+    non-persistent objects. Without doing this, all sub-components will cause
+    ugly tracebacks in modeling tests.
+
+    """
+
+    def sync(self):
+        pass
+
+
 class TestModel(BaseTestCase):
     def afterSetUp(self):
         super(TestModel, self).afterSetUp()
@@ -37,6 +50,8 @@ class TestModel(BaseTestCase):
         dc.setZenProperty('zPythonClass', 'ZenPacks.zenoss.CloudStack.Cloud')
 
         self.d = dc.createInstance('zenoss.CloudStack.testDevice')
+        self.d.dmd._p_jar = MockJar()
+
         self.applyDataMap = ApplyDataMap()._applyDataMap
 
         # Required to prevent erroring out when trying to define viewlets in
