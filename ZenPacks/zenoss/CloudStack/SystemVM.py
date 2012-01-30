@@ -78,10 +78,7 @@ class SystemVM(BaseComponent, TouchTestMixin):
 
     def getRRDTemplates(self):
         templates = super(BaseComponent, self).getRRDTemplates()
-
-        file_touch = self.getRRDTemplateByName("CloudStackFileTouch")
-        if file_touch:
-            templates.append(file_touch)
+        templates.extend(self.extra_templates())
 
         if self.systemvm_type == 'consoleproxy':
             console_proxy = self.getRRDTemplateByName('CloudStackConsoleProxy')

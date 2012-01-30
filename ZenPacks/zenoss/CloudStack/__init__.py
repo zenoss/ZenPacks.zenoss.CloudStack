@@ -174,6 +174,17 @@ class TouchTestMixin(object):
             '(echo "file touch failed" ; false)\' '
             '2>/dev/null' % self.ssh_prefix())
 
+    def extra_templates(self):
+        templates = []
+
+        host = self.host()
+        if host and host.hypervisor == 'KVM':
+            file_touch = self.getRRDTemplateByName("CloudStackFileTouch")
+            if file_touch:
+                templates.append(file_touch)
+
+        return templates
+
 
 # We need to filter CloudStack components by id instead of name.
 EventManagerBase.ComponentIdWhere = (
