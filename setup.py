@@ -3,13 +3,13 @@
 # or saved.  Do not modify them directly here.
 # NB: PACKAGES is deprecated
 NAME = "ZenPacks.zenoss.CloudStack"
-VERSION = "0.9.6"
+VERSION = "1.0.0"
 AUTHOR = "Zenoss Labs <labs@zenoss.com>"
 LICENSE = ""
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.zenoss']
 PACKAGES = ['ZenPacks', 'ZenPacks.zenoss', 'ZenPacks.zenoss.CloudStack']
 INSTALL_REQUIRES = []
-COMPAT_ZENOSS_VERS = ">=3.2"
+COMPAT_ZENOSS_VERS = ">=4.1.70"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
 ################################

@@ -27,7 +27,7 @@ Ext.apply(Zenoss.render, {
     entityLinkFromGrid: function(obj) {
         if (obj && obj.uid && obj.name) {
             if ( !this.panel || this.panel.subComponentGridPanel) {
-                return String.format(
+                return Ext.String.format(
                     '<a href="javascript:Ext.getCmp(\'component_card\').componentgrid.jumpToEntity(\'{0}\', \'{1}\');">{1}</a>',
                     obj.uid, obj.name);
             } else {
