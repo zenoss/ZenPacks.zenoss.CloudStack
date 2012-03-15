@@ -36,8 +36,8 @@ Depending on what version of Zenoss you're running you will need a different
 package. Download the appropriate package for your Zenoss version from the list
 below.
 
- * Zenoss 4.1: [Latest Package for Python 2.7][]
- * Zenoss 3.0 - 4.0: [Latest Package for Python 2.6][]
+ * Zenoss 4.1 - 4.2: [Packages for Zenoss 4][]
+ * Zenoss 3.0 - 4.0: [Packages for Zenoss 3][]
 
 Then copy it to your Zenoss server and run the following commands as the zenoss
 user.
@@ -149,5 +149,5 @@ server.
 
 [Monitoring CloudStack]: <http://www.youtube.com/watch?v=3hr2H9iMz_o>
 [Zenoss]: <http://www.zenoss.com/>
-[Latest Package for Python 2.7]: <https://github.com/downloads/zenoss/ZenPacks.zenoss.CloudStack/ZenPacks.zenoss.CloudStack-0.9.6-py2.7.egg>
-[Latest Package for Python 2.6]: <https://github.com/downloads/zenoss/ZenPacks.zenoss.CloudStack/ZenPacks.zenoss.CloudStack-0.9.6-py2.6.egg>
+[Packages for Zenoss 4]: <http://zenpacks.zenoss.com/pypi/github/3.2/ZenPacks.zenoss.CloudStack/>
+[Packages for Zenoss 3]: <http://zenpacks.zenoss.com/pypi/github/4.2/ZenPacks.zenoss.CloudStack/>

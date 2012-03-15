@@ -399,7 +399,9 @@ class CloudStackPoller(object):
             c_type = txcloudstack.capacity_type_string(c['type'])
 
             for c_key in ('capacitytotal', 'capacityused', 'percentused'):
-                metric_name = metric_name_map[(c_type, c_key)]
+                metric_name = metric_name_map.get((c_type, c_key), None)
+                if not metric_name:
+                    continue
 
                 # Convert CPU from MHz to Hz.
                 if c_type == 'cpu' and not c_key.startswith('percent'):
