@@ -26,10 +26,8 @@ Zenoss.types.register({
 Ext.apply(Zenoss.render, {
     entityLinkFromGrid: function(obj) {
         if (obj && obj.uid && obj.name) {
-            if ( !this.panel || this.panel.subComponentGridPanel) {
-                return Ext.String.format(
-                    '<a href="javascript:Ext.getCmp(\'component_card\').componentgrid.jumpToEntity(\'{0}\', \'{1}\');">{1}</a>',
-                    obj.uid, obj.name);
+            if (!this.panel || this.panel.subComponentGridPanel) {
+                return '<a href="javascript:Ext.getCmp(\'component_card\').componentgrid.jumpToEntity(\''+obj.uid+'\', \''+obj.name+'\');">'+obj.name+'</a>';
             } else {
                 return obj.name;
             }
