@@ -149,5 +149,5 @@ server.
 
 [Monitoring CloudStack]: <http://www.youtube.com/watch?v=3hr2H9iMz_o>
 [Zenoss]: <http://www.zenoss.com/>
-[Packages for Zenoss 4]: <http://zenpacks.zenoss.com/pypi/github/3.2/ZenPacks.zenoss.CloudStack/>
-[Packages for Zenoss 3]: <http://zenpacks.zenoss.com/pypi/github/4.2/ZenPacks.zenoss.CloudStack/>
+[Packages for Zenoss 4]: <http://zenpacks.zenoss.com/pypi/github/4.2/ZenPacks.zenoss.CloudStack/>
+[Packages for Zenoss 3]: <http://zenpacks.zenoss.com/pypi/github/3.2/ZenPacks.zenoss.CloudStack/>
