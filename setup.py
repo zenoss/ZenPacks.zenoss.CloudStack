@@ -5,7 +5,7 @@
 NAME = "ZenPacks.zenoss.CloudStack"
 VERSION = "1.0.2"
 AUTHOR = "Zenoss Labs <labs@zenoss.com>"
-LICENSE = ""
+LICENSE = "GPLv2"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.zenoss']
 PACKAGES = ['ZenPacks', 'ZenPacks.zenoss', 'ZenPacks.zenoss.CloudStack']
 INSTALL_REQUIRES = []
