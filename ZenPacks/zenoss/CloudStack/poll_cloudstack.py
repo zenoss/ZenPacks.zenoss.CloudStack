@@ -16,6 +16,7 @@ import datetime
 import json
 import md5
 import os
+import random
 import sys
 import tempfile
 import time
@@ -238,7 +239,7 @@ class CloudStackPoller(object):
             memory_total = float(h['memorytotal'])
             memory_allocated = float(h['memoryallocated'])
             memory_allocated_percent = (memory_allocated / memory_total) * 100.0
-            memory_used = float(h['memoryused'])
+            memory_used = float(h.get('memoryused', 0.0))
             memory_used_percent = (memory_used / memory_total) * 100.0
 
             # Convert networkkbs* to bits/sec.
@@ -557,5 +558,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 4 and sys.argv[4] == 'events':
         events = True
 
+    time.sleep(random.randint(1, 5))
     poller = CloudStackPoller(url, api_key, secret_key, collect_events=events)
     poller.run()
