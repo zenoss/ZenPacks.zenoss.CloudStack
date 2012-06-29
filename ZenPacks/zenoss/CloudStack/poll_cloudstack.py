@@ -128,8 +128,9 @@ class CloudStackPoller(object):
         last_alerts = self._saved(key='alerts')
         last_alert_ids = set()
 
-        for alert in last_alerts:
-            last_alert_ids.add(alert['id'])
+        if last_alerts:
+            for alert in last_alerts:
+                last_alert_ids.add(alert['id'])
 
         new_alerts = response.get('alert', [])
         new_alert_ids = set()
