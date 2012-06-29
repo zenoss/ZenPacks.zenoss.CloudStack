@@ -68,7 +68,11 @@ class VirtualMachine(BaseComponent):
         )
 
     def device(self):
-        return self.zone().device()
+        zone = self.zone()
+        if not zone:
+            zone = self.getPrimaryParent().getPrimaryParent()
+
+        return zone.device()
 
     def setHostId(self, host_id):
         for pod in self.zone().pods():
