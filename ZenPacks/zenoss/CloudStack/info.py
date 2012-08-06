@@ -66,13 +66,6 @@ class BaseComponentInfo(ComponentInfo):
     allocation_state = ProxyProperty('allocation_state')
 
     @property
-    def entity(self):
-        return {
-            'uid': self._object.getPrimaryUrlPath(),
-            'name': self._object.titleOrId(),
-            }
-
-    @property
     def icon(self):
         return self._object.getIconPath()
 

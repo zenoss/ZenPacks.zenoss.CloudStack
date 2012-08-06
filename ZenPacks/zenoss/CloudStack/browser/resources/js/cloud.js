@@ -10,27 +10,33 @@ ZC.registerName('CloudStackCluster', _t('Cluster'), _t('Clusters'));
 ZC.registerName('CloudStackHost', _t('Host'), _t('Hosts'));
 ZC.registerName('CloudStackVirtualMachine', _t('VM'), _t('VMs'));
 
-Zenoss.types.TYPES.DeviceClass[0] = new RegExp(
-    "^/zport/dmd/Devices(/(?!devices)[^/*])*/?$");
-
-Zenoss.types.register({
-    'CloudStackZone': "^/zport/dmd/Devices/.*/devices/.*/zones/[^/]*/?$",
-    'CloudStackPod': "^/zport/dmd/Devices/.*/devices/.*/pods/[^/]*/?$",
-    'CloudStackSystemVM': "^/zport/dmd/Devices/.*/devices/.*/systemvms/[^/]*/?$",
-    'CloudStackRouterVM': "^/zport/dmd/Devices/.*/devices/.*/routervms/[^/]*/?$",
-    'CloudStackCluster': "^/zport/dmd/Devices/.*/devices/.*/clusters/[^/]*/?$",
-    'CloudStackHost': "^/zport/dmd/Devices/.*/devices/.*/hosts/[^/]*/?$",
-    'CloudStackVirtualMachine': "^/zport/dmd/Devices/.*/devices/.*/vms/[^/]*/?$"
-});
-
 Ext.apply(Zenoss.render, {
-    entityLinkFromGrid: function(obj) {
-        if (obj && obj.uid && obj.name) {
-            if (!this.panel || this.panel.subComponentGridPanel) {
-                return '<a href="javascript:Ext.getCmp(\'component_card\').componentgrid.jumpToEntity(\''+obj.uid+'\', \''+obj.name+'\');">'+obj.name+'</a>';
-            } else {
-                return obj.name;
-            }
+    CloudStack_entityLinkFromGrid: function(obj, col, record) {
+        if (!obj)
+            return;
+
+        if (typeof(obj) == 'string')
+            obj = record.data;
+
+        if (!obj.title && obj.name)
+            obj.title = obj.name;
+
+        var isLink = false;
+
+        if (this.refName == 'componentgrid') {
+            // Zenoss >= 4.2 / ExtJS4
+            if (this.subComponentGridPanel || this.componentType != obj.meta_type)
+                isLink = true;
+        } else {
+            // Zenoss < 4.2 / ExtJS3
+            if (!this.panel || this.panel.subComponentGridPanel)
+                isLink = true;
+        }
+
+        if (isLink) {
+            return '<a href="javascript:Ext.getCmp(\'component_card\').componentgrid.jumpToEntity(\''+obj.uid+'\', \''+obj.meta_type+'\');">'+obj.title+'</a>';
+        } else {
+            return obj.title;
         }
     },
 
@@ -45,39 +51,73 @@ Ext.apply(Zenoss.render, {
 
 ZC.CloudStackComponentGridPanel = Ext.extend(ZC.ComponentGridPanel, {
     subComponentGridPanel: false,
-    
-    jumpToEntity: function(uid, name) {
-        var tree = Ext.getCmp('deviceDetailNav').treepanel,
-            sm = tree.getSelectionModel(),
-            compsNode = tree.getRootNode().findChildBy(function(n){
-                return n.text=='Components';
+
+    jumpToEntity: function(uid, meta_type) {
+        var tree = Ext.getCmp('deviceDetailNav').treepanel;
+        var tree_selection_model = tree.getSelectionModel();
+        var components_node = tree.getRootNode().findChildBy(
+            function(n) {
+                if (n.data) {
+                    // Zenoss >= 4.2 / ExtJS4
+                    return n.data.text == 'Components';
+                }
+
+                // Zenoss < 4.2 / ExtJS3
+                return n.text == 'Components';
             });
-    
-        var compType = Zenoss.types.type(uid);
-        var componentCard = Ext.getCmp('component_card');
-        componentCard.setContext(compsNode.id, compType);
-        componentCard.selectByToken(uid);
-        sm.suspendEvents();
-        compsNode.findChildBy(function(n){return n.id==compType;}).select();
-        sm.resumeEvents();
+
+        // Reset context of component card.
+        var component_card = Ext.getCmp('component_card');
+
+        if (components_node.data) {
+            // Zenoss >= 4.2 / ExtJS4
+            component_card.setContext(components_node.data.id, meta_type);
+        } else {
+            // Zenoss < 4.2 / ExtJS3
+            component_card.setContext(components_node.id, meta_type);
+        }
+
+        // Select chosen row in component grid.
+        component_card.selectByToken(uid);
+
+        // Select chosen component type from tree.
+        var component_type_node = components_node.findChildBy(
+            function(n) {
+                if (n.data) {
+                    // Zenoss >= 4.2 / ExtJS4
+                    return n.data.id == meta_type;
+                }
+
+                // Zenoss < 4.2 / ExtJS3
+                return n.id == meta_type;
+            });
+
+        if (component_type_node.select) {
+            tree_selection_model.suspendEvents();
+            component_type_node.select();
+            tree_selection_model.resumeEvents();
+        } else {
+            tree_selection_model.select([component_type_node], false, true);
+        }
     }
 });
 
 ZC.CloudStackZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackZone',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'pod_count'},
                 {name: 'cluster_count'},
                 {name: 'host_count'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -87,10 +127,10 @@ ZC.CloudStackZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'pod_count',
@@ -117,6 +157,12 @@ ZC.CloudStackZonePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
                 width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
+                width: 65
             }]
         });
         ZC.CloudStackZonePanel.superclass.constructor.call(this, config);
@@ -128,18 +174,19 @@ Ext.reg('CloudStackZonePanel', ZC.CloudStackZonePanel);
 ZC.CloudStackPodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackPod',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
                 {name: 'zone'},
                 {name: 'cluster_count'},
                 {name: 'host_count'},
-                {name: 'entity'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -149,16 +196,16 @@ ZC.CloudStackPodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'cluster_count',
@@ -179,6 +226,12 @@ ZC.CloudStackPodPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
                 width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
+                width: 65
             }]
         });
         ZC.CloudStackPodPanel.superclass.constructor.call(this, config);
@@ -190,13 +243,13 @@ Ext.reg('CloudStackPodPanel', ZC.CloudStackPodPanel);
 ZC.CloudStackSystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackSystemVM',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'zone'},
                 {name: 'pod'},
                 {name: 'host'},
@@ -205,7 +258,8 @@ ZC.CloudStackSystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'public_ip'},
                 {name: 'private_ip'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -215,28 +269,28 @@ ZC.CloudStackSystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'pod',
                 dataIndex: 'pod',
                 header: _t('Pod'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'host',
                 dataIndex: 'host',
                 header: _t('Host'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'systemvm_type',
@@ -269,6 +323,12 @@ ZC.CloudStackSystemVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
                 width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
+                width: 65
             }]
         });
         ZC.CloudStackSystemVMPanel.superclass.constructor.call(this, config);
@@ -280,13 +340,13 @@ Ext.reg('CloudStackSystemVMPanel', ZC.CloudStackSystemVMPanel);
 ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackRouterVM',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'zone'},
                 {name: 'pod'},
                 {name: 'host'},
@@ -295,7 +355,8 @@ ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'guest_ip'},
                 {name: 'state'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -305,28 +366,28 @@ ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'pod',
                 dataIndex: 'pod',
                 header: _t('Pod'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'host',
                 dataIndex: 'host',
                 header: _t('Host'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'network_domain',
@@ -359,6 +420,12 @@ ZC.CloudStackRouterVMPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
                 width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
+                width: 65
             }]
         });
         ZC.CloudStackRouterVMPanel.superclass.constructor.call(this, config);
@@ -370,18 +437,19 @@ Ext.reg('CloudStackRouterVMPanel', ZC.CloudStackRouterVMPanel);
 ZC.CloudStackClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackCluster',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'zone'},
                 {name: 'pod'},
                 {name: 'host_count'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -391,22 +459,22 @@ ZC.CloudStackClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'pod',
                 dataIndex: 'pod',
                 header: _t('Pod'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'host_count',
@@ -421,6 +489,12 @@ ZC.CloudStackClusterPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
                 width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
+                width: 65
             }]
         });
         ZC.CloudStackClusterPanel.superclass.constructor.call(this, config);
@@ -432,19 +506,20 @@ Ext.reg('CloudStackClusterPanel', ZC.CloudStackClusterPanel);
 ZC.CloudStackHostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            autoExpandColumn: 'entity',
+            autoExpandColumn: 'name',
             componentType: 'CloudStackHost',
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'managed_device'},
                 {name: 'zone'},
                 {name: 'pod'},
                 {name: 'cluster'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -454,10 +529,10 @@ ZC.CloudStackHostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this
             },{
                 id: 'managed_device',
@@ -473,19 +548,19 @@ ZC.CloudStackHostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'pod',
                 dataIndex: 'pod',
                 header: _t('Pod'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'cluster',
                 dataIndex: 'cluster',
                 header: _t('Cluster'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'monitored',
@@ -493,6 +568,12 @@ ZC.CloudStackHostPanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Monitored'),
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
+                width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
                 width: 65
             }]
         });
@@ -510,8 +591,8 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
             fields: [
                 {name: 'uid'},
                 {name: 'name'},
+                {name: 'meta_type'},
                 {name: 'severity'},
-                {name: 'entity'},
                 {name: 'display_name'},
                 {name: 'account'},
                 {name: 'managed_device'},
@@ -522,7 +603,8 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 {name: 'memory'},
                 {name: 'state'},
                 {name: 'monitor'},
-                {name: 'monitored'}
+                {name: 'monitored'},
+                {name: 'locking'}
             ],
             columns: [{
                 id: 'severity',
@@ -532,10 +614,10 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 sortable: true,
                 width: 50
             },{
-                id: 'entity',
-                dataIndex: 'entity',
+                id: 'name',
+                dataIndex: 'name',
                 header: _t('Name'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 panel: this,
                 width: 140
             },{
@@ -562,13 +644,13 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'host',
                 dataIndex: 'host',
                 header: _t('Host'),
-                renderer: Zenoss.render.entityLinkFromGrid,
+                renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
                 width: 140
             },{
                 id: 'cpu_total',
@@ -603,6 +685,12 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 header: _t('Monitored'),
                 renderer: Zenoss.render.checkbox,
                 sortable: true,
+                width: 65
+            },{
+                id: 'locking',
+                dataIndex: 'locking',
+                header: _t('Locking'),
+                renderer: Zenoss.render.locking_icons,
                 width: 65
             }]
         });
