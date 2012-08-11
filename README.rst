@@ -3,7 +3,9 @@ ZenPacks.zenoss.CloudStack
 ===============================================================================
 
 Please watch the `Monitoring CloudStack`_ video for a quick introduction that
-covers most of the details below.
+covers most of the details below. Note that this video was recorded with
+version 0.7.0 of the ZenPack. The discovery and monitoring of system, router
+and regular VMs has since been added.
 
 
 About
