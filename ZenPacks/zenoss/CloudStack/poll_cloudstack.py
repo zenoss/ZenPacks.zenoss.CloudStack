@@ -520,7 +520,7 @@ class CloudStackPoller(object):
         if self._collect_events:
             # Go back two days to compensate for downtime and timezone
             # variance between poller and cloud.
-            startdate = datetime.date.today() - datetime.timedelta(days=2)
+            startdate = datetime.date.today() - datetime.timedelta(hours=1)
 
             deferreds.extend((
                 client.listAlerts(),
