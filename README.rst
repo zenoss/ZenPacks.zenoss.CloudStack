@@ -169,6 +169,72 @@ as the ``zenoss`` user::
     zenoss restart
 
 
+Change Log
+===============================================================================
+
+**1.0.5** - 2012-08-10
+----------------------
+
+* Updated to support Zenoss 4.2.
+
+* Fix event polling to support CloudStack management servers generating up to
+  10,000 events per hour. The previous mechanism only supported 208 events per
+  hour.
+
+
+**1.0.4** - 2012-06-29
+----------------------
+
+* Fix for bug related to hosts that don't report `memoryused`.
+
+* Fix for *No data returned* events.
+
+* Fix for cases where the CloudStack database reports the wrong zone for a VM.
+
+
+**1.0.2** - 2012-03-15
+----------------------
+
+* Updated to support Zenoss 4.1.
+
+* Restrict system VM "touch test" to KVM hosts.
+
+
+**0.9.5** - 2012-01-21
+----------------------
+
+* Added Dynamic View and Impact adapters.
+
+* Various minor bug fixes.
+
+
+**0.9.0** - 2012-01-20
+----------------------
+
+* Added discovery and monitoring of router VMs.
+
+* Added discovery and monitoring of all VMs.
+
+
+**0.8.0** - 2012-01-19
+----------------------
+
+* Removed maximum limit on over-allocatable utilization metrics.
+
+* Added discovery and monitoring of console proxies and other system VMs.
+
+* Add file-touch monitoring of system VMs to catch read-only file systems on
+  system VMs.
+
+
+0.7.0
+-----------------------------------------------------------------------------
+
+**2011-11-01**
+
+* Initial alpha release.
+
+
 Screenshots
 ===============================================================================
 
