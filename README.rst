@@ -185,6 +185,8 @@ Change Log
 **1.0.4** - 2012-06-29
 ----------------------
 
+* Updated to support CloudStack 3 (Acton).
+
 * Fix for bug related to hosts that don't report `memoryused`.
 
 * Fix for *No data returned* events.
