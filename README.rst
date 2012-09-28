@@ -172,6 +172,15 @@ as the ``zenoss`` user::
 Change Log
 ===============================================================================
 
+**Working** - Current
+---------------------
+
+* Fix for ZeroDivisionError in zencommand.log (`ZEN-3582`_)
+
+
+.. _ZEN-3582: http://jira.zenoss.com/jira/browse/ZEN-3582
+
+
 **1.0.5** - 2012-08-10
 ----------------------
 
