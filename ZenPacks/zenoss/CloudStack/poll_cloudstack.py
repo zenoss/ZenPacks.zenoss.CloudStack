@@ -169,7 +169,7 @@ class CloudStackPoller(object):
                 severity=3,
                 summary=alert['description'],
                 eventClassKey='cloudstack_alert',
-                cloudstack_type=alert_type(alert.get('type')),
+                cloudstack_type=alert_type,
                 rcvtime=rcvtime,
                 ))
 
@@ -184,7 +184,7 @@ class CloudStackPoller(object):
                     summary=alert['description'],
                     message='%s: %s' % (alert_type, alert['description']),
                     eventClassKey='cloudstack_alert',
-                    cloudstack_type=alert_type(alert.get('type')),
+                    cloudstack_type=alert_type,
                     ))
 
         return events
