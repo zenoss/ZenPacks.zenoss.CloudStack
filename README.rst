@@ -172,12 +172,15 @@ as the ``zenoss`` user::
 Change Log
 ===============================================================================
 
-**Working** - Current
+**1.0.6** - 2012-10-01
 ---------------------
 
+* Fix for "No data retuned for command" events. (`ZEN-3442`_)
 * Fix for ZeroDivisionError in zencommand.log (`ZEN-3582`_)
+* Fix for de-duplication of alerts and events.
 
 
+.. _ZEN-3442: http://jira.zenoss.com/jira/browse/ZEN-3442
 .. _ZEN-3582: http://jira.zenoss.com/jira/browse/ZEN-3582
 
 
