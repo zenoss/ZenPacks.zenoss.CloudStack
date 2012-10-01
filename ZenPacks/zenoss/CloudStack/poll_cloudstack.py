@@ -448,16 +448,24 @@ class CloudStackPoller(object):
             if k.endswith('AllocatedPercent'):
                 allocated_k = k.replace('Percent', '')
                 total_op_k = k.replace('AllocatedPercent', 'TotalOP')
-                values['cloud'][k] = (
-                    values['cloud'][allocated_k] /
-                    values['cloud'][total_op_k]) * 100.0
+
+                try:
+                    values['cloud'][k] = (
+                        values['cloud'][allocated_k] /
+                        values['cloud'][total_op_k]) * 100.0
+                except ZeroDivisionError:
+                    values['cloud'][k] = 0.0
 
             elif k.endswith('UsedPercent'):
                 used_k = k.replace('Percent', '')
                 total_k = k.replace('UsedPercent', 'Total')
-                values['cloud'][k] = (
-                    values['cloud'][used_k] /
-                    values['cloud'][total_k]) * 100.0
+
+                try:
+                    values['cloud'][k] = (
+                        values['cloud'][used_k] /
+                        values['cloud'][total_k]) * 100.0
+                except ZeroDivisionError:
+                    values['cloud'][k] = 0.0
 
         return values
 
