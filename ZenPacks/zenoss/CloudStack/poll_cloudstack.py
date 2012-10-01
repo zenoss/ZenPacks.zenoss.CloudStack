@@ -13,10 +13,10 @@
 ###########################################################################
 
 import datetime
+import fcntl
 import json
 import md5
 import os
-import random
 import sys
 import tempfile
 import time
@@ -83,6 +83,12 @@ class CloudStackPoller(object):
     def _save(self, data, key):
         tmpfile = self._temp_filename(key=key)
         tmp = open(tmpfile, 'w')
+
+        # Many copies of this script could be attempting to write this file at
+        # the same time. Use file locking for safety.
+        fcntl.flock(tmp.fileno(), fcntl.LOCK_EX)
+        tmp.truncate()
+
         json.dump(data, tmp)
         tmp.close()
 
@@ -114,7 +120,12 @@ class CloudStackPoller(object):
             return None
 
         tmp = open(tmpfile, 'r')
-        values = json.load(tmp)
+
+        try:
+            values = json.load(tmp)
+        except ValueError:
+            return None
+
         tmp.close()
 
         return values
@@ -518,6 +529,10 @@ class CloudStackPoller(object):
         deferreds = []
 
         if self._collect_events:
+            # Prevent multiple simultaneous calls to the same API.
+            lock = open(self._temp_filename('events.lock'), 'w')
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+
             # Go back two days to compensate for downtime and timezone
             # variance between poller and cloud.
             startdate = datetime.date.today() - datetime.timedelta(hours=1)
@@ -527,6 +542,10 @@ class CloudStackPoller(object):
                 client.listEvents(startdate=startdate.strftime('%Y-%m-%d')),
                 ))
         else:
+            # Prevent multiple simultaneous calls to the same API.
+            lock = open(self._temp_filename('values.lock'), 'w')
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+
             saved_values = self._saved_values()
             if saved_values is not None:
                 self._values = saved_values
@@ -559,6 +578,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 4 and sys.argv[4] == 'events':
         events = True
 
-    time.sleep(random.randint(1, 5))
     poller = CloudStackPoller(url, api_key, secret_key, collect_events=events)
     poller.run()
