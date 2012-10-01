@@ -63,6 +63,11 @@ ALERT_TYPE_MAP = {
     }
 
 
+def alert_type(alert_type_id):
+    """Return the string representation of give numeric alert type ID."""
+    return ALERT_TYPE_MAP.get(alert_type_id, 'Unknown (%s)' % alert_type_id)
+
+
 class CloudStackPoller(object):
     def __init__(self, url, api_key, secret_key, collect_events=False):
         self._url = url
@@ -157,11 +162,14 @@ class CloudStackPoller(object):
 
             rcvtime = xml.utils.iso8601.parse(alert['sent'])
 
+            alert_type = ALERT_TYPE_MAP.get(
+                alert['type'], 'Unknown (%s)' % alert['type'])
+
             events.append(dict(
                 severity=3,
                 summary=alert['description'],
-                eventKey='alert%s' % alert['id'],
                 eventClassKey='cloudstack_alert',
+                cloudstack_type=alert_type(alert.get('type')),
                 rcvtime=rcvtime,
                 ))
 
@@ -175,9 +183,8 @@ class CloudStackPoller(object):
                     severity=0,
                     summary=alert['description'],
                     message='%s: %s' % (alert_type, alert['description']),
-                    eventKey='alert%s' % alert['id'],
                     eventClassKey='cloudstack_alert',
-                    cloudstack_type=alert_type,
+                    cloudstack_type=alert_type(alert.get('type')),
                     ))
 
         return events
@@ -209,7 +216,6 @@ class CloudStackPoller(object):
             new_event = dict(
                 severity=SEVERITY_MAP.get(event['level'], 3),
                 summary=event['description'],
-                eventKey='event%s' % event['id'],
                 eventClassKey='cloudstack_event',
                 rcvtime=rcvtime,
                 cloudstack_account=event['account'],
