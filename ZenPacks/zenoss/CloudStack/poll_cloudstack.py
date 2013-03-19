@@ -570,7 +570,8 @@ class CloudStackPoller(object):
                 client.listCapacity(),
                 client.listHosts(type="Routing"),
                 client.listSystemVms(),
-                client.listVirtualMachines(state="Running"),
+                client.listVirtualMachines(
+                    domainid='1', isrecursive=True, state="Running"),
                 ))
 
         DeferredList(deferreds, consumeErrors=True).addCallback(self._callback)

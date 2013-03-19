@@ -62,7 +62,7 @@ class CloudStack(PythonPlugin):
             client.listHosts(type="Routing"),
             client.listSystemVms(),
             client.listRouters(),
-            client.listVirtualMachines(),
+            client.listVirtualMachines(domainid='1', isrecursive=True),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
 
@@ -105,11 +105,6 @@ class CloudStack(PythonPlugin):
             LOG.info('Found %s %s', count, t)
 
             maps.extend(rel_maps)
-
-            # No need to process deeper levels if we have no results at this
-            # level.
-            if count < 1:
-                return maps
 
         return maps
 

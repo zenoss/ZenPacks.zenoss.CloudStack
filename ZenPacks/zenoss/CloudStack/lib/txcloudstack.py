@@ -160,6 +160,12 @@ class Client(object):
     def listConfigurations(self, **kwargs):
         return self._request('listConfigurations', **kwargs)
 
+    def listDomains(self, **kwargs):
+        return self._request('listDomains', **kwargs)
+
+    def listDomainChildren(self, **kwargs):
+        return self._request('listDomainChildren', **kwargs)
+
     def listZones(self, **kwargs):
         return self._request('listZones', **kwargs)
 
@@ -236,6 +242,8 @@ if __name__ == '__main__':
                     deferreds.append(call(name='default.page.size'))
                 elif command == 'listHosts':
                     deferreds.append(call(type='Routing'))
+                elif command == 'listVirtualMachines':
+                    deferreds.append(call(domainid='1', isrecursive=True, state='Running'))
                 else:
                     deferreds.append(call())
 
