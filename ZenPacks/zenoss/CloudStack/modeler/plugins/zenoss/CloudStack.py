@@ -312,9 +312,19 @@ class CloudStack(PythonPlugin):
 
     def get_virtualmachines_rel_maps(self, vms_response):
         vm_maps = {}
+
+        # Used to avoid creating duplicate VMs from duplicate VMs in the
+        # response.
+        vm_ids = set()
+
         for vm in vms_response.get('virtualmachine', []):
             zone_id = self.prepId('zone%s' % vm['zoneid'])
             vm_id = self.prepId('vm%s' % vm['id'])
+
+            if vm_id in vm_ids:
+                continue
+
+            vm_ids.add(vm_id)
 
             compname = 'zones/%s' % zone_id
 
