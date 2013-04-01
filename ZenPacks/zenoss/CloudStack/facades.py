@@ -24,7 +24,7 @@ from ZenPacks.zenoss.CloudStack.interfaces import ICloudStackFacade
 class CloudStackFacade(ZuulFacade):
     implements(ICloudStackFacade)
 
-    def add_cloudstack(self, url, api_key, secret_key):
+    def add_cloudstack(self, url, api_key, secret_key,collector='localhost'):
         """Handles adding a new CloudStack cloud to the system."""
 
         parsed_url = urlparse(url)
@@ -41,10 +41,11 @@ class CloudStackFacade(ZuulFacade):
             'zCloudStackSecretKey': secret_key,
             }
 
-        perfConf = self._dmd.Monitors.getPerformanceMonitor('localhost')
+        perfConf = self._dmd.Monitors.getPerformanceMonitor(collector)
         jobStatus = perfConf.addDeviceCreationJob(
             deviceName=hostname,
             devicePath='/Devices/CloudStack',
+            performanceMonitor=collector,
             discoverProto='python',
             zProperties=zProperties)
 
