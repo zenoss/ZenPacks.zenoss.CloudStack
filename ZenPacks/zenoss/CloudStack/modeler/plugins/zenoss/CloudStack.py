@@ -61,7 +61,7 @@ class CloudStack(PythonPlugin):
             client.listClusters(),
             client.listHosts(type="Routing"),
             client.listSystemVms(),
-            client.listRouters(),
+            client.listRouters(listAll='true'),
             client.listVirtualMachines(domainid='1', isrecursive=True),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
