@@ -1,7 +1,7 @@
 ###########################################################################
 #
 # This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2012, Zenoss Inc.
+# Copyright (C) 2012-2013, Zenoss Inc.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 or (at your
@@ -14,6 +14,7 @@
 from Products.ZenRelations.RelSchema import ToMany, ToManyCont, ToOne
 
 from ZenPacks.zenoss.CloudStack import BaseComponent, TouchTestMixin
+from ZenPacks.zenoss.CloudStack.utils import require_zenpack
 
 
 class RouterVM(BaseComponent, TouchTestMixin):
@@ -71,6 +72,48 @@ class RouterVM(BaseComponent, TouchTestMixin):
             ),
         )
 
+    _catalogs = {
+        'RouterVMCatalog': {
+            'deviceclass': '/CloudStack',
+            'indexes': {
+                'ipv4_addresses': {'type': 'keyword'},
+                'mac_addresses': {'type': 'keyword'},
+                },
+            },
+        }
+
+    @property
+    def ipv4_addresses(self):
+        return filter(
+            lambda x: x, (
+                self.guest_ip,
+                self.linklocal_ip,
+                self.public_ip))
+
+    @property
+    def mac_addresses(self):
+        return filter(
+            lambda x: x, (
+                self.guest_macaddress,
+                self.linklocal_macaddress,
+                self.public_macaddress))
+
+    @classmethod
+    def findByIP(cls, dmd, ipv4_addresses):
+        '''
+        Return the first RouterVM matching one of ipv4_addresses.
+        '''
+        return next(cls.search(
+            dmd, 'RouterVMCatalog', ipv4_addresses=ipv4_addresses), None)
+
+    @classmethod
+    def findByMAC(cls, dmd, mac_addresses):
+        '''
+        Return the first RouterVM matching one of mac_addresses.
+        '''
+        return next(cls.search(
+            dmd, 'RouterVMCatalog', mac_addresses=mac_addresses), None)
+
     def device(self):
         return self.pod().device()
 
@@ -91,3 +134,11 @@ class RouterVM(BaseComponent, TouchTestMixin):
         templates.extend(self.extra_templates())
 
         return templates
+
+    @require_zenpack('ZenPacks.zenoss.XenServer')
+    def xenserver_vm(self):
+        from ZenPacks.zenoss.XenServer.VIF import VIF
+
+        vif = VIF.findByMAC(self.dmd, mac_addresses=self.mac_addresses)
+        if vif:
+            return vif.vm()
