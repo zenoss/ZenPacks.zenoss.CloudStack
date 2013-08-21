@@ -1,15 +1,11 @@
-###########################################################################
+##############################################################################
 #
-# This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2011, Zenoss Inc.
+# Copyright (C) Zenoss, Inc. 2011, 2013, all rights reserved.
 #
-# This program is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 or (at your
-# option) any later version as published by the Free Software Foundation.
+# This content is made available according to terms specified in
+# License.zenoss under the directory where your Zenoss product is installed.
 #
-# For complete information please visit: http://www.zenoss.com/oss/
-#
-###########################################################################
+##############################################################################
 
 import os.path
 import pickle
@@ -39,3 +35,20 @@ def mockGetPage(url):
 
     filename = '%sresponse.json' % match.group(1).lower()
     return defer.succeed(loadString(filename))
+
+
+def add_contained(obj, relname, target):
+    '''
+    Add and return obj to containing relname on target.
+    '''
+    rel = getattr(obj, relname)
+    rel._setObject(target.id, target)
+    return rel._getOb(target.id)
+
+
+def add_noncontained(obj, relname, target):
+    '''
+    Add obj to non-containing relname on target.
+    '''
+    rel = getattr(obj, relname)
+    rel.addRelation(target)
