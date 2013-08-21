@@ -1,7 +1,7 @@
 ###########################################################################
 #
 # This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2011, Zenoss Inc.
+# Copyright (C) 2011, 2013, Zenoss Inc.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 or (at your
@@ -23,9 +23,40 @@ from Products.ZenModel.DeviceComponent import DeviceComponent
 from Products.ZenModel.ManagedEntity import ManagedEntity
 from Products.ZenModel.ZenossSecurity import ZEN_CHANGE_DEVICE
 from Products.ZenModel.ZenPack import ZenPack as ZenPackBase
+from Products.ZenRelations.zPropertyCategory import setzPropertyCategory
+from Products.ZenUtils.Search import makeFieldIndex, makeKeywordIndex
 from Products.ZenUtils.Utils import zenPath, unused
 
 unused(Globals)
+
+
+ZENPACK_NAME = 'ZenPacks.zenoss.CloudStack'
+
+# Modules containing model classes. Used by zenchkschema to validate
+# bidirectional integrity of defined relationships.
+productNames = (
+    'Cloud',
+    'Cluster',
+    'Host',
+    'Pod',
+    'RouterVM',
+    'SystemVM',
+    'VirtualMachine',
+    'Zone',
+    )
+
+# Useful to avoid making literal string references to module and class names
+# throughout the rest of the ZenPack.
+MODULE_NAME = {}
+CLASS_NAME = {}
+
+for product_name in productNames:
+    MODULE_NAME[product_name] = '.'.join([ZENPACK_NAME, product_name])
+    CLASS_NAME[product_name] = '.'.join([ZENPACK_NAME, product_name, product_name])
+
+setzPropertyCategory('zCloudStackURL', 'CloudStack')
+setzPropertyCategory('zCloudStackAPIKey', 'CloudStack')
+setzPropertyCategory('zCloudStackSecretKey', 'CloudStack')
 
 
 class ZenPack(ZenPackBase):
@@ -71,7 +102,156 @@ class ZenPack(ZenPackBase):
             os.system('rm -f "%s"' % zenPath('libexec', plugin))
 
 
-class BaseComponent(DeviceComponent, ManagedEntity):
+class CatalogMixin(object):
+    '''
+    Abstract class mixin to ease the creation and use of
+    component-specific catalogs.
+
+    To use this mixin to create a component catalog you should define
+    a _catalog property such as the following on your mixed-in class::
+
+        _catalogs = dict({
+            'catalogName', {
+                'deviceclass': '/Example/Device/Class',
+                'indexes': {
+                    'ipv4_addresses': {'type': 'keyword'},
+                    'mac_addresses': {'type': 'keyword'},
+                    },
+                },
+            }, **BaseClass._catalogs)
+
+    The second item in each indexes tuple can either be keyword or
+    field. These correspond to Zope case-insensitive KeywordIndex and
+    FieldIndex.
+    '''
+
+    _catalogs = {}
+
+    @classmethod
+    def _catalog_spec(cls, name):
+        spec = cls._catalogs.get(name)
+        if not spec:
+            LOG.error("%s catalog definition is missing", name)
+            return
+
+        if not isinstance(spec, dict):
+            LOG.error("%s catalog definition is not a dict", name)
+            return
+
+        if not spec.get('indexes'):
+            LOG.error("%s catalog definition has no indexes", name)
+            return
+
+        if not spec.get('deviceclass'):
+            LOG.error("%s catalog definition has no deviceclass.", name)
+            return
+
+        return spec
+
+    @classmethod
+    def _create_catalog(cls, dmd, name):
+        from Products.ZCatalog.Catalog import CatalogError
+        from Products.ZCatalog.ZCatalog import manage_addZCatalog
+
+        from Products.Zuul.interfaces import ICatalogTool
+
+        spec = cls._catalog_spec(name)
+        if not spec:
+            return
+
+        deviceclass = dmd.Devices.createOrganizer(spec['deviceclass'])
+
+        if not hasattr(deviceclass, name):
+            manage_addZCatalog(deviceclass, name, name)
+
+        zcatalog = deviceclass._getOb(name)
+        catalog = zcatalog._catalog
+
+        for propname, propdata in spec['indexes'].items():
+            index_type = propdata.get('type')
+            if not index_type:
+                LOG.error("%s index has no type", propname)
+                return
+
+            index_factory = {
+                'field': makeFieldIndex,
+                'keyword': makeKeywordIndex,
+                }.get(index_type.lower())
+
+            if not index_factory:
+                LOG.error("%s is not a valid index type", index_type)
+                return
+
+            try:
+                catalog.addIndex(propname, index_factory(propname))
+            except CatalogError:
+                # Index already exists.
+                pass
+            else:
+                fqcn = '.'.join((cls.__module__, cls.__name__))
+                results = ICatalogTool(dmd.primaryAq()).search(fqcn)
+                for brain in results:
+                    brain.getObject().index_object()
+
+        return zcatalog
+
+    @classmethod
+    def _get_catalog(cls, dmd, name):
+        spec = cls._catalog_spec(name)
+        if not spec:
+            return
+
+        deviceclass = dmd.Devices.createOrganizer(spec['deviceclass'])
+
+        try:
+            return getattr(deviceclass, name)
+        except AttributeError:
+            return cls._create_catalog(dmd, name)
+
+    @classmethod
+    def search(cls, dmd, name, **kwargs):
+        '''
+        Generate instances of this object that match keyword arguments.
+        '''
+        catalog = cls._get_catalog(dmd, name)
+        if not catalog:
+            return
+
+        for brain in catalog(**kwargs):
+            yield brain.getObject()
+
+    def index_object(self, idxs=None):
+        '''
+        Index the mixed-in instance in its catalogs.
+
+        We rely on subclasses to explicitely call this method in
+        addition to their primary inheritence index_object method as in
+        the following override::
+
+            def index_object(self, idxs=None):
+                for superclass in (ManagedEntity, CatalogMixin):
+                    superclass.index_object(self, idxs=idxs)
+        '''
+        for catalog in (self._get_catalog(self.dmd, x) for x in self._catalogs):
+            catalog.catalog_object(self, self.getPrimaryId())
+
+    def unindex_object(self):
+        '''
+        Unindex the mixed-in instance from its catalogs.
+
+        We rely on subclasses to explicitely call this method in
+        addition to their primary inheritence unindex_object method as
+        in the following override::
+
+            def unindex_object(self):
+                for superclass in (ManagedEntity, CatalogMixin):
+                    superclass.unindex_object(self)
+        '''
+        for catalog in (self._get_catalog(self.dmd, x) for x in self._catalogs):
+            catalog.uncatalog_object(self.getPrimaryId())
+
+
+class BaseComponent(DeviceComponent, ManagedEntity, CatalogMixin):
     """
     Abstract base class to avoid repeating boilerplate code in all of the
     DeviceComponent subclasses in this ZenPack.
@@ -101,6 +281,20 @@ class BaseComponent(DeviceComponent, ManagedEntity):
 
     # Query for events by id instead of name.
     event_key = "ComponentId"
+
+    def index_object(self, idxs=None):
+        '''
+        Index object according to ManagedEntity and CatalogMixin.
+        '''
+        for superclass in (ManagedEntity, CatalogMixin):
+            superclass.index_object(self, idxs=idxs)
+
+    def unindex_object(self):
+        '''
+        Unindex object according to ManagedEntity and CatalogMixin.
+        '''
+        for superclass in (ManagedEntity, CatalogMixin):
+            superclass.unindex_object(self)
 
     def getIconPath(self):
         return '/++resource++cloudstack/img/cloudstack.png'

@@ -1,7 +1,7 @@
 ###########################################################################
 #
 # This program is part of Zenoss Core, an open source monitoring platform.
-# Copyright (C) 2012, Zenoss Inc.
+# Copyright (C) 2012-2013, Zenoss Inc.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 or (at your
@@ -14,6 +14,7 @@
 from Products.ZenRelations.RelSchema import ToMany, ToManyCont, ToOne
 
 from ZenPacks.zenoss.CloudStack import BaseComponent
+from ZenPacks.zenoss.CloudStack.utils import require_zenpack
 
 
 class VirtualMachine(BaseComponent):
@@ -67,6 +68,40 @@ class VirtualMachine(BaseComponent):
             ),
         )
 
+    _catalogs = {
+        'VirtualMachineCatalog': {
+            'deviceclass': '/CloudStack',
+            'indexes': {
+                'ipv4_addresses': {'type': 'keyword'},
+                'mac_addresses': {'type': 'keyword'},
+                },
+            },
+        }
+
+    @property
+    def ipv4_addresses(self):
+        return (self.ip_address,)
+
+    @property
+    def mac_addresses(self):
+        return (self.mac_address,)
+
+    @classmethod
+    def findByIP(cls, dmd, ipv4_addresses):
+        '''
+        Return the first VirtualMachine matching one of ipv4_addresses.
+        '''
+        return next(cls.search(
+            dmd, 'VirtualMachineCatalog', ipv4_addresses=ipv4_addresses), None)
+
+    @classmethod
+    def findByMAC(cls, dmd, mac_addresses):
+        '''
+        Return the first VirtualMachine matching one of mac_addresses.
+        '''
+        return next(cls.search(
+            dmd, 'VirtualMachineCatalog', mac_addresses=mac_addresses), None)
+
     def device(self):
         zone = self.zone()
         if not zone:
@@ -95,3 +130,11 @@ class VirtualMachine(BaseComponent):
         ip = self.getDmdRoot("Networks").findIp(self.ip_address)
         if ip:
             return ip.device()
+
+    @require_zenpack('ZenPacks.zenoss.XenServer')
+    def xenserver_vm(self):
+        from ZenPacks.zenoss.XenServer.VIF import VIF
+
+        vif = VIF.findByMAC(self.dmd, mac_addresses=self.mac_addresses)
+        if vif:
+            return vif.vm()
