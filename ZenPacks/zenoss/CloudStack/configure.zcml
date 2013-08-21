@@ -80,12 +80,43 @@
         />
 
     <!-- Include Browser Code -->
-    <include package=".browser"/>       
+    <include package=".browser"/>
 
     <!-- Include Dynamic View Adapters -->
     <include
         zcml:condition="installed ZenPacks.zenoss.DynamicView"
         package=".dynamicview"
         />
+
+    <!-- Impact -->
+    <configure zcml:condition="installed ZenPacks.zenoss.Impact">
+        <include package="ZenPacks.zenoss.Impact" file="meta.zcml"/>
+
+        <!-- CloudStack Internal Impact Adapters -->
+        <subscriber
+            provides="ZenPacks.zenoss.Impact.impactd.interfaces.IRelationshipDataProvider"
+            for=".Host.Host"
+            factory=".impact.HostRelationsProvider"
+            />
+
+        <subscriber
+            provides="ZenPacks.zenoss.Impact.impactd.interfaces.IRelationshipDataProvider"
+            for=".RouterVM.RouterVM"
+            factory=".impact.RouterVMRelationsProvider"
+            />
+
+        <subscriber
+            provides="ZenPacks.zenoss.Impact.impactd.interfaces.IRelationshipDataProvider"
+            for=".SystemVM.SystemVM"
+            factory=".impact.SystemVMRelationsProvider"
+            />
+
+        <subscriber
+            provides="ZenPacks.zenoss.Impact.impactd.interfaces.IRelationshipDataProvider"
+            for=".VirtualMachine.VirtualMachine"
+            factory=".impact.VirtualMachineRelationsProvider"
+            />
+
+    </configure>
 
 </configure>
