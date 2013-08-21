@@ -102,6 +102,20 @@ class BaseComponent(DeviceComponent, ManagedEntity):
     # Query for events by id instead of name.
     event_key = "ComponentId"
 
+    def index_object(self, idxs=None):
+        '''
+        Index object according to ManagedEntity and CatalogMixin.
+        '''
+        for superclass in (ManagedEntity, CatalogMixin):
+            superclass.index_object(self, idxs=idxs)
+
+    def unindex_object(self):
+        '''
+        Unindex object according to ManagedEntity and CatalogMixin.
+        '''
+        for superclass in (ManagedEntity, CatalogMixin):
+            superclass.unindex_object(self)
+
     def getIconPath(self):
         return '/++resource++cloudstack/img/cloudstack.png'
 
