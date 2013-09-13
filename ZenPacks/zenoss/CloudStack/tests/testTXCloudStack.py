@@ -19,10 +19,12 @@ import twisted.web.client
 
 from Products.ZenTestCase.BaseTestCase import BaseTestCase
 
-from ZenPacks.zenoss.CloudStack.utils import add_local_lib_path
 from ZenPacks.zenoss.CloudStack.tests.utils import mockGetPage
 
-add_local_lib_path()
+# Imported or side effect of adding ZenPack's lib directory to sys.path.
+import ZenPacks.zenoss.CloudStack.locallibs
+
+# Requires that locallibs first be imported.
 import txcloudstack
 
 
