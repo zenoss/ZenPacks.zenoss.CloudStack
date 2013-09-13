@@ -26,9 +26,10 @@ import xml.utils.iso8601
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList
 
-from utils import add_local_lib_path
-add_local_lib_path()
+# Imported or side effect of adding ZenPack's lib directory to sys.path.
+import locallibs
 
+# Requires that locallibs first be imported.
 import txcloudstack
 
 # Map of listEvents level response parameter to Zenoss severity.
