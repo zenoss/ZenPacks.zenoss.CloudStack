@@ -17,14 +17,6 @@ import importlib
 from Products.ZenUtils.guid.interfaces import IGlobalIdentifier
 
 
-def add_local_lib_path():
-    """Helper to add the ZenPack's lib directory to PYTHONPATH."""
-    import os
-    import site
-
-    site.addsitedir(os.path.join(os.path.dirname(__file__), 'lib'))
-
-
 def guid(obj):
     '''
     Return GUID for obj.

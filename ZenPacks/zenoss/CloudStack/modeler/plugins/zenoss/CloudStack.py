@@ -19,9 +19,10 @@ from twisted.internet.defer import DeferredList
 from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
 from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap
 
-from ZenPacks.zenoss.CloudStack.utils import add_local_lib_path
-add_local_lib_path()
+# Imported or side effect of adding ZenPack's lib directory to sys.path.
+import ZenPacks.zenoss.CloudStack.locallibs
 
+# Requires that locallibs first be imported.
 import txcloudstack
 
 
