@@ -15,10 +15,19 @@ from Products.ZenModel.Device import Device
 from Products.ZenRelations.RelSchema import ToManyCont, ToOne
 
 
+LOCAL_RELNAMES = {
+    'zones',
+    }
+
+# Guard against conflicting relationships being introduced. (ZEN-12144)
+BASE_RELATIONS = tuple(
+    x for x in Device._relations if x[0] not in LOCAL_RELNAMES)
+
+
 class Cloud(Device):
     meta_type = portal_type = "CloudStackCloud"
 
-    _relations = Device._relations + (
+    _relations = BASE_RELATIONS + (
         ('zones', ToManyCont(ToOne,
             'ZenPacks.zenoss.CloudStack.Zone.Zone',
             'cloud')
