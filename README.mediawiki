@@ -57,3 +57,8 @@ Installing the ZenPack will add the following items to your Zenoss system.
 * /Status/CloudStack
 * /Perf/CloudStack
 * /App/CloudStack
+
+== Changes ==
+
+;1.1.2
+* Fix conflict with SolarisMonitor 2.2.0.
