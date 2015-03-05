@@ -183,7 +183,7 @@ True
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -194,7 +194,7 @@ True
 </object>
 <object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -1903,7 +1903,7 @@ True
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -1914,7 +1914,7 @@ True
 </object>
 <object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -3045,7 +3045,7 @@ Aggregate capacity metrics for a CloudStack cluster. Includes allocation and uti
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -3062,7 +3062,7 @@ Aggregate capacity metrics for a CloudStack cluster. Includes allocation and uti
 Aggregate capacity metrics for a CloudStack cluster. Includes allocation and utilization of memory and CPU, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -4000,7 +4000,7 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -4017,7 +4017,7 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -5289,7 +5289,7 @@ True
 </object>
 <object id='networkRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -5300,7 +5300,7 @@ True
 </object>
 <object id='networkWrite' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -5806,7 +5806,7 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
@@ -5823,7 +5823,7 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 Aggregate capacity metrics for an entire CloudStack cloud. Includes public and private IPs, memory, CPU, primary and secondary storage, and network throughput.
 </property>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-DERIVE
+GAUGE
 </property>
 <property type="boolean" id="isrow" mode="w" >
 True
