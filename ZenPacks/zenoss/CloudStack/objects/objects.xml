@@ -372,6 +372,12 @@ ZenPacks.zenoss.CloudStack.parsers.CloudStack
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -381,17 +387,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -401,17 +407,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -421,17 +427,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -441,17 +447,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageAllocatedPercent']
 </property>
@@ -461,17 +467,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -481,17 +487,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -501,17 +507,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_publicIPsUsedPercent']
 </property>
@@ -521,17 +527,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_secondaryStorageUsedPercent']
 </property>
@@ -540,12 +546,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 90
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -1928,6 +1928,12 @@ True
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -1937,17 +1943,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -1957,17 +1963,17 @@ True
 <property type="string" id="maxval" mode="w" >
 99
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -1977,17 +1983,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -1996,12 +2002,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 95
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -2674,6 +2674,12 @@ True
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='viewer sessions' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_activeViewerSessions']
 </property>
@@ -2682,12 +2688,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 45
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -3079,6 +3079,12 @@ Aggregate capacity metrics for a CloudStack cluster. Includes allocation and uti
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -3088,17 +3094,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -3108,17 +3114,17 @@ True
 <property type="string" id="maxval" mode="w" >
 99
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -3128,17 +3134,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -3147,12 +3153,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 95
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -4169,6 +4169,12 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -4178,17 +4184,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -4198,17 +4204,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -4218,17 +4224,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -4238,17 +4244,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageAllocatedPercent']
 </property>
@@ -4258,17 +4264,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -4278,17 +4284,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -4297,12 +4303,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 90
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -5314,6 +5314,12 @@ True
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -5322,12 +5328,6 @@ False
 </property>
 <property type="string" id="maxval" mode="w" >
 99
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -6065,6 +6065,12 @@ Aggregate capacity metrics for an entire CloudStack cloud. Includes public and p
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='CPU allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuAllocatedPercent']
 </property>
@@ -6074,17 +6080,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='CPU utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_cpuUsedPercent']
 </property>
@@ -6094,17 +6100,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryAllocatedPercent']
 </property>
@@ -6114,17 +6120,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='memory utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_memoryUsedPercent']
 </property>
@@ -6134,17 +6140,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
-<property type="string" id="eventClass" mode="w" >
-/Perf/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
 </object>
 <object id='primary storage allocation' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Capacity/CloudStack
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageAllocatedPercent']
 </property>
@@ -6154,17 +6160,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='primary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_primaryStorageUsedPercent']
 </property>
@@ -6174,17 +6180,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='private IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_privateIPsUsedPercent']
 </property>
@@ -6194,17 +6200,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='public IP utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_publicIPsUsedPercent']
 </property>
@@ -6214,17 +6220,17 @@ True
 <property type="string" id="maxval" mode="w" >
 90
 </property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property type="string" id="eventClass" mode="w" >
 /Capacity/CloudStack
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-<object id='secondary storage utilization' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
 ['cloudstack_secondaryStorageUsedPercent']
 </property>
@@ -6233,12 +6239,6 @@ True
 </property>
 <property type="string" id="maxval" mode="w" >
 90
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Capacity/CloudStack
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
