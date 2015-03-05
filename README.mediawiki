@@ -4,6 +4,8 @@ The easiest way to start monitoring CloudStack is to navigate to the Infrastruct
 
 Zenoss will then add the CloudStack device to the system along with all of its associated zones, pods, clusters, system VMs and VMs. Monitoring will also start after the discovery is complete.
 
+{{#widget:YouTube|id=3hr2H9iMz_o|width=600}}
+
 == Metrics ==
 
 Once you've successfully added a CloudStack cloud to Zenoss you will begin to see the following metrics available for the entire cloud. These numbers are aggregated from all zones, pods, clusters and hosts.
