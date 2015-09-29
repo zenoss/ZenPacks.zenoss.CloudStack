@@ -624,7 +624,8 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                 id: 'display_name',
                 dataIndex: 'display_name',
                 header: _t('Display Name'),
-                sortable: true
+                sortable: true,
+                width: 140
             },{
                 id: 'account',
                 dataIndex: 'account',
@@ -639,19 +640,19 @@ ZC.CloudStackVirtualMachinePanel = Ext.extend(ZC.CloudStackComponentGridPanel, {
                         return Zenoss.render.link(obj.uid, undefined, obj.name);
                     }
                 },
-                width: 140
+                width: 100
             },{
                 id: 'zone',
                 dataIndex: 'zone',
                 header: _t('Zone'),
                 renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
-                width: 140
+                width: 80
             },{
                 id: 'host',
                 dataIndex: 'host',
                 header: _t('Host'),
                 renderer: Zenoss.render.CloudStack_entityLinkFromGrid,
-                width: 140
+                width: 80
             },{
                 id: 'cpu_total',
                 dataIndex: 'cpu_number',

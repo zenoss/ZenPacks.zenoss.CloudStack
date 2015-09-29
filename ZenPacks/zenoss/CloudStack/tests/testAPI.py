@@ -11,6 +11,8 @@
 #
 ###########################################################################
 
+import re
+
 import logging
 log = logging.getLogger('zen.CloudStack')
 
@@ -38,7 +40,8 @@ class TestAPI(BaseTestCase):
         # Test success case.
         r = router.add_cloudstack('http://cloudstack.example.com/', 'x', 'x')
         self.assertTrue(r.data['success'])
-        self.assertTrue(r.data['jobId'].startswith('DeviceCreationJobStatus_'))
+        uuidMatcher = re.compile('[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
+        self.assertIsNotNone(uuidMatcher.match(r.data['jobId']))
 
         self.dmd.Devices.createInstance('cloudstack.example.com')
 

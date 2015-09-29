@@ -93,7 +93,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(zone.device().id, 'zenoss.CloudStack.testDevice')
 
         info = IInfo(zone)
-        self.assertEquals(info.entity['name'], 'Demo5')
+        self.assertEquals(info.name, 'Demo5')
         self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
@@ -118,7 +118,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(pod.device().id, 'zenoss.CloudStack.testDevice')
 
         info = IInfo(pod)
-        self.assertEquals(info.entity['name'], 'Pod-A')
+        self.assertEquals(info.name, 'Pod-A')
         self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
@@ -139,7 +139,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(cluster.device().id, 'zenoss.CloudStack.testDevice')
 
         info = IInfo(cluster)
-        self.assertEquals(info.entity['name'], 'XenCluster1-D5')
+        self.assertEquals(info.name, 'XenCluster1-D5')
         self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
@@ -161,7 +161,7 @@ class TestModel(BaseTestCase):
         self.assertEquals(host.device().id, 'zenoss.CloudStack.testDevice')
 
         info = IInfo(host)
-        self.assertEquals(info.entity['name'], 'demo5-xen')
+        self.assertEquals(info.name, 'demo5-xen')
         self.assertEquals(info.icon, CLOUDSTACK_ICON)
         self.assertEquals(info.cloudstack_id, 1)
         self.assertEquals(info.allocation_state, 'Enabled')
@@ -213,15 +213,18 @@ class TestModel(BaseTestCase):
         modeler_results = loadPickle('cloudstack_results_missingHosts.pickle')
 
         maps = modeler.process(self.d, modeler_results, log)
-        self.assertEquals(maps, None)
+        self.assertNotEquals(maps, None)
 
     def testNoZonesResponse(self):
         modeler = CloudStackModeler()
         modeler_results = loadPickle('cloudstack_results_noZones.pickle')
 
         maps = modeler.process(self.d, modeler_results, log)
-        self.assertEquals(len(maps), 1)
+        self.assertEquals(len(maps), 7)
         self.assertEquals(maps[0].relname, 'zones')
+        self.assertEquals(maps[1].relname, 'pods')
+        self.assertEquals(maps[2].relname, 'clusters')
+        self.assertEquals(maps[3].relname, 'hosts')
         self.assertEquals(len(maps[0].maps), 0)
 
 
