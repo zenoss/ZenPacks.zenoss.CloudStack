@@ -14,6 +14,8 @@
 import logging
 LOG = logging.getLogger('zen.CloudStack')
 
+import json
+
 from twisted.internet.defer import DeferredList
 
 from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
@@ -63,7 +65,7 @@ class CloudStack(PythonPlugin):
             client.listHosts(type="Routing"),
             client.listSystemVms(),
             client.listRouters(listAll='true'),
-            client.listVirtualMachines(domainid='1', isrecursive=True),
+            client.listVirtualMachines(isrecursive=True, listAll='true'),
             client.listCapacity(),
             ), consumeErrors=True).addCallback(self._combine)
 
@@ -78,11 +80,28 @@ class CloudStack(PythonPlugin):
         all_data = {}
 
         for success, result in results:
+            # we cannot return None simply when some API calls fail,
+            # because not all users have permissions to call every API
+            # instead we update all_data only for those successful API calls
+            # where result is a dict rather than twisted.python.failure.Failure
             if not success:
-                LOG.error("API Error: %s", result.getErrorMessage())
-                return None
+                if hasattr(result, 'value') and hasattr(result.value, 'response'):
+                    response = json.loads(result.value.response)
 
-            all_data.update(result)
+                    if response.get('errorresponse', None) and \
+                        response['errorresponse'].get('errortext', None):
+                        if 'does not exist' not in \
+                                response['errorresponse']['errortext']:
+                            LOG.error("API Error: %s", result.getErrorMessage())
+                        else:
+                            LOG.debug("%s", response['errorresponse']['errortext'])
+                    elif response[response.keys()[0]].get('errortext', None):
+                        LOG.debug("%s", response[response.keys()[0]]['errortext'])
+                else:
+                    LOG.error("API Error: %s", result.getErrorMessage())
+
+            if isinstance(result, dict):
+                all_data.update(result)
 
         return all_data
 
@@ -97,13 +116,11 @@ class CloudStack(PythonPlugin):
         for t in response_types:
             response = results.get('list%sresponse' % t, None)
             if response is None:
-                LOG.error('No list%s response from API', t.capitalize())
-                return None
-
-            rel_maps = tuple(getattr(self, 'get_%s_rel_maps' % t)(response))
-
-            count = reduce(lambda x, y: x + len(y.maps), rel_maps, 0)
-            LOG.info('Found %s %s', count, t)
+                LOG.debug('No list%s response from API', t.capitalize())
+            else:
+                rel_maps = tuple(getattr(self, 'get_%s_rel_maps' % t)(response))
+                count = reduce(lambda x, y: x + len(y.maps), rel_maps, 0)
+                LOG.info('Found %s %s', count, t)
 
             maps.extend(rel_maps)
 

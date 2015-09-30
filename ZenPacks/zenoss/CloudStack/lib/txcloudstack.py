@@ -88,19 +88,27 @@ class Client(object):
         return twisted.web.client.getPage(url).addCallback(process_result)
 
     def _get_page_size(self):
+        # use listEvents to get pagesize, since every user can call it
+        # but listEvents normally would not produce pagesize except in
+        # error message
+        # the use of 1000000 is intentional in order to generate error
+        # and therefore, addErrback()
         if self._page_size is None:
             d = self._request_single(
-                'listConfigurations', name='default.page.size')
+                'listEvents', page=1, pagesize=1000000)
 
-            return d.addCallback(self._process_page_size)
+            return d.addErrback(self._process_page_size_error)
         else:
             return defer.succeed()
 
-    def _process_page_size(self, result):
-        configs_response = result.get('listconfigurationsresponse', {})
-        configs = configs_response.get('configuration', [])
-        if len(configs) == 1 and configs[0]['name'] == 'default.page.size':
-            self._page_size = int(configs[0]['value'])
+    def _process_page_size_error(self, result):
+        if hasattr(result, 'value') and hasattr(result.value, 'response'):
+            response = json.loads(result.value.response)
+            listEventResponse = response.get('listeventsresponse', None)
+            if listEventResponse:
+                errorText = listEventResponse.get('errortext', None)
+            if errorText and ':' in errorText:
+                self._page_size = int(errorText[errorText.index(':') + 1:].strip())
 
     def _request_page(self, result, page, all_results, command, **kwargs):
         response_key = '%sresponse' % command.lower()
@@ -146,16 +154,19 @@ class Client(object):
             else:
                 return all_results
 
+    @defer.inlineCallbacks
     def _request(self, command, **kwargs):
         if command.startswith('list'):
             all_results = {}
 
-            d = self._get_page_size()
-            d.addCallback(self._request_page, 0, all_results, command, **kwargs)
+            if not self._page_size:
+                yield self._get_page_size()
 
-            return d
+            result = yield self._request_page(None, 0, all_results, command, **kwargs)
         else:
-            return self._single_request(command, **kwargs)
+            result = yield self._request_single(command, **kwargs)
+
+        defer.returnValue(result)
 
     def listConfigurations(self, **kwargs):
         return self._request('listConfigurations', **kwargs)
@@ -216,19 +227,21 @@ if __name__ == '__main__':
             if success:
                 from pprint import pprint
                 pprint(result)
+            elif hasattr(result, 'value') and hasattr(result.value, 'response'):
+                print result.value.response
             else:
-                print result.printTraceback()
+                print result.getErrorMessage()
 
     deferreds = []
     if len(sys.argv) < 2:
         deferreds.extend((
             client.listConfigurations(name='default.page.size'),
-            client.listZones(),
+            client.listZones(available='true'),
             client.listPods(),
             client.listClusters(),
             client.listHosts(),
             client.listSystemVms(),
-            client.listRouters(),
+            client.listRouters(listAll='true'),
             client.listVirtualMachines(),
             client.listCapacity(),
             client.listAlerts(),
@@ -242,8 +255,10 @@ if __name__ == '__main__':
                     deferreds.append(call(name='default.page.size'))
                 elif command == 'listHosts':
                     deferreds.append(call(type='Routing'))
+                elif command == 'listRouters':
+                    deferreds.append(call(listAll='true'))
                 elif command == 'listVirtualMachines':
-                    deferreds.append(call(domainid='1', isrecursive=True, state='Running'))
+                    deferreds.append(call(domainid='1', isrecursive=True, state='Running', listAll='true'))
                 else:
                     deferreds.append(call())
 
