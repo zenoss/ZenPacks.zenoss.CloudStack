@@ -114,6 +114,7 @@ class CloudStack(PythonPlugin):
             )
 
         for t in response_types:
+            rel_maps = None
             response = results.get('list%sresponse' % t, None)
             if response is None:
                 LOG.debug('No list%s response from API', t.capitalize())
@@ -122,13 +123,17 @@ class CloudStack(PythonPlugin):
                 count = reduce(lambda x, y: x + len(y.maps), rel_maps, 0)
                 LOG.info('Found %s %s', count, t)
 
-            maps.extend(rel_maps)
+            if rel_maps:
+                maps.extend(rel_maps)
 
         return maps
 
     def get_zones_rel_maps(self, zones_response):
         zone_maps = []
         for zone in zones_response.get('zone', []):
+            if not zone.get('id', None):
+                continue
+
             zone_id = self.prepId('zone%s' % zone['id'])
 
             zone_maps.append(ObjectMap(data=dict(
@@ -156,7 +161,10 @@ class CloudStack(PythonPlugin):
     def get_pods_rel_maps(self, pods_response):
         pod_maps = {}
         for pod in pods_response.get('pod', []):
-            zone_id = self.prepId('zone%s' % pod['zoneid'])
+            if not pod.get('id', None):
+                continue
+
+            zone_id = self.prepId('zone%s' % pod.get('zoneid', ''))
             pod_id = self.prepId('pod%s' % pod['id'])
 
             compname = 'zones/%s' % zone_id
@@ -183,8 +191,11 @@ class CloudStack(PythonPlugin):
     def get_clusters_rel_maps(self, clusters_response):
         cluster_maps = {}
         for cluster in clusters_response.get('cluster', []):
-            zone_id = self.prepId('zone%s' % cluster['zoneid'])
-            pod_id = self.prepId('pod%s' % cluster['podid'])
+            if not cluster.get('id', None):
+                continue
+
+            zone_id = self.prepId('zone%s' % cluster.get('zoneid', ''))
+            pod_id = self.prepId('pod%s' % cluster.get('podid', ''))
             cluster_id = self.prepId('cluster%s' % cluster['id'])
 
             compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
@@ -210,11 +221,14 @@ class CloudStack(PythonPlugin):
     def get_hosts_rel_maps(self, hosts_response):
         host_maps = {}
         for host in hosts_response.get('host', []):
+            if not host.get('id', None):
+                continue
+
             host_type = host.get('type', None)
 
-            zone_id = self.prepId('zone%s' % host['zoneid'])
-            pod_id = self.prepId('pod%s' % host['podid'])
-            cluster_id = self.prepId('cluster%s' % host['clusterid'])
+            zone_id = self.prepId('zone%s' % host.get('zoneid', ''))
+            pod_id = self.prepId('pod%s' % host.get('podid', ''))
+            cluster_id = self.prepId('cluster%s' % host.get('clusterid', ''))
             host_id = self.prepId('host%s' % host['id'])
 
             compname = 'zones/%s/pods/%s/clusters/%s' % (
@@ -250,8 +264,11 @@ class CloudStack(PythonPlugin):
     def get_systemvms_rel_maps(self, systemvms_response):
         systemvm_maps = {}
         for systemvm in systemvms_response.get('systemvm', []):
-            zone_id = self.prepId('zone%s' % systemvm['zoneid'])
-            pod_id = self.prepId('pod%s' % systemvm['podid'])
+            if not systemvm.get('id', None):
+                continue
+
+            zone_id = self.prepId('zone%s' % systemvm.get('zoneid', ''))
+            pod_id = self.prepId('pod%s' % systemvm.get('podid', ''))
             systemvm_id = self.prepId('systemvm%s' % systemvm['id'])
 
             compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
@@ -288,8 +305,11 @@ class CloudStack(PythonPlugin):
     def get_routers_rel_maps(self, routers_response):
         routervm_maps = {}
         for routervm in routers_response.get('router', []):
-            zone_id = self.prepId('zone%s' % routervm['zoneid'])
-            pod_id = self.prepId('pod%s' % routervm['podid'])
+            if not routervm.get('id', None):
+                continue
+
+            zone_id = self.prepId('zone%s' % routervm.get('zoneid', ''))
+            pod_id = self.prepId('pod%s' % routervm.get('podid', ''))
             routervm_id = self.prepId('routervm%s' % routervm['id'])
 
             compname = 'zones/%s/pods/%s' % (zone_id, pod_id)
@@ -336,7 +356,10 @@ class CloudStack(PythonPlugin):
         vm_ids = set()
 
         for vm in vms_response.get('virtualmachine', []):
-            zone_id = self.prepId('zone%s' % vm['zoneid'])
+            if not vm.get('id', None):
+                continue
+
+            zone_id = self.prepId('zone%s' % vm.get('zoneid', ''))
             vm_id = self.prepId('vm%s' % vm['id'])
 
             if vm_id in vm_ids:
