@@ -24,14 +24,11 @@ from ZenPacks.zenoss.CloudStack.interfaces import ICloudStackFacade
 class CloudStackFacade(ZuulFacade):
     implements(ICloudStackFacade)
 
-    def add_cloudstack(self, url, api_key, secret_key,collector='localhost'):
+    def add_cloudstack(self, device_name, url, api_key, secret_key,collector='localhost'):
         """Handles adding a new CloudStack cloud to the system."""
 
-        parsed_url = urlparse(url)
-        hostname = parsed_url.hostname
-
         deviceRoot = self._dmd.getDmdRoot("Devices")
-        device = deviceRoot.findDeviceByIdExact(hostname)
+        device = deviceRoot.findDeviceByIdExact(device_name)
         if device:
             return False, _t("A device named %s already exists." % hostname)
 
@@ -43,7 +40,7 @@ class CloudStackFacade(ZuulFacade):
 
         perfConf = self._dmd.Monitors.getPerformanceMonitor(collector)
         jobStatus = perfConf.addDeviceCreationJob(
-            deviceName=hostname,
+            deviceName=device_name,
             devicePath='/Devices/CloudStack',
             performanceMonitor=collector,
             discoverProto='python',
