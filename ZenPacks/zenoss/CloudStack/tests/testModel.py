@@ -220,7 +220,7 @@ class TestModel(BaseTestCase):
         modeler_results = loadPickle('cloudstack_results_noZones.pickle')
 
         maps = modeler.process(self.d, modeler_results, log)
-        self.assertEquals(len(maps), 7)
+        self.assertEquals(len(maps), 4)
         self.assertEquals(maps[0].relname, 'zones')
         self.assertEquals(maps[1].relname, 'pods')
         self.assertEquals(maps[2].relname, 'clusters')
