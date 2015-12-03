@@ -22,6 +22,6 @@ class CloudStackLoader(object):
 
     implements(IDeviceLoader)
 
-    def load_device(self, dmd, url, api_key, secret_key):
+    def load_device(self, dmd, device_name, url, api_key, secret_key):
         return getFacade('cloudstack', dmd).add_cloudstack(
-            url, api_key, secret_key)
+            device_name, url, api_key, secret_key)

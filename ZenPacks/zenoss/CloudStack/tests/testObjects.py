@@ -90,11 +90,9 @@ class TestObjects(BaseTestCase):
     def testDeviceLoader(self):
         device_loader = getUtility(IDeviceLoader, 'cloudstack', None)
         job = device_loader().load_device(
-            self.dmd, 'http://cloudstack.example.com/', 'x', 'x')
+            self.dmd, 'x', 'http://cloudstack.example.com/', 'x', 'x')
 
-        uuidMatcher = re.compile('[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
-        self.assertTrue(job[0])
-        self.assertIsNotNone(uuidMatcher.match(job[1]))
+        self.assertTrue(job)
 
     def testTemplates(self):
         """Verify all templates are configured properly.
