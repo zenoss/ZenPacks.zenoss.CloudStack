@@ -32,6 +32,9 @@ ZenPacks.zenoss.CloudStack.Cloud
 <property visible="True" type="float" id="zCommandCommandTimeout" >
 300.0
 </property>
+<property visible="True" type="None" id="zCredentialsZProperties" >
+['zCloudStackURL', 'zCloudStackAPIKey', 'zCloudStackSecretKey']
+</property>
 <tomanycont id='rrdTemplates'>
 <object id='CloudStackCloud' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property id='zendoc' type='string'>
