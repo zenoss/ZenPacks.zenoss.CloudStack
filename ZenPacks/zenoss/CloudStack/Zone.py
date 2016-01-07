@@ -67,7 +67,6 @@ class Zone(BaseComponent):
     def getRRDTemplates(self):
         templates = super(Zone, self).getRRDTemplates()
         if not self.isRootAdmin():
-            for template in templates:
-                templates.remove(template)
+            return []
 
         return templates

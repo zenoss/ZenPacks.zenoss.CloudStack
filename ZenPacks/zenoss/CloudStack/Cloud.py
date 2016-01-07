@@ -44,7 +44,6 @@ class Cloud(Device):
     def getRRDTemplates(self):
         templates = super(Cloud, self).getRRDTemplates()
         if not self.isRootAdmin():
-            for template in templates:
-                    templates.remove(template)
+            return []
 
         return templates
