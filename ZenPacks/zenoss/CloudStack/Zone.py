@@ -62,3 +62,12 @@ class Zone(BaseComponent):
 
     def device(self):
         return self.cloud()
+
+
+    def getRRDTemplates(self):
+        templates = super(Zone, self).getRRDTemplates()
+        if not self.isRootAdmin():
+            for template in templates:
+                templates.remove(template)
+
+        return templates

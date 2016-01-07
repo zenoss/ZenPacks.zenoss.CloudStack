@@ -477,19 +477,23 @@ class CloudStackPoller(object):
         data = {}
 
         for success, result in results:
-            if not success:
-                error = result.getErrorMessage()
-                self._events.append(dict(
-                    severity=4,
-                    summary='CloudStack error: %s' % error,
-                    eventKey='cloudstack_failure',
-                    eventClassKey='cloudstack_error',
-                    ))
+            # for non admin user, some list calls might fail, due to permission
+            # but list Capabilities and/or VMs should succeed
+            if success:
+                data.update(result)
 
-                self._print_output()
-                return
+        # send error event only when all list calls fail
+        if not bool(data):      # no data collected
+            error = result.getErrorMessage()
+            self._events.append(dict(
+                severity=4,
+                summary='CloudStack error: %s' % error,
+                eventKey='cloudstack_failure',
+                eventClassKey='cloudstack_error',
+                ))
 
-            data.update(result)
+            self._print_output()
+            return
 
         if 'listalertsresponse' in data:
             self._events.extend(

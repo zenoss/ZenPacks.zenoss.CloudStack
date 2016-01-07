@@ -33,3 +33,18 @@ class Cloud(Device):
             'cloud')
             ),
         )
+
+
+    def isRootAdmin(self):
+        # only root admin has Pod component
+        pods = self.getDeviceComponents(type='CloudStackPod')
+        return len(pods) > 0
+
+
+    def getRRDTemplates(self):
+        templates = super(Cloud, self).getRRDTemplates()
+        if not self.isRootAdmin():
+            for template in templates:
+                    templates.remove(template)
+
+        return templates
