@@ -6340,6 +6340,9 @@ AVERAGE
 <property type="long" id="sequence" mode="w" >
 2
 </property>
+<property type="string" id="color" mode="w" >
+770000
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -6433,7 +6436,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+85009A
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -6592,7 +6595,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+85009A
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -6840,7 +6843,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+85009A
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -7395,6 +7398,9 @@ AVERAGE
 <object id='Sec. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
 5
+</property>
+<property type="string" id="color" mode="w" >
+949A00
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
