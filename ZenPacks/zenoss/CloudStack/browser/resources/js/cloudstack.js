@@ -37,7 +37,7 @@ var add_cloudstack = new Zenoss.Action({
                     width: 260,
                     allowBlank: false
                 }, {
-                    xtype: 'textfield',
+                    xtype: 'password',
                     name: 'secret_key',
                     fieldLabel: _t('Secret Key'),
                     id: "cloudstackSecretKeyField",
