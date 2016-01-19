@@ -1,0 +1,11 @@
+// CloudStack Impacts
+[CloudStackZone{bg:darkslateblue}]*-1>[CloudStackCloud{bg:darkslateblue}]
+[CloudStackPod{bg:darkslateblue}]*-1>[CloudStackZone{bg:darkslateblue}]
+[CloudStackCluster{bg:darkslateblue}]*-1>[CloudStackPod{bg:darkslateblue}]
+[CloudStackHost{bg:darkslateblue}]*-1>[CloudStackCluster{bg:darkslateblue}]
+[CloudStackSystemVM{bg:darkslateblue}]*-1>[CloudStackPod{bg:darkslateblue}]
+[CloudStackRouterVM{bg:darkslateblue}]*-1>[CloudStackPod{bg:darkslateblue}]
+[CloudStackSystemVM{bg:darkslateblue}]*-1>[CloudStackHost{bg:darkslateblue}]
+[CloudStackRouterVM{bg:darkslateblue}]*-1>[CloudStackHost{bg:darkslateblue}]
+[CloudStackVirtualMachine{bg:darkslateblue}]*-1>[CloudStackHost{bg:darkslateblue}]
+[CloudStackVirtualMachine{bg:darkslateblue}]*-1>[CloudStackZone{bg:darkslateblue}]
