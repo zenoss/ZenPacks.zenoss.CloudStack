@@ -740,7 +740,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -899,7 +899,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -1147,7 +1147,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -1558,6 +1558,9 @@ True
 <property type="long" id="sequence" mode="w" >
 3
 </property>
+<property type="string" id="color" mode="w" >
+DC143C
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
 </property>
@@ -1702,6 +1705,9 @@ AVERAGE
 <object id='Sec. Storage' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
 <property type="long" id="sequence" mode="w" >
 5
+</property>
+<property type="string" id="color" mode="w" >
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -2078,7 +2084,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -3229,7 +3235,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -4497,7 +4503,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -4656,7 +4662,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
@@ -4904,7 +4910,7 @@ AVERAGE
 1
 </property>
 <property type="string" id="color" mode="w" >
-333333
+8B5F65
 </property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
 LINE
