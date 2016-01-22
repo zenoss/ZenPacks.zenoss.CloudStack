@@ -84,7 +84,7 @@ Installing the ZenPack will add the following items to your Zenoss system.
 ;1.2.0
 * Hide API secret key (ZEN-21404)
 * Migration script (ZEN-21675)
-* Allow CLoudStack devices to be created for domain administrator users, non-administrator users, in addition to root administrator users.
+* Allow CloudStack devices to be created for domain administrator users, non-administrator users, in addition to root administrator users.
 
 ;1.1.3
 * Fix monitoring of network throughput metrics. (ZEN-16956)
