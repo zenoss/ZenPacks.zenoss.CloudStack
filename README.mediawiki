@@ -20,7 +20,7 @@ find . -name cloudstack_network\*.rrd -delete
 
 == Metrics ==
 
-Once you've successfully added a CloudStack cloud to Zenoss you will begin to see the following metrics available for the entire cloud for root administrator users. These numbers are aggregated from all zones, pods, clusters and hosts.
+Once you've successfully added a CloudStack cloud to Zenoss you will begin to see the following metrics available for the entire cloud to root administrator users. These numbers are aggregated from all zones, pods, clusters and hosts.
 
 * Public IPs: Total and Used
 * Private IPs: Total and Used
@@ -31,7 +31,7 @@ Once you've successfully added a CloudStack cloud to Zenoss you will begin to se
 * Network: Read and Write
 
 
-The same list of metrics are available for each zone for root administrator users. The same metrics with the exception of public IPs and secondary storage are also available for each pod.
+The same list of metrics is available for each zone to root administrator users. The same metrics with the exception of public IPs and secondary storage are also available for each pod.
 
 The following metrics are available aggregated to each cluster, and for each host.
 
@@ -39,11 +39,17 @@ The following metrics are available aggregated to each cluster, and for each hos
 * CPU: Total (with and without over-provisioning), Allocated, Used and Cores
 * Network: Read and Write
 
+The following list of metrics is available to non root administrator users.
+
+* CPU: Cores, Total, Used and Used Percent
+* Network: Read and Write
+
+
 == Events ==
 
 CloudStack has both alerts and events. Once you've successfully added a CloudStack cloud to Zenoss you will automatically receive all CloudStack alerts as events in Zenoss. You will also automatically receive all CloudStack events. However, the events will go straight into your event history by default.
 
-To avoid overloading CloudStack and Zenoss, only the last two (2) days of events will be checked. This allows for timezone discrepency between the Zenoss and CloudStack servers as well as some downtime without missing events. There is no real-time event collection mechanism with the CloudStack API, so alerts and events will only be polled once per minute.
+To avoid overloading CloudStack and Zenoss, only the last two (2) days of events will be checked. This allows for timezone discrepancy between the Zenoss and CloudStack servers as well as some downtime without missing events. There is no real-time event collection mechanism with the CloudStack API, so alerts and events will only be polled once per minute.
 
 == Installed Items ==
 
@@ -77,7 +83,8 @@ Installing the ZenPack will add the following items to your Zenoss system.
 
 ;1.2.0
 * Hide API secret key (ZEN-21404)
-* Allow devices to be created for domain administrator users, non-administrator users.
+* Migration script (ZEN-21675)
+* Allow CLoudStack devices to be created for domain administrator users, non-administrator users, in addition to root administrator users.
 
 ;1.1.3
 * Fix monitoring of network throughput metrics. (ZEN-16956)
