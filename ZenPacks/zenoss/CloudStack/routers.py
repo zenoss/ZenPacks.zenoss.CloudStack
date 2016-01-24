@@ -20,13 +20,14 @@ class CloudStackRouter(DirectRouter):
     def _getFacade(self):
         return Zuul.getFacade('cloudstack', self.context)
 
-    def add_cloudstack(self, url, api_key, secret_key,collector='localhost'):
+    def add_cloudstack(self, device_name, url, api_key, secret_key,collector='localhost'):
+
         facade = self._getFacade()
-        success, message = facade.add_cloudstack(
-            url, api_key, secret_key,collector)
+        success = facade.add_cloudstack(
+            device_name, url, api_key, secret_key,collector)
 
         audit('UI.Cloudstack.Add', url=url, collector=collector)
         if success:
-            return DirectResponse.succeed(jobId=message)
+            return DirectResponse.succeed()
         else:
-            return DirectResponse.fail(message)
+            return DirectResponse.fail("Failed to add CloudStack device: %s" % device_name)

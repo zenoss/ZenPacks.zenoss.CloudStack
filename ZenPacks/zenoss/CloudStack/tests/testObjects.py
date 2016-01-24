@@ -5,6 +5,8 @@
 #
 ###########################################################################
 
+import re
+
 import logging
 log = logging.getLogger('zen.CloudStack')
 
@@ -88,10 +90,9 @@ class TestObjects(BaseTestCase):
     def testDeviceLoader(self):
         device_loader = getUtility(IDeviceLoader, 'cloudstack', None)
         job = device_loader().load_device(
-            self.dmd, 'http://cloudstack.example.com/', 'x', 'x')
+            self.dmd, 'x', 'http://cloudstack.example.com/', 'x', 'x')
 
-        self.assertTrue(job[0])
-        self.assertTrue(job[1].startswith('DeviceCreationJobStatus'))
+        self.assertTrue(job)
 
     def testTemplates(self):
         """Verify all templates are configured properly.

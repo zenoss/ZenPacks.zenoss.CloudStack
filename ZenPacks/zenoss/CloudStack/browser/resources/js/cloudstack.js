@@ -17,6 +17,13 @@ var add_cloudstack = new Zenoss.Action({
                 border: false,
                 items: [{
                     xtype: 'textfield',
+                    name: 'device_name',
+                    fieldLabel: _t('Device to Create'),
+                    id: "cloudstackDeviceNameField",
+                    width: 260,
+                    allowBlank: false
+                },{
+                    xtype: 'textfield',
                     name: 'url',
                     fieldLabel: _t('URL'),
                     id: "cloudstackURLField",
@@ -30,7 +37,7 @@ var add_cloudstack = new Zenoss.Action({
                     width: 260,
                     allowBlank: false
                 }, {
-                    xtype: 'textfield',
+                    xtype: 'password',
                     name: 'secret_key',
                     fieldLabel: _t('Secret Key'),
                     id: "cloudstackSecretKeyField",

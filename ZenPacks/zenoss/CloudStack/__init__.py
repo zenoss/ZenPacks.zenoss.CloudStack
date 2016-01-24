@@ -63,7 +63,7 @@ class ZenPack(ZenPackBase):
     packZProperties = [
         ('zCloudStackURL', '', 'string'),
         ('zCloudStackAPIKey', '', 'string'),
-        ('zCloudStackSecretKey', '', 'string'),
+        ('zCloudStackSecretKey', '', 'password'),
         ]
 
     _plugins = (
